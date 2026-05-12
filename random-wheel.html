@@ -3,331 +3,294 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>幸運大轉盤 | 美食景點推薦 | 雙城對話</title>
+  <title>幸運大轉盤 | 雙城對話</title>
   <link rel="stylesheet" href="style.css">
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script>document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || 'light');</script>
   <style>
+    .wheel-outer {
+      position: relative;
+      width: 360px;
+      height: 360px;
+      margin: 3rem auto;
+      padding: 15px;
+      background: var(--surface-solid);
+      border-radius: 50%;
+      box-shadow: var(--shadow), 0 0 30px rgba(0,0,0,0.2);
+    }
+    
     .wheel-container {
       position: relative;
-      width: 320px;
-      height: 320px;
-      margin: 2rem auto;
+      width: 100%;
+      height: 100%;
     }
     
     .wheel-canvas {
       width: 100%;
       height: 100%;
       border-radius: 50%;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-      transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99);
-      border: 4px solid var(--glass-border);
+      transition: transform 4.5s cubic-bezier(0.15, 0, 0.15, 1);
+      border: 8px solid #333;
+      box-sizing: border-box;
+      background: #222;
     }
 
+    /* 指針 */
     .wheel-pointer {
       position: absolute;
-      top: -15px;
+      top: -20px;
       left: 50%;
       transform: translateX(-50%);
-      width: 0; 
-      height: 0; 
-      border-left: 20px solid transparent;
-      border-right: 20px solid transparent;
-      border-top: 35px solid var(--primary);
+      width: 40px;
+      height: 50px;
+      background: #ffcb3d;
+      clip-path: polygon(50% 100%, 0 0, 100% 0);
       z-index: 10;
-      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5));
+      filter: drop-shadow(0 4px 5px rgba(0,0,0,0.4));
     }
     
-    .btn-draw {
-      font-size: 1.2rem;
-      padding: 1rem 3rem;
-      margin-top: 1rem;
-    }
-
-    .result-card {
-      margin-top: 2rem;
-      animation: fadeUp 0.6s ease-out;
-      text-align: center;
-    }
-
-    .region-badge {
-      display: inline-block;
-      padding: 0.3rem 1rem;
-      border-radius: 20px;
-      font-size: 0.9rem;
-      font-weight: bold;
-      margin-bottom: 1rem;
-    }
-
-    .badge-xihu {
-      background: linear-gradient(135deg, var(--accent-xihu), var(--accent-xihu-light));
-      color: #0f172a;
-    }
-
-    .badge-qianzhen {
-      background: linear-gradient(135deg, var(--accent-qianzhen), var(--accent-qianzhen-light));
-      color: #0f172a;
+    /* 中心點 */
+    .wheel-center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 40px;
+      height: 40px;
+      background: white;
+      border: 4px solid #333;
+      border-radius: 50%;
+      z-index: 11;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
     }
   </style>
-  <script>document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || 'light');</script>
 </head>
-<body>
+<body class="bg-orbs">
 
+  <header>
     <nav class="navbar">
-    <div class="logo"><a href="index.html">雙城對話</a></div>
-    <div class="nav-links">
-      <div class="nav-item">
-        <a href="index.html">首頁概覽</a>
-      </div>
-      <div class="nav-item">
-        <a href="xihu.html">關於溪湖鎮 ▾</a>
-        <div class="dropdown-menu">
-          <a href="xihu.html#history">歷史沿革</a>
-          <a href="xihu.html#geography">地理與氣候</a>
-          <a href="xihu.html#population">人口與里村統計</a>
-          <a href="xihu.html#education">學區與教育</a>
-          <a href="xihu.html#facilities">公園與公共設施</a>
-          <a href="xihu.html#religion">宗教信仰</a>
-          <a href="xihu.html#attractions">隱藏美食與特產</a>
+      <a class="brand" href="index.html">
+        <span class="brand-badge">旅</span>
+        <span>溪湖 × 前鎮</span>
+      </a>
+      <div class="nav-links">
+        <a href="index.html">首頁</a>
+        <div class="nav-item">
+          <a href="xihu.html">溪湖鎮 ▾</a>
+          <div class="dropdown-menu">
+            <a href="xihu.html#history">歷史沿革</a>
+            <a href="xihu.html#geography">地理與氣候</a>
+            <a href="xihu.html#population">人口統計</a>
+            <a href="xihu.html#attractions">美食與特產</a>
+          </div>
         </div>
-      </div>
-      <div class="nav-item">
-        <a href="qianzhen.html">關於前鎮區 ▾</a>
-        <div class="dropdown-menu">
-          <a href="qianzhen.html#history">歷史沿革</a>
-          <a href="qianzhen.html#geography">地理與氣候</a>
-          <a href="qianzhen.html#population">人口與里村統計</a>
-          <a href="qianzhen.html#education">學區與教育</a>
-          <a href="qianzhen.html#facilities">公園與公共設施</a>
-          <a href="qianzhen.html#religion">宗教信仰</a>
-          <a href="qianzhen.html#attractions">隱藏美食與購物</a>
+        <div class="nav-item">
+          <a href="qianzhen.html">前鎮區 ▾</a>
+          <div class="dropdown-menu">
+            <a href="qianzhen.html#history">歷史沿革</a>
+            <a href="qianzhen.html#geography">地理與氣候</a>
+            <a href="qianzhen.html#economy">經濟與交通</a>
+            <a href="qianzhen.html#attractions">美食與購物</a>
+          </div>
         </div>
-      </div>
-      <div class="nav-item">
-        <a href="#">美食景點推薦 ▾</a>
-        <div class="dropdown-menu">
-          <a href="xihu.html#attractions">溪湖鎮</a>
-          <a href="qianzhen.html#attractions">前鎮區</a>
-          <a href="random-slot.html">不知道去哪就選這個</a>
+        <div class="nav-item">
+          <a href="random-slot.html" class="active">景點推薦 ▾</a>
+          <div class="dropdown-menu">
+            <a href="random-slot.html">🎰 命運拉霸機</a>
+            <a href="random-wheel.html">🎡 幸運轉盤</a>
+            <a href="random-scratch.html">🎟 刮刮樂</a>
+          </div>
         </div>
+        <a href="summary.html">PK 總結</a>
       </div>
-      <div class="nav-item">
-        <a href="summary.html" style="color: var(--accent-xihu); font-weight: bold;">PK 總結</a>
+      <div class="nav-controls">
+        <button id="lang-toggle-btn" onclick="toggleLanguage()">EN</button>
+        <button id="theme-toggle-btn" onclick="toggleTheme()">🌙</button>
       </div>
-    
-      <div class="nav-item">
-        <button id="theme-toggle-btn" onclick="toggleTheme()" title="切換深淺色模式">🌙</button>
-      </div>
-    </div>
-  </nav>
+    </nav>
+  </header>
 
   <div class="breadcrumbs">
-    <a href="index.html">首頁</a> <span>></span> 美食景點推薦 <span>></span> 幸運大轉盤
+    <a href="index.html">首頁</a> <span>›</span> 景點推薦 <span>›</span> 幸運大轉盤
   </div>
 
-  <section class="section" style="padding-top: 2rem;">
-    <div class="page-container" id="app">
+  <div class="section" id="app">
+    <div class="page-container">
       <main class="page-content">
         <div class="glass-card" style="text-align: center;">
-          <h2 style="color: var(--primary);">不知道去哪？轉動幸運轉盤！</h2>
-          <p style="color: var(--text-muted); margin-bottom: 1rem;">按下按鈕轉動命運的輪盤，看看指針會停在哪個必訪景點。</p>
-          
-          <div class="wheel-container">
-            <div class="wheel-pointer"></div>
-            <canvas ref="canvasRef" class="wheel-canvas" :style="{ transform: `rotate(${spinAngle}deg)` }"></canvas>
+          <span class="eyebrow">🎡 Lucky Wheel</span>
+          <h2 style="color: var(--primary);">轉動好心情，決定下一站！</h2>
+          <p style="color: var(--muted); margin-bottom: 2rem;">排除文字干擾，專注於色彩帶來的純粹好運。</p>
+
+          <!-- 篩選器 -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1.2rem; margin-bottom: 2rem; text-align: left;">
+            <div>
+              <label style="display:block;font-weight:900;margin-bottom:.5rem;font-size:.9rem;">📍 地區</label>
+              <select v-model="filters.region" class="btn" style="width:100%;background:var(--surface-solid);color:var(--text);border:1px solid var(--glass-border);padding:12px 16px;">
+                <option value="all">不限地區</option>
+                <option value="前鎮區">前鎮區</option>
+                <option value="溪湖鎮">溪湖鎮</option>
+              </select>
+            </div>
+            <div>
+              <label style="display:block;font-weight:900;margin-bottom:.5rem;font-size:.9rem;">📅 星期</label>
+              <select v-model="filters.day" class="btn" style="width:100%;background:var(--surface-solid);color:var(--text);border:1px solid var(--glass-border);padding:12px 16px;">
+                <option value="all">不限日期</option>
+                <option value="Monday">星期一</option>
+                <option value="Tuesday">星期二</option>
+                <option value="Wednesday">星期三</option>
+                <option value="Thursday">星期四</option>
+                <option value="Friday">星期五</option>
+                <option value="Saturday">星期六</option>
+                <option value="Sunday">星期日</option>
+              </select>
+            </div>
+            <div>
+              <label style="display:block;font-weight:900;margin-bottom:.5rem;font-size:.9rem;">⏰ 時間</label>
+              <select v-model="filters.time" class="btn" style="width:100%;background:var(--surface-solid);color:var(--text);border:1px solid var(--glass-border);padding:12px 16px;">
+                <option value="all">全天 / 不限</option>
+                <option value="Morning">早上</option>
+                <option value="Afternoon">下午</option>
+                <option value="Evening">晚上</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- 轉盤 -->
+          <div class="wheel-outer">
+            <div class="wheel-container">
+              <div class="wheel-pointer"></div>
+              <div class="wheel-center"></div>
+              <canvas ref="canvasRef" class="wheel-canvas" :style="{ transform: `rotate(${spinAngle}deg)` }"></canvas>
+            </div>
           </div>
           
-          <button class="btn btn-primary btn-draw" @click="spinWheel" :disabled="isSpinning">
-            {{ isSpinning ? '轉動中...' : '開始轉動！' }}
+          <button class="btn btn-primary" style="padding: 16px 60px; font-size: 1.25rem;" 
+                  @click="spinWheel" 
+                  :disabled="isSpinning || filteredAttractions.length === 0">
+            {{ isSpinning ? '🚀 旋轉中...' : (filteredAttractions.length === 0 ? '⚠️ 無符合條件' : '立即轉動！') }}
           </button>
 
-          <div v-if="result && !isSpinning" class="glass-card result-card">
-            <span class="region-badge" :class="result.region === '溪湖鎮' ? 'badge-xihu' : 'badge-qianzhen'">
-              {{ result.region }}
-            </span>
-            <h3 style="margin-bottom: 1rem; color: var(--text-main); font-size: 1.5rem;">{{ result.name }}</h3>
-            <p style="color: var(--text-muted); margin-bottom: 1.5rem;">{{ result.desc }}</p>
-            
-            <div style="margin-bottom: 1.5rem; border-radius: 10px; overflow: hidden; border: 1px solid var(--glass-border);">
-              <iframe 
-                width="100%" 
-                height="250" 
-                frameborder="0" 
-                scrolling="no" 
-                marginheight="0" 
-                marginwidth="0" 
+          <!-- 結果展示 -->
+          <div v-if="result && !isSpinning" class="glass-card result-card pop" style="margin-top: 3rem;">
+            <span class="region-badge" :class="result.region === '溪湖鎮' ? 'badge-xihu' : 'badge-qianzhen'">{{ result.region }}</span>
+            <h3 style="margin-bottom: 1rem; font-size: 2rem;">{{ result.name }}</h3>
+            <p style="color: var(--muted); margin-bottom: 2rem; max-width: 520px; margin-left: auto; margin-right: auto;">{{ result.desc }}</p>
+            <div style="border-radius: 20px; overflow: hidden; border: 4px solid var(--surface-solid); box-shadow: var(--shadow); max-width: 520px; margin: 0 auto 2rem;">
+              <iframe width="100%" height="280" frameborder="0" scrolling="no" 
                 :src="'https://maps.google.com/maps?q=' + encodeURIComponent(result.name + ' ' + result.region) + '&t=&z=15&ie=UTF8&iwloc=&output=embed'">
               </iframe>
             </div>
-
-            <a :href="result.link" class="btn" :class="result.region === '溪湖鎮' ? 'btn-xihu' : 'btn-qianzhen'" style="font-size: 0.9rem; padding: 0.5rem 1.5rem;">
-              查看更多介紹
-            </a>
+            <a :href="result.link" class="btn" :class="result.region === '溪湖鎮' ? 'btn-xihu' : 'btn-qianzhen'">探索此景點詳情 →</a>
           </div>
         </div>
       </main>
 
-      <!-- 左側導覽列 (透過 order: -1 已經自動靠左) -->
       <aside class="page-sidebar">
         <div class="sidebar-menu">
-          <h3 style="color: var(--primary);">趣味抽選小遊戲</h3>
+          <h3>趣味抽選遊戲</h3>
           <ul>
             <li><a href="random-slot.html">🎰 命運拉霸機</a></li>
+            <li><a href="random-wheel.html" class="active">🎡 幸運大轉盤</a></li>
             <li><a href="random-scratch.html">🎟️ 神祕刮刮樂</a></li>
-            <li><a href="random-wheel.html" class="active" style="background: linear-gradient(to right, var(--primary), var(--secondary)); color: #fff; font-weight: bold;">🎡 幸運大轉盤</a></li>
           </ul>
         </div>
       </aside>
     </div>
-  </section>
+  </div>
 
   <footer>
-    <p>&copy; 2026 行政區域比較平台. 資料來源：維基百科</p>
+    <strong>雙城對話 © 2026</strong>
+    <p>資料來源：維基百科、內政部戶政司</p>
   </footer>
 
   <script src="script.js"></script>
-  
   <script>
-    const { createApp, ref, onMounted } = Vue;
-
-    const attractions = [
-      { name: '溪湖羊肉爐', region: '溪湖鎮', desc: '全台聞名在地美食，中藥湯頭搭配鮮嫩羊肉，冬日溫補首選！', link: 'xihu-attractions.html' },
-      { name: '溪湖糖廠小火車', region: '溪湖鎮', desc: '搭乘懷舊的五分車穿梭於田野之間，感受糖業風情。', link: 'xihu-attractions.html' },
-      { name: '葡萄文化園區', region: '溪湖鎮', desc: '產地直採巨峰葡萄，果肉飽滿多汁，適合體驗採果樂趣。', link: 'xihu-attractions.html' },
-      { name: '夢時代購物中心', region: '前鎮區', desc: '南台灣超大型商城，頂樓有著名的「高雄之眼」摩天輪。', link: 'qianzhen-attractions.html' },
-      { name: '烏魚子見學工廠', region: '前鎮區', desc: '深入了解台灣烏魚子工藝，體驗傳統海味的製作與試吃。', link: 'qianzhen-attractions.html' },
-      { name: '光華觀光夜市', region: '前鎮區', desc: '在地人最愛的宵夜一條街，各式傳統小吃應有盡有。', link: 'qianzhen-attractions.html' },
-      { name: '前鎮之星自行車橋', region: '前鎮區', desc: '造型優美如同白色藤蔓的空中自行車道，攝影打卡熱點。', link: 'qianzhen-attractions.html' }
-    ];
-
+    const { createApp, ref, computed, watch, onMounted } = Vue;
     createApp({
       setup() {
+        const attractions = ref([]);
         const isSpinning = ref(false);
         const result = ref(null);
         const spinAngle = ref(0);
         const canvasRef = ref(null);
+        const filters = ref({ region: 'all', day: 'all', time: 'all' });
 
-        const colors = [
-          '#FF6B6B', '#4ECDC4', '#FFE66D', '#1A535C', 
-          '#FF9F1C', '#2EC4B6', '#E71D36'
-        ];
+        const colors = ['#FF6B6B', '#4ECDC4', '#FFE66D', '#2A52BE', '#FF9F1C', '#92D050', '#8E44AD', '#34495E'];
+
+        onMounted(async () => {
+          try {
+            const res = await fetch('attractions.json');
+            attractions.value = await res.json();
+            drawWheel();
+          } catch (e) { console.error(e); }
+        });
+
+        const filteredAttractions = computed(() =>
+          attractions.value.filter(item => {
+            const r = filters.value.region === 'all' || item.region === filters.value.region;
+            const d = filters.value.day === 'all' || item.days.includes(filters.value.day);
+            const t = filters.value.time === 'all' || item.times.includes(filters.value.time);
+            return r && d && t;
+          })
+        );
+
+        watch(filteredAttractions, () => {
+          drawWheel();
+          spinAngle.value = 0;
+          result.value = null;
+        });
 
         const drawWheel = () => {
           const canvas = canvasRef.value;
-          canvas.width = 400;
-          canvas.height = 400;
+          if (!canvas) return;
+          canvas.width = 400; canvas.height = 400;
           const ctx = canvas.getContext('2d');
-          
-          const numSlices = attractions.length;
-          const sliceAngle = (2 * Math.PI) / numSlices;
-          const centerX = canvas.width / 2;
-          const centerY = canvas.height / 2;
-          const radius = canvas.width / 2;
-          
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-          
-          for(let i=0; i<numSlices; i++) {
-            // Draw slice
-            ctx.beginPath();
-            ctx.moveTo(centerX, centerY);
-            ctx.arc(centerX, centerY, radius, i * sliceAngle, (i+1) * sliceAngle);
-            ctx.fillStyle = colors[i % colors.length];
-            ctx.fill();
-            ctx.lineWidth = 2;
-            ctx.strokeStyle = 'rgba(255,255,255,0.2)';
-            ctx.stroke();
-            
-            // Draw text
-            ctx.save();
-            ctx.translate(centerX, centerY);
-            ctx.rotate(i * sliceAngle + sliceAngle / 2);
-            ctx.textAlign = 'right';
-            ctx.fillStyle = '#fff';
-            ctx.font = 'bold 22px "Noto Sans TC", sans-serif';
-            // Add shadow for better readability
-            ctx.shadowColor = 'rgba(0,0,0,0.8)';
-            ctx.shadowBlur = 4;
-            ctx.shadowOffsetX = 1;
-            ctx.shadowOffsetY = 1;
-            ctx.fillText(attractions[i].name, radius - 30, 8);
-            ctx.restore();
+          const pool = filteredAttractions.value;
+          if (pool.length === 0) {
+            ctx.fillStyle = '#444'; ctx.textAlign = 'center'; ctx.font = '20px sans-serif';
+            ctx.fillText('無資料', 200, 200); return;
           }
-        };
-
-        const fireConfetti = () => {
-          const popperAudio = new Audio('audio/partypopper.mp3');
-          popperAudio.volume = 0.5;
-          popperAudio.play().catch(e => console.log('Audio error:', e));
-
-          var count = 300;
-          var defaults = { origin: { y: 1 }, zIndex: 10000 };
-
-          function fire(particleRatio, opts) {
-            confetti(Object.assign({}, defaults, opts, {
-              particleCount: Math.floor(count * particleRatio)
-            }));
+          const sliceAngle = (2 * Math.PI) / pool.length;
+          ctx.clearRect(0, 0, 400, 400);
+          for(let i=0; i<pool.length; i++) {
+            ctx.beginPath(); ctx.moveTo(200, 200);
+            ctx.arc(200, 200, 200, i * sliceAngle, (i+1) * sliceAngle);
+            ctx.fillStyle = colors[i % colors.length]; ctx.fill();
+            ctx.strokeStyle = 'white'; ctx.lineWidth = 2; ctx.stroke();
           }
-
-          fire(0.25, { spread: 40, startVelocity: 70, origin: { x: 0 } });
-          fire(0.25, { spread: 40, startVelocity: 70, origin: { x: 1 } });
-          fire(0.2, { spread: 80, startVelocity: 55, origin: { x: 0 } });
-          fire(0.2, { spread: 80, startVelocity: 55, origin: { x: 1 } });
-          fire(0.1, { spread: 120, startVelocity: 45, origin: { x: 0.5, y: 0.8 } });
         };
 
         const spinWheel = () => {
-          if (isSpinning.value) return;
+          const pool = filteredAttractions.value;
+          if (isSpinning.value || !pool.length) return;
           isSpinning.value = true;
           result.value = null;
+          new Audio('audio/spin.mp3').play().catch(()=>{});
+
+          const randomIdx = Math.floor(Math.random() * pool.length);
+          const sliceDeg = 360 / pool.length;
+          // Calculate target rotation to land the pointer (top) on the randomIdx slice
+          // Current rotation + 5-8 full spins + target alignment
+          const targetRotation = 270 - (randomIdx * sliceDeg + sliceDeg/2);
+          const extraSpins = (Math.floor(Math.random() * 4) + 5) * 360;
           
-          const numSlices = attractions.length;
-          const randomIdx = Math.floor(Math.random() * numSlices);
-          
-          const sliceAngleDeg = 360 / numSlices;
-          // The top pointer is at 270 degrees in canvas space.
-          // Canvas draws slice 0 from 0 to sliceAngle.
-          // Center of slice 0 is sliceAngle/2.
-          // We need (randomIdx * sliceAngleDeg + sliceAngleDeg/2) + currentRotation to land at 270 (top).
-          // To be safe and simple, we can just randomly pick a target degree that lands inside the slice boundaries.
-          // CSS rotation rotates the canvas. Top is -90deg in canvas.
-          // Actually, slice 0 starts at 3 o'clock (0 deg). Top pointer is at 270 deg.
-          // If we want slice N to be at top, we need to rotate canvas by:
-          // 270 - (N * sliceAngleDeg + sliceAngleDeg/2)
-          
-          const targetSliceCenter = randomIdx * sliceAngleDeg + sliceAngleDeg / 2;
-          const targetRotation = 270 - targetSliceCenter;
-          
-          // Add 5 to 8 extra full spins for dramatic effect
-          const extraSpins = (Math.floor(Math.random() * 4) + 5) * 360; 
-          
-          // Find the nearest rotation matching the target
-          const currentRotationMod = spinAngle.value % 360;
-          let nextRotation = spinAngle.value - currentRotationMod + targetRotation;
-          if (nextRotation < spinAngle.value) {
-            nextRotation += 360;
-          }
-          
-          spinAngle.value = nextRotation + extraSpins;
-          
+          spinAngle.value += extraSpins + (targetRotation - (spinAngle.value % 360) + 360) % 360;
+
           setTimeout(() => {
             isSpinning.value = false;
-            result.value = attractions[randomIdx];
+            result.value = pool[randomIdx];
             fireConfetti();
-          }, 4000); // Matches the CSS transition duration
+          }, 4500);
         };
 
-        onMounted(() => {
-          // Add a slight delay to ensure canvas is ready in DOM
-          setTimeout(drawWheel, 50);
-        });
-
-        return {
-          isSpinning,
-          result,
-          spinAngle,
-          canvasRef,
-          spinWheel
+        const fireConfetti = () => {
+          new Audio('audio/partypopper.mp3').play().catch(()=>{});
+          confetti({ particleCount: 200, spread: 70, origin: { y: 0.6 }, zIndex: 10000 });
         };
+
+        return { filters, filteredAttractions, isSpinning, result, spinAngle, canvasRef, spinWheel };
       }
     }).mount('#app');
   </script>

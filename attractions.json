@@ -1,0 +1,58 @@
+[
+  {
+    "name": "溪湖羊肉爐",
+    "region": "溪湖鎮",
+    "desc": "全台聞名的在地美食，中藥湯頭搭配鮮嫩羊肉，是冬日溫補首選！",
+    "link": "xihu-attractions.html",
+    "days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+    "times": ["Morning", "Afternoon", "Evening"]
+  },
+  {
+    "name": "溪湖糖廠觀光小火車",
+    "region": "溪湖鎮",
+    "desc": "搭乘懷舊的五分車穿梭於田野之間，感受日治時期遺留下來的糖業風情。",
+    "link": "xihu-attractions.html",
+    "days": ["Saturday", "Sunday"],
+    "times": ["Morning", "Afternoon"]
+  },
+  {
+    "name": "葡萄產業文化園區",
+    "region": "溪湖鎮",
+    "desc": "產地直採的巨峰葡萄，果肉飽滿多汁，適合全家大小一起體驗採果樂趣。",
+    "link": "xihu-attractions.html",
+    "days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+    "times": ["Morning", "Afternoon"]
+  },
+  {
+    "name": "統一夢時代購物中心",
+    "region": "前鎮區",
+    "desc": "南台灣超大型購物商城，頂樓更有著名的「高雄之眼」摩天輪，逛街約會一次滿足。",
+    "link": "qianzhen-attractions.html",
+    "days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+    "times": ["Morning", "Afternoon", "Evening"]
+  },
+  {
+    "name": "珍芳烏魚子見學工廠",
+    "region": "前鎮區",
+    "desc": "深入了解台灣烏魚子製作工藝的觀光工廠，體驗傳統海味的製作與試吃。",
+    "link": "qianzhen-attractions.html",
+    "days": ["Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+    "times": ["Morning", "Afternoon"]
+  },
+  {
+    "name": "光華觀光夜市",
+    "region": "前鎮區",
+    "desc": "在地人最愛的宵夜一條街，從木瓜牛奶到各式傳統小吃應有進有。",
+    "link": "qianzhen-attractions.html",
+    "days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+    "times": ["Evening"]
+  },
+  {
+    "name": "前鎮之星自行車橋",
+    "region": "前鎮區",
+    "desc": "造型優美如同白色藤蔓的空中自行車道，搭配輕軌列車駛過，是攝影打卡熱點。",
+    "link": "qianzhen-attractions.html",
+    "days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+    "times": ["Morning", "Afternoon", "Evening"]
+  }
+]

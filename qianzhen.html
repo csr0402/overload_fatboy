@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
@@ -14,53 +14,55 @@
   <script>document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || 'light');</script>
 </head>
 <body>
-<nav class="navbar">
-    <div class="logo"><a href="index.html">雙城對話</a></div>
+<header>
+  <nav class="navbar">
+    <a class="brand" href="index.html">
+      <span class="brand-badge">旅</span>
+      <span>溪湖 × 前鎮</span>
+    </a>
     <div class="nav-links">
+      <a href="index.html">首頁</a>
       <div class="nav-item">
-        <a href="index.html">首頁概覽</a>
-      </div>
-      <div class="nav-item">
-        <a href="xihu.html">關於溪湖鎮 ▾</a>
+        <a href="xihu.html">溪湖鎮 ▾</a>
         <div class="dropdown-menu">
           <a href="xihu.html#history">歷史沿革</a>
           <a href="xihu.html#geography">地理與氣候</a>
-          <a href="xihu.html#population">人口與里村統計</a>
+          <a href="xihu.html#population">人口統計</a>
           <a href="xihu.html#education">學區與教育</a>
-          <a href="xihu.html#facilities">公園與公共設施</a>
+          <a href="xihu.html#facilities">公園與設施</a>
           <a href="xihu.html#religion">宗教信仰</a>
-          <a href="xihu.html#attractions">隱藏美食與特產</a>
+          <a href="xihu.html#attractions">美食與特產</a>
         </div>
       </div>
       <div class="nav-item">
-        <a href="qianzhen.html">關於前鎮區 ▾</a>
+        <a href="qianzhen.html">前鎮區 ▾</a>
         <div class="dropdown-menu">
           <a href="qianzhen.html#history">歷史沿革</a>
           <a href="qianzhen.html#geography">地理與氣候</a>
-          <a href="qianzhen.html#population">人口與里村統計</a>
+          <a href="qianzhen.html#economy">經濟與交通</a>
+          <a href="qianzhen.html#population">人口統計</a>
           <a href="qianzhen.html#education">學區與教育</a>
-          <a href="qianzhen.html#facilities">公園與公共設施</a>
+          <a href="qianzhen.html#facilities">公園與設施</a>
           <a href="qianzhen.html#religion">宗教信仰</a>
-          <a href="qianzhen.html#attractions">隱藏美食與購物</a>
+          <a href="qianzhen.html#attractions">美食與購物</a>
         </div>
       </div>
       <div class="nav-item">
-        <a href="#">美食景點推薦 ▾</a>
+        <a href="random-slot.html">景點推薦 ▾</a>
         <div class="dropdown-menu">
-          <a href="xihu.html#attractions">溪湖鎮</a>
-          <a href="qianzhen.html#attractions">前鎮區</a>
-          <a href="random-slot.html">不知道去哪就選這個</a>
+          <a href="random-slot.html">🎰 命運拉霸機</a>
+          <a href="random-wheel.html">🎡 幸運轉盤</a>
+          <a href="random-scratch.html">🎟 刮刮樂</a>
         </div>
       </div>
-      <div class="nav-item">
-        <a href="summary.html" style="color: var(--accent-xihu); font-weight: bold;">PK 總結</a>
-      </div>
-    
-      <div class="nav-item">
-        <button id="theme-toggle-btn" onclick="toggleTheme()" title="切換深淺色模式">🌙</button>
-      </div>
+      <a href="summary.html">PK 總結</a>
+    </div>
+    <div class="nav-controls">
+      <button id="lang-toggle-btn" onclick="toggleLanguage()" title="切換語言">EN</button>
+      <button id="theme-toggle-btn" onclick="toggleTheme()" title="切換深淺色">🌙</button>
     </div>
   </nav>
+</header>
 
   <div class="breadcrumbs">
     <a href="index.html">首頁</a> <span>></span> 關於前鎮區
@@ -105,6 +107,14 @@
         <li><strong>都市樣貌：</strong>以凱旋路為界，北面人口稠密繁華，南面(除港區外)保有部分純樸風貌。</li>
       </ul>
 </div>
+<div id="economy" class="glass-card" style="margin-bottom: 2rem;">
+<h2 style="color: var(--accent-qianzhen)">經濟與交通建設</h2>
+      <p>根據 2025 年底統計，前鎮區人口約 <strong>17.7萬人</strong>，為高雄市人口第五大區，支撐著龐大的經濟體系。</p>
+      <ul class="feature-list qianzhen-list">
+        <li><strong>產業園區：</strong>前鎮科技產業園區、高雄軟體園區、亞洲新灣區、中鋼集團總部。</li>
+        <li><strong>交通運輸：</strong>國道一號端點，擁有高雄捷運紅線及環狀輕軌，並設有前鎮輪渡站。</li>
+      </ul>
+</div>
 <div id="population" class="glass-card" style="margin-bottom: 2rem;">
 <h2 style="color: var(--accent-qianzhen)">人口與里村統計</h2><p>前鎮區為高雄市人口密集區之一，擁有豐富的勞動力與居住人口。</p><ul class="feature-list qianzhen-list"><li><strong>人口數：</strong>約 17.7 萬人 (2025年底數據)，為高雄市人口第五大區。</li><li><strong>行政區劃：</strong>全區共劃分為 <strong>59個里</strong>，1,296個鄰。</li><li><strong>人口結構：</strong>因具備大量就業機會（如前鎮加工出口區、軟體園區），青壯年人口佔比穩定，但仍受少子化趨勢影響。</li><li><strong>聚落發展：</strong>早期分為前鎮、草衙、戲獅甲、籬仔內、崗山仔等五大聚落，現已完全高度都市化。</li></ul>
 </div>
@@ -125,25 +135,12 @@
 </div>
 <div id="attractions" class="glass-card" style="margin-bottom: 2rem;">
 <h2 style="color: var(--accent-qianzhen)">隱藏美食與購物商城</h2>
-<div style="margin: 1rem 0; display:flex; gap:1rem;">
-  <button class="btn btn-qianzhen" onclick="filterItems('all')" style="padding: 0.5rem 1rem; font-size: 0.9rem;">全部顯示</button>
-  <button class="btn btn-primary" onclick="filterItems('food')" style="padding: 0.5rem 1rem; font-size: 0.9rem;">隱藏美食</button>
-  <button class="btn btn-primary" onclick="filterItems('spot')" style="padding: 0.5rem 1rem; font-size: 0.9rem;">購物與打卡景點</button>
-</div>
 <ul class="feature-list qianzhen-list" id="itemList">
   <li class="item" data-type="spot"><strong>大型購物：</strong>統一夢時代購物中心 (摩天輪地標)、SKM Park Outlets、IKEA、COSTCO 等。</li>
   <li class="item" data-type="spot"><strong>知名地標：</strong>高雄市立圖書館總館、高雄展覽館、前鎮之星自行車橋。</li>
   <li class="item" data-type="spot"><strong>特色觀光：</strong>前鎮漁港（全臺最大漁業基地）、珍芳烏魚子見學工廠。</li>
   <li class="item" data-type="food" style="background: rgba(0,210,255,0.1); padding: 0.5rem; border-radius: 5px;"><strong>隱藏美食：</strong>光華夜市 (木瓜牛奶、炒鱔魚意麵、林家水餃)、凱旋青年夜市小吃、前鎮漁港周邊海產熱炒、瑞隆路隱藏版麵線羹。</li>
 </ul>
-<script>
-function filterItems(type) {
-  document.querySelectorAll('#itemList .item').forEach(el => {
-    if(type === 'all' || el.getAttribute('data-type') === type) el.style.display = 'block';
-    else el.style.display = 'none';
-  });
-}
-</script>
 </div>
 
       </main>
@@ -154,6 +151,7 @@ function filterItems(type) {
   <ul>
     <li><a href="#history">歷史沿革</a></li>
     <li><a href="#geography">地理與氣候</a></li>
+    <li><a href="#economy">經濟與交通</a></li>
     <li><a href="#population">人口與里村統計</a></li>
     <li><a href="#education">學區與教育</a></li>
     <li><a href="#facilities">公園與公共設施</a></li>

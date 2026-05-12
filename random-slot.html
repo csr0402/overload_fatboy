@@ -3,270 +3,403 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>命運拉霸機 | 美食景點推薦 | 雙城對話</title>
+  <title>命運拉霸機 | 雙城對話</title>
   <link rel="stylesheet" href="style.css">
-  <!-- 引入 Vue 3 CDN -->
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-  <!-- 引入 Canvas Confetti (拉炮特效) -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script>document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || 'light');</script>
   <style>
-    .random-container {
-      text-align: center;
-      padding: 3rem;
-    }
-    
-    .slot-machine {
-      font-size: 2.5rem;
-      font-weight: 700;
-      min-height: 120px;
+    /* ── Cabinet Layout (Machine + Lever on Right) ── */
+    .slot-cabinet {
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 2rem 0;
-      color: var(--text-main);
-      background: rgba(0, 0, 0, 0.2);
-      border-radius: 15px;
-      border: 1px solid var(--glass-border);
-      transition: all 0.3s;
+      max-width: 580px;
+      margin: 0 auto 2.5rem;
+      gap: 0;
     }
 
-    .result-card {
-      margin-top: 2rem;
-      animation: fadeUp 0.6s ease-out;
-      text-align: center;
+    .slot-machine {
+      flex: 1;
+      background: var(--surface-solid);
+      border: 6px solid var(--primary);
+      border-radius: 34px 0 0 34px;
+      padding: 28px 24px;
+      box-shadow: var(--shadow);
+      position: relative;
+      z-index: 2;
     }
 
-    .region-badge {
-      display: inline-block;
-      padding: 0.3rem 1rem;
+    /* ── Lever Side Column ── */
+    .lever-side {
+      width: 80px;
+      height: 280px;
+      background: color-mix(in srgb, var(--surface-solid) 92%, var(--primary) 8%);
+      border: 6px solid var(--primary);
+      border-left: none;
+      border-radius: 0 34px 34px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center; /* Pivot mount will be in center */
+      position: relative;
+      cursor: pointer;
+      user-select: none;
+    }
+    .lever-side:hover {
+      background: color-mix(in srgb, var(--surface-solid) 80%, var(--primary) 20%);
+    }
+    .lever-side.disabled {
+      cursor: not-allowed;
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    /* Fixed Mount Pivot [-] (Bottom Layer) */
+    .lever-mount {
+      width: 44px;
+      height: 20px;
+      background: linear-gradient(135deg, #7f8c8d, #34495e);
+      border-radius: 4px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      position: relative;
+      z-index: 1; /* Lowest layer */
+    }
+
+    /* Lever Arm (Rod + Ball) */
+    .lever-arm {
+      position: absolute;
+      width: 44px;
+      height: 120px;
+      bottom: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transform-origin: bottom center;
+      transition: transform 0.6s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+      z-index: 2; /* Above mount */
+    }
+    .lever-arm.pulling {
+      transform: rotateX(180deg);
+    }
+
+    /* Ball (Top Layer) */
+    .lever-ball {
+      width: 46px;
+      height: 46px;
+      background: radial-gradient(circle at 30% 30%, #ff7675, #d63031);
+      border-radius: 50%;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.4), inset -2px -2px 6px rgba(0,0,0,0.3);
+      position: relative;
+      z-index: 4; /* Highest layer */
+      margin-bottom: -10px; /* Overlap rod */
+    }
+
+    /* Rod (Middle Layer) */
+    .lever-rod {
+      width: 12px;
+      flex: 1;
+      background: linear-gradient(to right, #bdc3c7, #ecf0f1, #95a5a6);
+      border-radius: 6px 6px 0 0;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+      position: relative;
+      z-index: 3; /* Between ball and mount */
+    }
+
+    .lever-label {
+      position: absolute;
+      bottom: 20px;
+      font-weight: 900;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      color: var(--primary);
+      text-transform: uppercase;
+    }
+
+    /* ── Slot Display ── */
+    .slot-display {
+      background: #050d18;
       border-radius: 20px;
-      font-size: 0.9rem;
-      font-weight: bold;
-      margin-bottom: 1rem;
+      height: 140px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      position: relative;
+      box-shadow: inset 0 0 40px rgba(0,0,0,.9), inset 0 0 0 2px rgba(22,137,216,.3);
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    .slot-display::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,.08) 3px, rgba(0,0,0,.08) 4px);
+      pointer-events: none;
+    }
+    .slot-display::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, #050d18 0%, transparent 30%, transparent 70%, #050d18 100%);
+      z-index: 1; pointer-events: none;
+    }
+    .slot-text {
+      font-size: clamp(1.2rem, 4vw, 2rem);
+      font-weight: 900;
+      color: white;
+      text-align: center;
+      line-height: 1.3;
+      text-shadow: 0 0 16px var(--primary), 0 0 32px var(--primary);
+      position: relative;
+      z-index: 2;
+    }
+    .slot-text.spinning { animation: slotFlicker .08s steps(1) infinite; }
+    @keyframes slotFlicker {
+      0% { opacity: 1; } 50% { opacity: 0.4; }
     }
 
-    .badge-xihu {
-      background: linear-gradient(135deg, var(--accent-xihu), var(--accent-xihu-light));
-      color: #0f172a;
+    .slot-lights { display: flex; justify-content: space-between; padding: 0 10px; margin-bottom: 20px;}
+    .slot-lights span {
+      width: 12px; height: 12px; border-radius: 50%;
+      background: var(--primary); box-shadow: 0 0 8px var(--primary);
+      animation: blink 1.2s ease-in-out infinite;
     }
-
-    .badge-qianzhen {
-      background: linear-gradient(135deg, var(--accent-qianzhen), var(--accent-qianzhen-light));
-      color: #0f172a;
-    }
-
-    .btn-draw {
-      font-size: 1.2rem;
-      padding: 1rem 3rem;
-    }
-
-    .spin-anim {
-      animation: shake 0.1s infinite;
-      color: var(--secondary);
-    }
-
-    @keyframes shake {
-      0% { transform: translate(1px, 1px) rotate(0deg); }
-      25% { transform: translate(-1px, -2px) rotate(-1deg); }
-      50% { transform: translate(-3px, 0px) rotate(1deg); }
-      75% { transform: translate(3px, 2px) rotate(0deg); }
-      100% { transform: translate(1px, -1px) rotate(1deg); }
-    }
+    .slot-lights span:nth-child(2){animation-delay:.2s}
+    .slot-lights span:nth-child(3){animation-delay:.4s}
+    .slot-lights span:nth-child(4){animation-delay:.6s}
+    .slot-lights span:nth-child(5){animation-delay:.8s}
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
   </style>
-  <script>document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || 'light');</script>
 </head>
-<body>
+<body class="bg-orbs">
 
+  <header>
     <nav class="navbar">
-    <div class="logo"><a href="index.html">雙城對話</a></div>
-    <div class="nav-links">
-      <div class="nav-item">
-        <a href="index.html">首頁概覽</a>
-      </div>
-      <div class="nav-item">
-        <a href="xihu.html">關於溪湖鎮 ▾</a>
-        <div class="dropdown-menu">
-          <a href="xihu.html#history">歷史沿革</a>
-          <a href="xihu.html#geography">地理與氣候</a>
-          <a href="xihu.html#population">人口與里村統計</a>
-          <a href="xihu.html#education">學區與教育</a>
-          <a href="xihu.html#facilities">公園與公共設施</a>
-          <a href="xihu.html#religion">宗教信仰</a>
-          <a href="xihu.html#attractions">隱藏美食與特產</a>
+      <a class="brand" href="index.html">
+        <span class="brand-badge">旅</span>
+        <span>溪湖 × 前鎮</span>
+      </a>
+      <div class="nav-links">
+        <a href="index.html">首頁</a>
+        <div class="nav-item">
+          <a href="xihu.html">溪湖鎮 ▾</a>
+          <div class="dropdown-menu">
+            <a href="xihu.html#history">歷史沿革</a>
+            <a href="xihu.html#geography">地理與氣候</a>
+            <a href="xihu.html#population">人口統計</a>
+            <a href="xihu.html#attractions">美食與特產</a>
+          </div>
         </div>
-      </div>
-      <div class="nav-item">
-        <a href="qianzhen.html">關於前鎮區 ▾</a>
-        <div class="dropdown-menu">
-          <a href="qianzhen.html#history">歷史沿革</a>
-          <a href="qianzhen.html#geography">地理與氣候</a>
-          <a href="qianzhen.html#population">人口與里村統計</a>
-          <a href="qianzhen.html#education">學區與教育</a>
-          <a href="qianzhen.html#facilities">公園與公共設施</a>
-          <a href="qianzhen.html#religion">宗教信仰</a>
-          <a href="qianzhen.html#attractions">隱藏美食與購物</a>
+        <div class="nav-item">
+          <a href="qianzhen.html">前鎮區 ▾</a>
+          <div class="dropdown-menu">
+            <a href="qianzhen.html#history">歷史沿革</a>
+            <a href="qianzhen.html#geography">地理與氣候</a>
+            <a href="qianzhen.html#economy">經濟與交通</a>
+            <a href="qianzhen.html#attractions">美食與購物</a>
+          </div>
         </div>
-      </div>
-      <div class="nav-item">
-        <a href="#">美食景點推薦 ▾</a>
-        <div class="dropdown-menu">
-          <a href="xihu.html#attractions">溪湖鎮</a>
-          <a href="qianzhen.html#attractions">前鎮區</a>
-          <a href="random-slot.html">不知道去哪就選這個</a>
+        <div class="nav-item">
+          <a href="random-slot.html">景點推薦 ▾</a>
+          <div class="dropdown-menu">
+            <a href="random-slot.html">🎰 命運拉霸機</a>
+            <a href="random-wheel.html">🎡 幸運轉盤</a>
+            <a href="random-scratch.html">🎟 刮刮樂</a>
+          </div>
         </div>
+        <a href="summary.html">PK 總結</a>
       </div>
-      <div class="nav-item">
-        <a href="summary.html" style="color: var(--accent-xihu); font-weight: bold;">PK 總結</a>
+      <div class="nav-controls">
+        <button id="lang-toggle-btn" onclick="toggleLanguage()">EN</button>
+        <button id="theme-toggle-btn" onclick="toggleTheme()">🌙</button>
       </div>
-    
-      <div class="nav-item">
-        <button id="theme-toggle-btn" onclick="toggleTheme()" title="切換深淺色模式">🌙</button>
-      </div>
-    </div>
-  </nav>
+    </nav>
+  </header>
 
   <div class="breadcrumbs">
-    <a href="index.html">首頁</a> <span>></span> 美食景點推薦 <span>></span> 命運拉霸機
+    <a href="index.html">首頁</a> <span>›</span> 景點推薦 <span>›</span> 命運拉霸機
   </div>
 
-  <section class="section" style="padding-top: 2rem;">
-    <div class="page-container" id="app">
+  <div class="section" id="app">
+    <div class="page-container">
       <main class="page-content">
-        <div class="glass-card random-container">
-          <h2 style="color: var(--primary);">不知道去哪？讓拉霸機決定！</h2>
-          <p style="color: var(--text-muted); margin-bottom: 2rem;">按下按鈕，我們將為您隨機推薦一個位於溪湖鎮或前鎮區的必訪景點或美食。</p>
-          
-          <div class="slot-machine" :class="{ 'spin-anim': isSpinning }">
-            {{ currentDisplay }}
-          </div>
-          
-          <button class="btn btn-primary btn-draw" @click="drawAttraction" :disabled="isSpinning">
-            {{ isSpinning ? '抽取中...' : '馬上抽籤！' }}
-          </button>
+        <div class="glass-card" style="text-align:center;">
+          <span class="eyebrow">🎰 Fortune Slot</span>
+          <h2 style="color:var(--primary);">不知道去哪？啟動命運拉霸機！</h2>
+          <p style="color:var(--muted);margin-bottom:2.5rem;">設定篩選條件後，拉下右側拉桿，讓命運決定今日目的地。</p>
 
-          <div v-if="result && !isSpinning" class="glass-card result-card">
-            <span class="region-badge" :class="result.region === '溪湖鎮' ? 'badge-xihu' : 'badge-qianzhen'">
-              {{ result.region }}
-            </span>
-            <h3 style="margin-bottom: 1rem; color: var(--text-main); font-size: 1.5rem;">{{ result.name }}</h3>
-            <p style="color: var(--text-muted); margin-bottom: 1.5rem;">{{ result.desc }}</p>
-            
-            <div style="margin-bottom: 1.5rem; border-radius: 10px; overflow: hidden; border: 1px solid var(--glass-border);">
-              <iframe 
-                width="100%" 
-                height="250" 
-                frameborder="0" 
-                scrolling="no" 
-                marginheight="0" 
-                marginwidth="0" 
-                :src="'https://maps.google.com/maps?q=' + encodeURIComponent(result.name + ' ' + result.region) + '&t=&z=15&ie=UTF8&iwloc=&output=embed'">
-              </iframe>
+          <!-- 篩選器 -->
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1.2rem;margin-bottom:2.5rem;text-align:left;">
+            <div>
+              <label style="display:block;font-weight:900;margin-bottom:.5rem;font-size:.9rem;">📍 地區</label>
+              <select v-model="filters.region" class="btn" style="width:100%;background:var(--surface-solid);color:var(--text);border:1px solid var(--glass-border);padding:12px 16px;">
+                <option value="all">不限地區</option>
+                <option value="前鎮區">前鎮區</option>
+                <option value="溪湖鎮">溪湖鎮</option>
+              </select>
+            </div>
+            <div>
+              <label style="display:block;font-weight:900;margin-bottom:.5rem;font-size:.9rem;">📅 星期</label>
+              <select v-model="filters.day" class="btn" style="width:100%;background:var(--surface-solid);color:var(--text);border:1px solid var(--glass-border);padding:12px 16px;">
+                <option value="all">不限日期</option>
+                <option value="Monday">星期一</option>
+                <option value="Tuesday">星期二</option>
+                <option value="Wednesday">星期三</option>
+                <option value="Thursday">星期四</option>
+                <option value="Friday">星期五</option>
+                <option value="Saturday">星期六</option>
+                <option value="Sunday">星期日</option>
+              </select>
+            </div>
+            <div>
+              <label style="display:block;font-weight:900;margin-bottom:.5rem;font-size:.9rem;">⏰ 時間</label>
+              <select v-model="filters.time" class="btn" style="width:100%;background:var(--surface-solid);color:var(--text);border:1px solid var(--glass-border);padding:12px 16px;">
+                <option value="all">全天 / 不限</option>
+                <option value="Morning">早上</option>
+                <option value="Afternoon">下午</option>
+                <option value="Evening">晚上</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- 拉霸機機櫃 (Machine + Lever) -->
+          <div class="slot-cabinet">
+            <!-- 機身 -->
+            <div class="slot-machine">
+              <div class="slot-display">
+                <div class="slot-text" :class="{ spinning: isRolling }">{{ displayText }}</div>
+              </div>
+              <div class="slot-lights">
+                <span></span><span></span><span></span><span></span><span></span>
+              </div>
+              <!-- Optional secondary pull button for accessibility -->
+              <button class="btn btn-primary" style="padding:10px 30px; font-size: 0.9rem;" @click="pullAndSpin" :disabled="isRolling || filteredAttractions.length === 0">
+                {{ isRolling ? '🎰 轉動中...' : '按此啟動' }}
+              </button>
             </div>
 
-            <a :href="result.link" class="btn" :class="result.region === '溪湖鎮' ? 'btn-xihu' : 'btn-qianzhen'" style="font-size: 0.9rem; padding: 0.5rem 1.5rem;">
-              查看更多介紹
-            </a>
+            <!-- 右側拉桿 -->
+            <div class="lever-side" :class="{ disabled: isRolling || filteredAttractions.length === 0 }" @click="pullAndSpin">
+              <!-- Lever Arm (Ball + Rod) rotates around Mount -->
+              <div class="lever-arm" :class="{ pulling: isPulling }">
+                <div class="lever-ball"></div>
+                <div class="lever-rod"></div>
+              </div>
+              <!-- Pivot Mount [-] -->
+              <div class="lever-mount"></div>
+              <span class="lever-label">PULL</span>
+            </div>
+          </div>
+
+          <!-- 結果卡片 -->
+          <div v-if="result && !isRolling" class="glass-card pop" style="margin-top:2rem;text-align:center;">
+            <span class="region-badge" :class="result.region === '溪湖鎮' ? 'badge-xihu' : 'badge-qianzhen'">{{ result.region }}</span>
+            <h3 style="font-size:2rem;margin:12px 0;">{{ result.name }}</h3>
+            <p style="color:var(--muted);margin-bottom:1.5rem;max-width:520px;margin-left:auto;margin-right:auto;">{{ result.desc }}</p>
+            <div style="border-radius:20px;overflow:hidden;max-width:520px;margin:0 auto 1.5rem;box-shadow:var(--shadow);">
+              <iframe width="100%" height="250" frameborder="0" scrolling="no"
+                :src="'https://maps.google.com/maps?q='+encodeURIComponent(result.name+' '+result.region)+'&t=&z=15&ie=UTF8&iwloc=&output=embed'">
+              </iframe>
+            </div>
+            <a :href="result.link" class="btn" :class="result.region==='溪湖鎮'?'btn-xihu':'btn-qianzhen'">探索景點詳情 →</a>
           </div>
         </div>
       </main>
 
-      <!-- 左側導覽列 (透過 order: -1 已經自動靠左) -->
       <aside class="page-sidebar">
         <div class="sidebar-menu">
-          <h3 style="color: var(--primary);">趣味抽選小遊戲</h3>
+          <h3>趣味抽選遊戲</h3>
           <ul>
-            <li><a href="random-slot.html" class="active" style="background: linear-gradient(to right, var(--primary), var(--secondary)); color: #fff; font-weight: bold;">🎰 命運拉霸機</a></li>
-            <li><a href="random-scratch.html">🎟️ 神祕刮刮樂</a></li>
+            <li><a href="random-slot.html" class="active">🎰 命運拉霸機</a></li>
             <li><a href="random-wheel.html">🎡 幸運大轉盤</a></li>
+            <li><a href="random-scratch.html">🎟️ 神祕刮刮樂</a></li>
           </ul>
         </div>
       </aside>
     </div>
-  </section>
+  </div>
 
   <footer>
-    <p>&copy; 2026 行政區域比較平台. 資料來源：維基百科</p>
+    <strong>雙城對話 © 2026</strong>
+    <p>資料來源：維基百科、內政部戶政司</p>
   </footer>
 
   <script src="script.js"></script>
-  
-  <!-- Vue.js 邏輯 -->
   <script>
-    const { createApp, ref } = Vue;
-
-    const attractions = [
-      { name: '溪湖羊肉爐', region: '溪湖鎮', desc: '全台聞名的在地美食，中藥湯頭搭配鮮嫩羊肉，是冬日溫補首選！', link: 'xihu-attractions.html' },
-      { name: '溪湖糖廠觀光小火車', region: '溪湖鎮', desc: '搭乘懷舊的五分車穿梭於田野之間，感受日治時期遺留下來的糖業風情。', link: 'xihu-attractions.html' },
-      { name: '葡萄產業文化園區', region: '溪湖鎮', desc: '產地直採的巨峰葡萄，果肉飽滿多汁，適合全家大小一起體驗採果樂趣。', link: 'xihu-attractions.html' },
-      { name: '統一夢時代購物中心', region: '前鎮區', desc: '南台灣超大型購物商城，頂樓更有著名的「高雄之眼」摩天輪，逛街約會一次滿足。', link: 'qianzhen-attractions.html' },
-      { name: '珍芳烏魚子見學工廠', region: '前鎮區', desc: '深入了解台灣烏魚子製作工藝的觀光工廠，體驗傳統海味的製作與試吃。', link: 'qianzhen-attractions.html' },
-      { name: '光華觀光夜市', region: '前鎮區', desc: '在地人最愛的宵夜一條街，從木瓜牛奶到各式傳統小吃應有盡有。', link: 'qianzhen-attractions.html' },
-      { name: '前鎮之星自行車橋', region: '前鎮區', desc: '造型優美如同白色藤蔓的空中自行車道，搭配輕軌列車駛過，是攝影打卡熱點。', link: 'qianzhen-attractions.html' }
-    ];
-
+    const { createApp, ref, computed, watch, onMounted } = Vue;
     createApp({
       setup() {
-        const currentDisplay = ref('❔ 點擊下方按鈕開始');
-        const isSpinning = ref(false);
+        const attractions = ref([]);
+        const isRolling = ref(false);
+        const isPulling = ref(false);
         const result = ref(null);
+        const displayText = ref('拉下右側拉桿啟動！');
+        const filters = ref({ region: 'all', day: 'all', time: 'all' });
 
-        const fireConfetti = () => {
-          // 播放拉炮音效
-          const popperAudio = new Audio('audio/partypopper.mp3');
-          popperAudio.volume = 0.5;
-          popperAudio.play().catch(e => console.log('Audio error:', e));
-
-          var count = 300;
-          var defaults = { origin: { y: 1 }, zIndex: 10000 };
-
-          function fire(particleRatio, opts) {
-            confetti(Object.assign({}, defaults, opts, {
-              particleCount: Math.floor(count * particleRatio)
-            }));
+        onMounted(async () => {
+          try {
+            const res = await fetch('attractions.json');
+            attractions.value = await res.json();
+          } catch (e) {
+            displayText.value = '❌ 資料讀取失敗';
           }
+        });
 
-          fire(0.25, { spread: 40, startVelocity: 70, origin: { x: 0 } }); // 左下角
-          fire(0.25, { spread: 40, startVelocity: 70, origin: { x: 1 } }); // 右下角
-          fire(0.2, { spread: 80, startVelocity: 55, origin: { x: 0 } });
-          fire(0.2, { spread: 80, startVelocity: 55, origin: { x: 1 } });
-          fire(0.1, { spread: 120, startVelocity: 45, origin: { x: 0.5, y: 0.8 } }); // 中間偏下
+        const filteredAttractions = computed(() =>
+          attractions.value.filter(item => {
+            const r = filters.value.region === 'all' || item.region === filters.value.region;
+            const d = filters.value.day === 'all' || item.days.includes(filters.value.day);
+            const t = filters.value.time === 'all' || item.times.includes(filters.value.time);
+            return r && d && t;
+          })
+        );
+
+        watch(filteredAttractions, pool => {
+          result.value = null;
+          displayText.value = pool.length ? '拉下右側拉桿啟動！' : '⚠️ 無符合條件的景點';
+        });
+
+        function fireConfetti() {
+          new Audio('audio/partypopper.mp3').play().catch(() => {});
+          if (typeof confetti === 'function') {
+            confetti({ particleCount: 200, spread: 80, origin: { y: 0.6 }, zIndex: 10000 });
+            setTimeout(() => confetti({ particleCount: 100, spread: 120, origin: { x: 0, y: 0.9 }, startVelocity: 65, zIndex: 10000 }), 220);
+            setTimeout(() => confetti({ particleCount: 100, spread: 120, origin: { x: 1, y: 0.9 }, startVelocity: 65, zIndex: 10000 }), 220);
+          }
+        }
+
+        const pullAndSpin = () => {
+          const pool = filteredAttractions.value;
+          if (isRolling.value || !pool.length) return;
+
+          isPulling.value = true;
+          // Lever animation duration is 0.6s. Let's start the spin midway.
+          setTimeout(() => startSlot(pool), 300);
+          setTimeout(() => { isPulling.value = false; }, 600);
         };
 
-        const drawAttraction = () => {
-          if (isSpinning.value) return;
-          
-          isSpinning.value = true;
+        function startSlot(pool) {
+          isRolling.value = true;
           result.value = null;
-          
-          let counter = 0;
-          const maxSpins = 20; // 抽籤特效的閃爍次數
-          
-          // 模擬老虎機閃爍特效
+          const spinAudio = new Audio('audio/spin.mp3');
+          spinAudio.volume = 0.4; spinAudio.loop = true;
+          spinAudio.play().catch(() => {});
+
+          const winner = pool[Math.floor(Math.random() * pool.length)];
+          let tick = 0;
           const interval = setInterval(() => {
-            const randomIdx = Math.floor(Math.random() * attractions.length);
-            currentDisplay.value = attractions[randomIdx].name;
-            counter++;
-            
-            if (counter >= maxSpins) {
+            displayText.value = pool[Math.floor(Math.random() * pool.length)].name;
+            if (++tick >= 32) {
               clearInterval(interval);
-              isSpinning.value = false;
-              // 最終結果
-              const finalIdx = Math.floor(Math.random() * attractions.length);
-              result.value = attractions[finalIdx];
-              currentDisplay.value = `🎉 ${result.value.name} 🎉`;
-              
-              // 觸發拉炮特效
+              spinAudio.pause(); spinAudio.currentTime = 0;
+              isRolling.value = false;
+              displayText.value = '🎉 ' + winner.name;
+              result.value = winner;
               fireConfetti();
             }
-          }, 80); // 每 80 毫秒切換一次文字
-        };
-
-        return {
-          currentDisplay,
-          isSpinning,
-          result,
-          drawAttraction
+          }, 75);
         }
+
+        return { filters, filteredAttractions, isRolling, isPulling, displayText, result, pullAndSpin };
       }
     }).mount('#app');
   </script>
