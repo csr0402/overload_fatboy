@@ -1,3 +1,27 @@
+
+// Dark Mode Toggle Logic
+const currentTheme = localStorage.getItem('theme') || 'light';
+document.documentElement.setAttribute('data-theme', currentTheme);
+
+function toggleTheme() {
+  const current = document.documentElement.getAttribute('data-theme');
+  const target = current === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', target);
+  localStorage.setItem('theme', target);
+  updateThemeIcon(target);
+}
+
+function updateThemeIcon(theme) {
+  const btn = document.getElementById('theme-toggle-btn');
+  if(btn) {
+    btn.innerHTML = theme === 'dark' ? '☀️' : '🌙';
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  updateThemeIcon(document.documentElement.getAttribute('data-theme'));
+});
+
 document.addEventListener('DOMContentLoaded', () => {
   // Smooth scrolling for anchor links
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {

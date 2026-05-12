@@ -69,11 +69,12 @@
       color: #0f172a;
     }
   </style>
+  <script>document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || 'light');</script>
 </head>
 <body>
 
-  <nav class="navbar">
-    <div class="logo">雙城對話</div>
+    <nav class="navbar">
+    <div class="logo"><a href="index.html">雙城對話</a></div>
     <div class="nav-links">
       <div class="nav-item">
         <a href="index.html">首頁概覽</a>
@@ -81,30 +82,41 @@
       <div class="nav-item">
         <a href="xihu.html">關於溪湖鎮 ▾</a>
         <div class="dropdown-menu">
-          <a href="xihu-history.html">歷史沿革</a>
-          <a href="xihu-geography.html">地理與氣候</a>
-          <a href="xihu-population.html">人口統計</a>
-          <a href="xihu-religion.html">宗教信仰</a>
-          <a href="xihu-attractions.html">旅遊景點與特產</a>
+          <a href="xihu.html#history">歷史沿革</a>
+          <a href="xihu.html#geography">地理與氣候</a>
+          <a href="xihu.html#population">人口與里村統計</a>
+          <a href="xihu.html#education">學區與教育</a>
+          <a href="xihu.html#facilities">公園與公共設施</a>
+          <a href="xihu.html#religion">宗教信仰</a>
+          <a href="xihu.html#attractions">隱藏美食與特產</a>
         </div>
       </div>
       <div class="nav-item">
         <a href="qianzhen.html">關於前鎮區 ▾</a>
         <div class="dropdown-menu">
-          <a href="qianzhen-history.html">歷史沿革</a>
-          <a href="qianzhen-geography.html">地理與氣候</a>
-          <a href="qianzhen-economy.html">經濟與交通建設</a>
-          <a href="qianzhen-religion.html">宗教信仰</a>
-          <a href="qianzhen-attractions.html">旅遊景點與購物商城</a>
+          <a href="qianzhen.html#history">歷史沿革</a>
+          <a href="qianzhen.html#geography">地理與氣候</a>
+          <a href="qianzhen.html#population">人口與里村統計</a>
+          <a href="qianzhen.html#education">學區與教育</a>
+          <a href="qianzhen.html#facilities">公園與公共設施</a>
+          <a href="qianzhen.html#religion">宗教信仰</a>
+          <a href="qianzhen.html#attractions">隱藏美食與購物</a>
         </div>
       </div>
       <div class="nav-item">
-        <a href="#" style="color: var(--primary);">美食景點推薦 ▾</a>
+        <a href="#">美食景點推薦 ▾</a>
         <div class="dropdown-menu">
-          <a href="xihu-attractions.html">溪湖鎮</a>
-          <a href="qianzhen-attractions.html">前鎮區</a>
-          <a href="random-slot.html" style="color: var(--primary);">不知道去哪就選這個</a>
+          <a href="xihu.html#attractions">溪湖鎮</a>
+          <a href="qianzhen.html#attractions">前鎮區</a>
+          <a href="random-slot.html">不知道去哪就選這個</a>
         </div>
+      </div>
+      <div class="nav-item">
+        <a href="summary.html" style="color: var(--accent-xihu); font-weight: bold;">PK 總結</a>
+      </div>
+    
+      <div class="nav-item">
+        <button id="theme-toggle-btn" onclick="toggleTheme()" title="切換深淺色模式">🌙</button>
       </div>
     </div>
   </nav>
