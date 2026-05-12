@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
@@ -84,111 +84,151 @@
 </head>
 <body>
 
-    <nav class="navbar">
-    <div class="logo"><a href="index.html">雙城對話</a></div>
+    <header>
+  <nav class="navbar">
+    <a class="brand" href="index.html">
+      <span class="brand-badge">旅</span>
+      <span>溪湖 × 前鎮</span>
+    </a>
     <div class="nav-links">
+      <a href="index.html">首頁</a>
       <div class="nav-item">
-        <a href="index.html">首頁概覽</a>
-      </div>
-      <div class="nav-item">
-        <a href="xihu.html">關於溪湖鎮 ▾</a>
+        <a href="xihu.html">溪湖鎮 ▾</a>
         <div class="dropdown-menu">
           <a href="xihu.html#history">歷史沿革</a>
           <a href="xihu.html#geography">地理與氣候</a>
-          <a href="xihu.html#population">人口與里村統計</a>
+          <a href="xihu.html#population">人口統計</a>
           <a href="xihu.html#education">學區與教育</a>
-          <a href="xihu.html#facilities">公園與公共設施</a>
+          <a href="xihu.html#facilities">公園與設施</a>
           <a href="xihu.html#religion">宗教信仰</a>
-          <a href="xihu.html#attractions">隱藏美食與特產</a>
+          <a href="xihu.html#attractions">美食與特產</a>
         </div>
       </div>
       <div class="nav-item">
-        <a href="qianzhen.html">關於前鎮區 ▾</a>
+        <a href="qianzhen.html">前鎮區 ▾</a>
         <div class="dropdown-menu">
           <a href="qianzhen.html#history">歷史沿革</a>
           <a href="qianzhen.html#geography">地理與氣候</a>
-          <a href="qianzhen.html#population">人口與里村統計</a>
+          <a href="qianzhen.html#economy">經濟與交通</a>
+          <a href="qianzhen.html#population">人口統計</a>
           <a href="qianzhen.html#education">學區與教育</a>
-          <a href="qianzhen.html#facilities">公園與公共設施</a>
+          <a href="qianzhen.html#facilities">公園與設施</a>
           <a href="qianzhen.html#religion">宗教信仰</a>
-          <a href="qianzhen.html#attractions">隱藏美食與購物</a>
+          <a href="qianzhen.html#attractions">美食與購物</a>
         </div>
       </div>
       <div class="nav-item">
-        <a href="#">美食景點推薦 ▾</a>
+        <a href="random-slot.html">景點推薦 ▾</a>
         <div class="dropdown-menu">
-          <a href="xihu.html#attractions">溪湖鎮</a>
-          <a href="qianzhen.html#attractions">前鎮區</a>
-          <a href="random-slot.html">不知道去哪就選這個</a>
+          <a href="random-slot.html">🎰 命運拉霸機</a>
+          <a href="random-wheel.html">🎡 幸運轉盤</a>
+          <a href="random-scratch.html">🎟 刮刮樂</a>
         </div>
       </div>
-      <div class="nav-item">
-        <a href="summary.html" style="color: var(--accent-xihu); font-weight: bold;">PK 總結</a>
-      </div>
-    
-      <div class="nav-item">
-        <button id="theme-toggle-btn" onclick="toggleTheme()" title="切換深淺色模式">🌙</button>
-      </div>
+      <a href="summary.html">PK 總結</a>
+    </div>
+    <div class="nav-controls">
+      <button id="lang-toggle-btn" onclick="toggleLanguage()" title="切換語言">EN</button>
+      <button id="theme-toggle-btn" onclick="toggleTheme()" title="切換深淺色">🌙</button>
     </div>
   </nav>
+</header>
 
   <div class="breadcrumbs">
     <a href="index.html">首頁</a> <span>></span> 美食景點推薦 <span>></span> 神祕刮刮樂
   </div>
 
-  <section class="section" style="padding-top: 2rem;">
+  <section class="section">
     <div class="page-container" id="app">
       <main class="page-content">
         <div class="glass-card" style="text-align: center;">
+          <div class="eyebrow">Mystery Reveal</div>
           <h2 style="color: var(--primary)">不知道去哪？來張刮刮樂！</h2>
-          <p style="color: var(--text-muted); margin-bottom: 2rem;">滑鼠按住（或手指滑動）刮開下方的銀色區域，看看命運為您推薦的必訪景點或美食。</p>
+          <p style="color: var(--muted); margin-bottom: 2.5rem;">設定篩選條件後，在下方區域滑動刮開，揭曉您的專屬推薦。</p>
           
-          <div class="scratch-card-wrapper" ref="wrapperRef">
-            <!-- 刮開後的獎品內容 -->
-            <div class="prize-content" :class="{ 'pointer-events-none': !isRevealed, 'blur-content': remainRatioNumber > 50 }">
-              <span class="region-badge" :class="currentPrize.region === '溪湖鎮' ? 'badge-xihu' : 'badge-qianzhen'">
-                {{ currentPrize.region }}
-              </span>
-              <h3 style="margin-bottom: 0.5rem; color: var(--text-main); font-size: 1.6rem;">{{ currentPrize.name }}</h3>
-              <p style="color: var(--text-muted); margin-bottom: 1rem; font-size: 1rem; max-width: 90%;">{{ currentPrize.desc }}</p>
-              
-              <!-- Map Container -->
-              <div style="margin-bottom: 1rem; border-radius: 10px; overflow: hidden; border: 1px solid var(--glass-border); width: 100%; max-width: 450px; height: 180px;">
-                <iframe 
-                  width="100%" 
-                  height="100%" 
-                  frameborder="0" 
-                  scrolling="no" 
-                  marginheight="0" 
-                  marginwidth="0" 
-                  :src="'https://maps.google.com/maps?q=' + encodeURIComponent(currentPrize.name + ' ' + currentPrize.region) + '&t=&z=15&ie=UTF8&iwloc=&output=embed'">
-                </iframe>
+          <!-- 篩選器區塊 -->
+          <div class="filters-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.5rem; margin-bottom: 3rem; text-align: left;">
+            <div class="filter-group">
+              <label style="display: block; color: var(--text); font-weight: 900; margin-bottom: 0.8rem; font-size: 0.9rem;">📍 區域選擇</label>
+              <select v-model="filters.region" class="btn" style="width: 100%; background: var(--surface-solid); color: var(--text); border: 1px solid var(--glass-border); text-align: left; padding: 12px 20px;">
+                <option value="all">不限地區</option>
+                <option value="前鎮區">前鎮區</option>
+                <option value="溪湖鎮">溪湖鎮</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <label style="display: block; color: var(--text); font-weight: 900; margin-bottom: 0.8rem; font-size: 0.9rem;">📅 星期幾</label>
+              <select v-model="filters.day" class="btn" style="width: 100%; background: var(--surface-solid); color: var(--text); border: 1px solid var(--glass-border); text-align: left; padding: 12px 20px;">
+                <option value="all">不限日期</option>
+                <option value="Monday">星期一</option>
+                <option value="Tuesday">星期二</option>
+                <option value="Wednesday">星期三</option>
+                <option value="Thursday">星期四</option>
+                <option value="Friday">星期五</option>
+                <option value="Saturday">星期六</option>
+                <option value="Sunday">星期日</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <label style="display: block; color: var(--text); font-weight: 900; margin-bottom: 0.8rem; font-size: 0.9rem;">⏰ 出發時間</label>
+              <select v-model="filters.time" class="btn" style="width: 100%; background: var(--surface-solid); color: var(--text); border: 1px solid var(--glass-border); text-align: left; padding: 12px 20px;">
+                <option value="all">全天 / 不限</option>
+                <option value="Morning">早上</option>
+                <option value="Afternoon">下午</option>
+                <option value="Evening">晚上</option>
+              </select>
+            </div>
+          </div>
+
+          <div v-if="filteredAttractions.length > 0">
+            <div class="scratch-card-wrapper" ref="wrapperRef" style="border-radius: 34px; box-shadow: var(--shadow); border: 8px solid var(--surface-solid); max-width: 500px; margin: 0 auto;">
+              <!-- 刮開後的獎品內容 -->
+              <div class="prize-content" :class="{ 'pointer-events-none': !isRevealed, 'blur-content': remainRatioNumber > 50 }" style="padding: 30px;">
+                <span class="region-badge" :class="currentPrize.region === '溪湖鎮' ? 'badge-xihu' : 'badge-qianzhen'">
+                  {{ currentPrize.region }}
+                </span>
+                <h3 style="margin-bottom: 1rem; color: var(--text); font-size: 1.8rem;">{{ currentPrize.name }}</h3>
+                <p style="color: var(--muted); margin-bottom: 1.5rem; font-size: 0.95rem;">{{ currentPrize.desc }}</p>
+                
+                <div style="margin-bottom: 1.5rem; border-radius: 18px; overflow: hidden; border: 1px solid var(--glass-border); height: 160px;">
+                  <iframe 
+                    width="100%" 
+                    height="100%" 
+                    frameborder="0" 
+                    scrolling="no" 
+                    :src="'https://maps.google.com/maps?q=' + encodeURIComponent(currentPrize.name + ' ' + currentPrize.region) + '&t=&z=15&ie=UTF8&iwloc=&output=embed'">
+                  </iframe>
+                </div>
+
+                <a :href="currentPrize.link" class="btn" :class="currentPrize.region === '溪湖鎮' ? 'btn-xihu' : 'btn-qianzhen'">
+                  查看詳細介紹
+                </a>
               </div>
 
-              <a :href="currentPrize.link" class="btn" :class="currentPrize.region === '溪湖鎮' ? 'btn-xihu' : 'btn-qianzhen'">
-                查看詳細介紹
-              </a>
+              <!-- 刮刮樂覆蓋層 Canvas -->
+              <canvas ref="canvasRef" 
+                      :class="{ 'pointer-events-none': isRevealed }"
+                      @mousedown="startScratch" 
+                      @mousemove="scratch" 
+                      @mouseup="stopScratch" 
+                      @mouseleave="stopScratch"
+                      @touchstart="startScratch" 
+                      @touchmove="scratch" 
+                      @touchend="stopScratch"
+                      style="border-radius: 26px;"></canvas>
             </div>
 
-            <!-- 刮刮樂覆蓋層 Canvas -->
-            <canvas ref="canvasRef" 
-                    :class="{ 'pointer-events-none': isRevealed }"
-                    @mousedown="startScratch" 
-                    @mousemove="scratch" 
-                    @mouseup="stopScratch" 
-                    @mouseleave="stopScratch"
-                    @touchstart="startScratch" 
-                    @touchmove="scratch" 
-                    @touchend="stopScratch"></canvas>
-          </div>
+            <div class="ratio-text" style="margin: 1.5rem 0; font-weight: 900; color: var(--primary);">
+              剩餘銀色覆蓋率: {{ remainRatio }}%
+            </div>
 
-          <div class="ratio-text">
-            剩餘銀色覆蓋率: {{ remainRatio }}%
+            <button class="btn btn-primary" style="padding: 16px 50px;" @click="resetScratch">
+              再刮一張！
+            </button>
           </div>
-
-          <button class="btn btn-primary" style="padding: 0.8rem 2.5rem; font-size: 1.1rem;" @click="resetScratch">
-            重新刮一張
-          </button>
+          <div v-else class="glass-card" style="padding: 4rem;">
+            <p style="color: var(--muted);">無符合條件的項目，請重新設定篩選器。</p>
+          </div>
         </div>
       </main>
 
@@ -212,23 +252,13 @@
 
   <script src="script.js"></script>
   
-  <!-- Vue.js 刮刮樂邏輯 -->
   <script>
-    const { createApp, ref, computed, onMounted, nextTick } = Vue;
-
-    const attractions = [
-      { name: '溪湖羊肉爐', region: '溪湖鎮', desc: '全台聞名的在地美食，中藥湯頭搭配鮮嫩羊肉，是冬日溫補首選！', link: 'xihu-attractions.html' },
-      { name: '溪湖糖廠觀光小火車', region: '溪湖鎮', desc: '搭乘懷舊的五分車穿梭於田野之間，感受日治時期遺留下來的糖業風情。', link: 'xihu-attractions.html' },
-      { name: '葡萄產業文化園區', region: '溪湖鎮', desc: '產地直採的巨峰葡萄，果肉飽滿多汁，適合全家大小一起體驗採果樂趣。', link: 'xihu-attractions.html' },
-      { name: '統一夢時代購物中心', region: '前鎮區', desc: '南台灣超大型購物商城，頂樓更有著名的「高雄之眼」摩天輪，逛街約會一次滿足。', link: 'qianzhen-attractions.html' },
-      { name: '珍芳烏魚子見學工廠', region: '前鎮區', desc: '深入了解台灣烏魚子製作工藝的觀光工廠，體驗傳統海味的製作與試吃。', link: 'qianzhen-attractions.html' },
-      { name: '光華觀光夜市', region: '前鎮區', desc: '在地人最愛的宵夜一條街，從木瓜牛奶到各式傳統小吃應有盡有。', link: 'qianzhen-attractions.html' },
-      { name: '前鎮之星自行車橋', region: '前鎮區', desc: '造型優美如同白色藤蔓的空中自行車道，搭配輕軌列車駛過，是攝影打卡熱點。', link: 'qianzhen-attractions.html' }
-    ];
+    const { createApp, ref, computed, watch, onMounted, nextTick } = Vue;
 
     createApp({
       setup() {
-        const currentPrize = ref(attractions[0]);
+        const attractions = ref([]);
+        const currentPrize = ref({});
         const remainRatio = ref('100.00');
         const remainRatioNumber = computed(() => Number.parseFloat(remainRatio.value));
 
@@ -239,9 +269,40 @@
         let width = 0;
         let height = 0;
         const isRevealed = ref(false);
+        
+        const filters = ref({
+          region: 'all',
+          day: 'all',
+          time: 'all'
+        });
+
+        // 讀取 JSON 資料
+        onMounted(async () => {
+          try {
+            const response = await fetch('attractions.json');
+            attractions.value = await response.json();
+            resetScratch();
+          } catch (error) {
+            console.error('Failed to load attractions:', error);
+          }
+        });
+
+        // 根據篩選條件過濾資料
+        const filteredAttractions = computed(() => {
+          return attractions.value.filter(item => {
+            const regionMatch = filters.value.region === 'all' || item.region === filters.value.region;
+            const dayMatch = filters.value.day === 'all' || item.days.includes(filters.value.day);
+            const timeMatch = filters.value.time === 'all' || item.times.includes(filters.value.time);
+            return regionMatch && dayMatch && timeMatch;
+          });
+        });
+
+        // 當過濾後的資料改變時，重置刮刮樂
+        watch(filteredAttractions, () => {
+          resetScratch();
+        });
 
         const fireConfetti = () => {
-          // 播放拉炮音效
           const popperAudio = new Audio('audio/partypopper.mp3');
           popperAudio.volume = 0.5;
           popperAudio.play().catch(e => console.log('Audio error:', e));
@@ -255,16 +316,18 @@
             }));
           }
 
-          fire(0.25, { spread: 40, startVelocity: 70, origin: { x: 0 } }); // 左下角
-          fire(0.25, { spread: 40, startVelocity: 70, origin: { x: 1 } }); // 右下角
+          fire(0.25, { spread: 40, startVelocity: 70, origin: { x: 0 } });
+          fire(0.25, { spread: 40, startVelocity: 70, origin: { x: 1 } });
           fire(0.2, { spread: 80, startVelocity: 55, origin: { x: 0 } });
           fire(0.2, { spread: 80, startVelocity: 55, origin: { x: 1 } });
-          fire(0.1, { spread: 120, startVelocity: 45, origin: { x: 0.5, y: 0.8 } }); // 中間偏下
+          fire(0.1, { spread: 120, startVelocity: 45, origin: { x: 0.5, y: 0.8 } });
         };
 
         const getRandomPrize = () => {
-          const randomIdx = Math.floor(Math.random() * attractions.length);
-          currentPrize.value = attractions[randomIdx];
+          const pool = filteredAttractions.value;
+          if (pool.length === 0) return;
+          const randomIdx = Math.floor(Math.random() * pool.length);
+          currentPrize.value = pool[randomIdx];
         };
 
         const initCanvas = () => {
@@ -279,18 +342,15 @@
           
           ctx = canvas.getContext('2d', { willReadFrequently: true });
           
-          // 繪製銀色刮刮層
-          ctx.fillStyle = '#9ca3af'; // 灰色
+          ctx.fillStyle = '#9ca3af';
           ctx.fillRect(0, 0, width, height);
           
-          // 加入刮刮樂上的文字或圖案
           ctx.fillStyle = '#4b5563';
           ctx.font = 'bold 28px "Noto Sans TC", sans-serif';
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
           ctx.fillText('刮開看今日推薦景點', width / 2, height / 2);
           
-          // 設定繪圖模式為擦除
           ctx.globalCompositeOperation = 'destination-out';
           
           remainRatio.value = '100.00';
@@ -299,11 +359,14 @@
 
         const resetScratch = () => {
           getRandomPrize();
-          initCanvas();
+          nextTick(() => {
+            initCanvas();
+          });
         };
 
         const getCoordinates = (e) => {
           const canvas = canvasRef.value;
+          if (!canvas) return { x: 0, y: 0 };
           const rect = canvas.getBoundingClientRect();
           let x, y;
           if (e.touches && e.touches.length > 0) {
@@ -330,28 +393,25 @@
 
         const scratch = (e) => {
           if (!isDrawing || !ctx || isRevealed.value) return;
-          if (e.cancelable) e.preventDefault(); // 防止手機滾動
+          if (e.cancelable) e.preventDefault();
           
           const { x, y } = getCoordinates(e);
           
           ctx.beginPath();
-          ctx.arc(x, y, 25, 0, Math.PI * 2); // 25 為刮痕半徑大小
+          ctx.arc(x, y, 25, 0, Math.PI * 2);
           ctx.fill();
           
-          // 為了效能，每 10 次移動才計算一次比例
           if (Math.random() < 0.1) {
             calculateRatio();
           }
         };
 
-        // 計算剩下多少被遮擋
         const calculateRatio = () => {
           if (!ctx || isRevealed.value) return;
           const imageData = ctx.getImageData(0, 0, width, height);
           const pixels = imageData.data;
           let transparentPixels = 0;
           
-          // 檢查所有像素的 alpha 通道 (A)
           for (let i = 3; i < pixels.length; i += 4) {
             if (pixels[i] === 0) {
               transparentPixels++;
@@ -362,30 +422,24 @@
           const ratio = 100 - ((transparentPixels / totalPixels) * 100);
           remainRatio.value = Math.max(0, ratio).toFixed(2);
           
-          // 如果刮開超過 50%，自動全部顯示
           if (ratio <= 50) {
             isRevealed.value = true;
             remainRatio.value = '0.00';
-            
-            // 觸發拉炮特效
             fireConfetti();
             
-            // 添加動畫淡出過渡
             canvasRef.value.style.transition = "opacity 0.8s";
             canvasRef.value.style.opacity = 0;
             setTimeout(() => {
-              ctx.clearRect(0, 0, width, height);
-              canvasRef.value.style.transition = "";
-              canvasRef.value.style.opacity = 1;
+              if (ctx) ctx.clearRect(0, 0, width, height);
+              if (canvasRef.value) {
+                canvasRef.value.style.transition = "";
+                canvasRef.value.style.opacity = 1;
+              }
             }, 800);
           }
         };
 
         onMounted(() => {
-          getRandomPrize();
-          nextTick(() => {
-            initCanvas();
-          });
           window.addEventListener('resize', initCanvas);
         });
 
@@ -395,11 +449,13 @@
           remainRatioNumber,
           canvasRef, 
           wrapperRef, 
+          filters,
+          filteredAttractions,
           resetScratch,
           startScratch, 
           stopScratch, 
           scratch,
-          isRevealed // Expose the ref directly
+          isRevealed
         };
       }
     }).mount('#app');

@@ -1,4 +1,3 @@
-
 // Dark Mode Toggle Logic
 const currentTheme = localStorage.getItem('theme') || 'light';
 document.documentElement.setAttribute('data-theme', currentTheme);
@@ -40,49 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Navbar background change on scroll
-  const navbar = document.querySelector('.navbar');
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 50) {
-      navbar.style.background = 'rgba(15, 23, 42, 0.95)';
-      navbar.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.5)';
-    } else {
-      navbar.style.background = 'rgba(15, 23, 42, 0.8)';
-      navbar.style.boxShadow = 'none';
-    }
-  });
-
-  // Intersection Observer for scroll animations (fade in elements)
-  const observerOptions = {
-    threshold: 0.1,
-    rootMargin: "0px 0px -50px 0px"
-  };
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.style.opacity = '1';
-        entry.target.style.transform = 'translateY(0)';
-        observer.unobserve(entry.target);
-      }
-    });
-  }, observerOptions);
-
-  // Apply to glass cards
-  document.querySelectorAll('.glass-card').forEach((card, index) => {
-    card.style.opacity = '0';
-    card.style.transform = 'translateY(30px)';
-    card.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
-    observer.observe(card);
-  });
-  
-  // Apply to table rows
-  document.querySelectorAll('tbody tr').forEach((row, index) => {
-    row.style.opacity = '0';
-    row.style.transform = 'translateX(-20px)';
-    row.style.transition = `opacity 0.4s ease ${index * 0.05}s, transform 0.4s ease ${index * 0.05}s`;
-    observer.observe(row);
-  });
 });
 
 // 動態載入 canvas-confetti (全站拉炮效果)
@@ -159,3 +115,65 @@ document.addEventListener('keydown', function(event) {
     });
   }
 });
+
+// ====== i18n Translation Logic ======
+document.addEventListener('DOMContentLoaded', () => {
+  // Inject Google Translate script dynamically
+  const gtDiv = document.createElement('div');
+  gtDiv.id = 'google_translate_element';
+  document.body.appendChild(gtDiv);
+
+  const gtScript = document.createElement('script');
+  gtScript.src = "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+  document.body.appendChild(gtScript);
+
+  // Initialize lang icon
+  const savedLang = localStorage.getItem('site_lang') || 'zh-TW';
+  updateLangIcon(savedLang);
+});
+
+window.googleTranslateElementInit = function() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'zh-TW', 
+    includedLanguages: 'en,zh-TW', 
+    autoDisplay: false
+  }, 'google_translate_element');
+  
+  // Apply saved language on load after a short delay
+  setTimeout(() => {
+    const savedLang = localStorage.getItem('site_lang') || 'zh-TW';
+    if(savedLang !== 'zh-TW') {
+      changeLanguage(savedLang);
+    }
+  }, 500); 
+};
+
+function toggleLanguage() {
+  const currentLang = localStorage.getItem('site_lang') || 'zh-TW';
+  const targetLang = currentLang === 'zh-TW' ? 'en' : 'zh-TW';
+  changeLanguage(targetLang);
+  localStorage.setItem('site_lang', targetLang);
+  updateLangIcon(targetLang);
+}
+
+function changeLanguage(lang) {
+  const select = document.querySelector('.goog-te-combo');
+  if (select) {
+    select.value = lang;
+    select.dispatchEvent(new Event('change'));
+  } else {
+    // If not loaded yet, retry
+    setTimeout(() => changeLanguage(lang), 300);
+  }
+}
+
+function updateLangIcon(lang) {
+  const btn = document.getElementById('lang-toggle-btn');
+  if (btn) {
+    btn.classList.add('notranslate');
+    btn.setAttribute('translate', 'no');
+    // 使用 innerHTML 時確保不會被 Google 翻譯掃描
+    btn.innerHTML = `<span class="notranslate">${lang === 'en' ? '中' : 'EN'}</span>`;
+    btn.style.fontSize = lang === 'en' ? '1rem' : '0.9rem';
+  }
+}

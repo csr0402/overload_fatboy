@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
@@ -9,53 +9,55 @@
   <script>document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || 'light');</script>
 </head>
 <body>
-<nav class="navbar">
-    <div class="logo"><a href="index.html">雙城對話</a></div>
+<header>
+  <nav class="navbar">
+    <a class="brand" href="index.html">
+      <span class="brand-badge">旅</span>
+      <span>溪湖 × 前鎮</span>
+    </a>
     <div class="nav-links">
+      <a href="index.html">首頁</a>
       <div class="nav-item">
-        <a href="index.html">首頁概覽</a>
-      </div>
-      <div class="nav-item">
-        <a href="xihu.html">關於溪湖鎮 ▾</a>
+        <a href="xihu.html">溪湖鎮 ▾</a>
         <div class="dropdown-menu">
           <a href="xihu.html#history">歷史沿革</a>
           <a href="xihu.html#geography">地理與氣候</a>
-          <a href="xihu.html#population">人口與里村統計</a>
+          <a href="xihu.html#population">人口統計</a>
           <a href="xihu.html#education">學區與教育</a>
-          <a href="xihu.html#facilities">公園與公共設施</a>
+          <a href="xihu.html#facilities">公園與設施</a>
           <a href="xihu.html#religion">宗教信仰</a>
-          <a href="xihu.html#attractions">隱藏美食與特產</a>
+          <a href="xihu.html#attractions">美食與特產</a>
         </div>
       </div>
       <div class="nav-item">
-        <a href="qianzhen.html">關於前鎮區 ▾</a>
+        <a href="qianzhen.html">前鎮區 ▾</a>
         <div class="dropdown-menu">
           <a href="qianzhen.html#history">歷史沿革</a>
           <a href="qianzhen.html#geography">地理與氣候</a>
-          <a href="qianzhen.html#population">人口與里村統計</a>
+          <a href="qianzhen.html#economy">經濟與交通</a>
+          <a href="qianzhen.html#population">人口統計</a>
           <a href="qianzhen.html#education">學區與教育</a>
-          <a href="qianzhen.html#facilities">公園與公共設施</a>
+          <a href="qianzhen.html#facilities">公園與設施</a>
           <a href="qianzhen.html#religion">宗教信仰</a>
-          <a href="qianzhen.html#attractions">隱藏美食與購物</a>
+          <a href="qianzhen.html#attractions">美食與購物</a>
         </div>
       </div>
       <div class="nav-item">
-        <a href="#">美食景點推薦 ▾</a>
+        <a href="random-slot.html">景點推薦 ▾</a>
         <div class="dropdown-menu">
-          <a href="xihu.html#attractions">溪湖鎮</a>
-          <a href="qianzhen.html#attractions">前鎮區</a>
-          <a href="random-slot.html">不知道去哪就選這個</a>
+          <a href="random-slot.html">🎰 命運拉霸機</a>
+          <a href="random-wheel.html">🎡 幸運轉盤</a>
+          <a href="random-scratch.html">🎟 刮刮樂</a>
         </div>
       </div>
-      <div class="nav-item">
-        <a href="summary.html" style="color: var(--accent-xihu); font-weight: bold;">PK 總結</a>
-      </div>
-    
-      <div class="nav-item">
-        <button id="theme-toggle-btn" onclick="toggleTheme()" title="切換深淺色模式">🌙</button>
-      </div>
+      <a href="summary.html">PK 總結</a>
+    </div>
+    <div class="nav-controls">
+      <button id="lang-toggle-btn" onclick="toggleLanguage()" title="切換語言">EN</button>
+      <button id="theme-toggle-btn" onclick="toggleTheme()" title="切換深淺色">🌙</button>
     </div>
   </nav>
+</header>
 
   <div class="breadcrumbs">
     <a href="index.html">首頁</a> <span>></span> PK 總結與資料來源
@@ -65,19 +67,20 @@
     <div class="page-container">
       <main class="page-content">
         <div class="glass-card">
-          <h2 style="color: var(--primary); margin-bottom: 1rem;">雙城 PK 總結報告</h2>
-<p>本網站透過多面向的數據與文化對比，深入探討了「彰化縣溪湖鎮」與「高雄市前鎮區」這兩個截然不同的行政區。</p>
+          <div class="eyebrow">Conclusion Report</div>
+          <h2 style="color: var(--primary); margin-bottom: 1.5rem;">雙城 PK 總結報告</h2>
+          <p style="color: var(--muted); margin-bottom: 2rem;">本網站透過多面向的數據與文化對比，深入探討了「彰化縣溪湖鎮」與「高雄市前鎮區」這兩個截然不同的行政區。</p>
 
-<div class="grid-2" style="margin: 2rem 0;">
-  <div style="padding: 1.5rem; background: rgba(0,0,0,0.2); border-radius: 10px; border-left: 4px solid var(--accent-xihu);">
-    <h3 style="color: var(--accent-xihu);">溪湖鎮：傳統農業的豐饒之心</h3>
-    <p>作為彰化平原的中心，溪湖鎮保留了純樸的風土民情。25個村里的劃分中，隨處可見農產品的活力（如葡萄、韭菜花）。其發展以「穩定、傳承、特色農產」為主，並透過羊肉爐與糖廠觀光，成功將農業轉型為觀光資源。</p>
-  </div>
-  <div style="padding: 1.5rem; background: rgba(0,0,0,0.2); border-radius: 10px; border-left: 4px solid var(--accent-qianzhen);">
-    <h3 style="color: var(--accent-qianzhen);">前鎮區：科技與商業的繁華港灣</h3>
-    <p>前鎮區擁有 59 個里，從早期的漁港與重工業，華麗轉身為「亞洲新灣區」。擁有高度密集的教育資源、世界級公共設施（如總圖、展覽館）以及極度發達的交通路網，是現代化大都會的縮影。</p>
-  </div>
-</div>
+          <div class="grid-2" style="margin: 2.5rem 0; gap: 1.5rem;">
+            <div style="padding: 2rem; background: color-mix(in srgb, var(--secondary) 8%, transparent); border-radius: 24px; border-left: 6px solid var(--secondary); box-shadow: var(--shadow);">
+              <h3 style="color: var(--secondary); margin-bottom: 1rem;">溪湖鎮：傳統農業的豐饒之心</h3>
+              <p style="color: var(--text); font-size: 0.95rem; line-height: 1.8;">作為彰化平原的中心，溪湖鎮保留了純樸的風土民情。25個村里的劃分中，隨處可見農產品的活力（如葡萄、韭菜花）。其發展以「穩定、傳承、特色農產」為主，並透過羊肉爐與糖廠觀光，成功將農業轉型為觀光資源。</p>
+            </div>
+            <div style="padding: 2rem; background: color-mix(in srgb, var(--primary) 8%, transparent); border-radius: 24px; border-left: 6px solid var(--primary); box-shadow: var(--shadow);">
+              <h3 style="color: var(--primary); margin-bottom: 1rem;">前鎮區：科技與商業的繁華港灣</h3>
+              <p style="color: var(--text); font-size: 0.95rem; line-height: 1.8;">前鎮區擁有 59 個里，從早期的漁港與重工業，華麗轉身為「亞洲新灣區」。擁有高度密集的教育資源、世界級公共設施（如總圖、展覽館）以及極度發達的交通路網，是現代化大都會的縮影。</p>
+            </div>
+          </div>
 
 <div style="margin: 2rem 0;">
   <h3 style="text-align:center; margin-bottom:1rem;">人口與里村數：視覺化圖表 PK</h3>
@@ -98,6 +101,9 @@
 <script>
   // Chart.js implementation for advanced grading
   document.addEventListener("DOMContentLoaded", function() {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const textColor = isDark ? '#eaf7ff' : '#16324f';
+    
     const popCtx = document.getElementById('popChart').getContext('2d');
     new Chart(popCtx, {
         type: 'bar',
@@ -106,14 +112,21 @@
             datasets: [{
                 label: '總人口數 (人)',
                 data: [53000, 177000],
-                backgroundColor: ['#ff8a00', '#00d2ff'],
-                borderWidth: 1
+                backgroundColor: ['#2eb872', '#1689d8'],
+                borderWidth: 0,
+                borderRadius: 10
             }]
         },
         options: {
             responsive: true,
-            plugins: { title: { display: true, text: '人口數比較', color: '#fff' }, legend: { labels: { color: '#fff' } } },
-            scales: { y: { ticks: { color: '#fff' } }, x: { ticks: { color: '#fff' } } }
+            plugins: { 
+              title: { display: true, text: '人口數比較', color: textColor, font: { size: 16, weight: 'bold' } },
+              legend: { labels: { color: textColor } } 
+            },
+            scales: { 
+              y: { ticks: { color: textColor }, grid: { color: 'rgba(128,128,128,0.1)' } }, 
+              x: { ticks: { color: textColor }, grid: { display: false } } 
+            }
         }
     });
 
@@ -124,13 +137,16 @@
             labels: ['溪湖鎮 (25里)', '前鎮區 (59里)'],
             datasets: [{
                 data: [25, 59],
-                backgroundColor: ['#ff8a00', '#00d2ff'],
+                backgroundColor: ['#2eb872', '#1689d8'],
                 borderWidth: 0
             }]
         },
         options: {
             responsive: true,
-            plugins: { title: { display: true, text: '行政里數比較', color: '#fff' }, legend: { labels: { color: '#fff' } } }
+            plugins: { 
+              title: { display: true, text: '行政里數比較', color: textColor, font: { size: 16, weight: 'bold' } }, 
+              legend: { position: 'bottom', labels: { color: textColor } } 
+            }
         }
     });
   });
