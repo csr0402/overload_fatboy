@@ -6,6 +6,7 @@
   <title>雙城對話：溪湖鎮 vs 前鎮區 | 行政區比較</title>
   <meta name="description" content="深入探索彰化縣溪湖鎮與高雄市前鎮區的歷史、地理、人口與經濟發展，透過詳細的對比了解兩個特色行政區。">
   <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || 'light');</script>
 </head>
 <body class="bg-orbs">
@@ -113,9 +114,50 @@
     </section>
 
     <!-- ── Section 3: Compare ── -->
-    <section id="compare">
-      <h2 data-zh="圖文對照表" data-en="Side-by-Side Comparison">圖文對照表</h2>
-      <p class="lead" data-zh="用最在意的人口、地理、產業與交通快速比較兩地。" data-en="A quick look at population, geography, industry, and transport.">用最在意的人口、地理、產業與交通快速比較兩地。</p>
+<section id="compare">
+      <h2 data-zh="圖文對照與數據分析" data-en="Data & Comparison">圖文對照與數據分析</h2>
+      <p class="lead" data-zh="透過關鍵數據、地理位置與視覺化圖表，深度解析溪湖與前鎮的發展輪廓。" data-en="Analyze the development of Xihu and Qianzhen through key data, maps, and visual charts.">透過關鍵數據、地理位置與視覺化圖表，深度解析溪湖與前鎮的發展輪廓。</p>
+
+      <div class="kpi-grid">
+        <div class="kpi-card xihu-kpi">
+          <span class="region-badge badge-xihu">溪湖鎮</span>
+          <div class="kpi-value">32.06 <span class="kpi-unit">km²</span></div>
+          <div class="kpi-label">總面積</div>
+          <div class="kpi-value">52,500 <span class="kpi-unit">人</span></div>
+          <div class="kpi-label">計畫人口數 (2026預估)</div>
+        </div>
+        <div class="kpi-card qianzhen-kpi">
+          <span class="region-badge badge-qianzhen">前鎮區</span>
+          <div class="kpi-value">19.12 <span class="kpi-unit">km²</span></div>
+          <div class="kpi-label">總面積</div>
+          <div class="kpi-value">177,200 <span class="kpi-unit">人</span></div>
+          <div class="kpi-label">計畫人口數 (2026預估)</div>
+        </div>
+      </div>
+
+      <div class="charts-grid">
+        <div class="chart-wrapper animate-on-scroll">
+          <h3>人口趨勢變化 (2016-2026)</h3>
+          <canvas id="populationChart"></canvas>
+        </div>
+        <div class="chart-wrapper animate-on-scroll">
+          <h3>在地產業結構比重</h3>
+          <canvas id="industryChart"></canvas>
+        </div>
+      </div>
+
+      <div class="maps-grid">
+        <div class="map-wrapper animate-on-scroll">
+          <h3>📍 彰化縣溪湖鎮</h3>
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d58282.88046467007!2d120.44318715!3d23.955465!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346947610014b9c1%3A0x6b1397baee85426b!2z5b2w5YyW57ij5rqq5rmW6Y6u!5e0!3m2!1szh-TW!2stw!4v1715610000000!5m2!1szh-TW!2stw" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+        <div class="map-wrapper animate-on-scroll">
+          <h3>📍 高雄市前鎮區</h3>
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d29462.63665487693!2d120.29828555!3d22.6006429!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346e037807b57f05%3A0xcb1b6819dd3bfa82!2z6auY6ZuE5biC5YmN6Y6u5Y2A!5e0!3m2!1szh-TW!2stw!4v1715610000001!5m2!1szh-TW!2stw" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </div>
+
+      <h3 style="margin-top: 40px;">核心重點對照表</h3>
 
       <div class="compare-table" role="table" aria-label="溪湖與前鎮對照表">
         <!-- Header -->

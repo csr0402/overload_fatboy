@@ -177,3 +177,134 @@ function updateLangIcon(lang) {
     btn.style.fontSize = lang === 'en' ? '1rem' : '0.9rem';
   }
 }
+
+// ====== Chart.js Data & Initialization ======
+document.addEventListener('DOMContentLoaded', () => {
+  let chartsInitialized = false;
+
+  // 圖表通用字體與顏色設定 (配合深淺色主題)
+  const getChartColors = () => {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    return {
+      textColor: isDark ? '#eaf7ff' : '#16324f',
+      gridColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)',
+      xihuColor: '#2eb872',
+      qianzhenColor: '#1689d8'
+    };
+  };
+
+  const initCharts = () => {
+    if (chartsInitialized) return;
+    chartsInitialized = true;
+    
+    const colors = getChartColors();
+
+    // 1. 人口趨勢折線圖 (Line Chart)
+    const ctxPop = document.getElementById('populationChart');
+    if(ctxPop) {
+      new Chart(ctxPop, {
+        type: 'line',
+        data: {
+          labels: ['2016', '2018', '2020', '2022', '2024', '2026'],
+          datasets: [
+            {
+              label: '溪湖鎮 (萬人)',
+              data: [5.5, 5.4, 5.4, 5.3, 5.2, 5.25],
+              borderColor: colors.xihuColor,
+              backgroundColor: 'rgba(46, 184, 114, 0.2)',
+              tension: 0.4,
+              fill: true
+            },
+            {
+              label: '前鎮區 (萬人)',
+              data: [19.2, 18.9, 18.5, 18.1, 17.8, 17.7],
+              borderColor: colors.qianzhenColor,
+              backgroundColor: 'rgba(22, 137, 216, 0.2)',
+              tension: 0.4,
+              fill: true
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { labels: { color: colors.textColor, font: { family: "'Noto Sans TC', sans-serif" } } }
+          },
+          scales: {
+            x: { grid: { color: colors.gridColor }, ticks: { color: colors.textColor } },
+            y: { grid: { color: colors.gridColor }, ticks: { color: colors.textColor } }
+          },
+          animation: {
+            duration: 2000,
+            easing: 'easeOutQuart'
+          }
+        }
+      });
+    }
+
+    // 2. 產業結構圓餅圖 (Doughnut Chart)
+    const ctxInd = document.getElementById('industryChart');
+    if(ctxInd) {
+      new Chart(ctxInd, {
+        type: 'doughnut',
+        data: {
+          labels: ['溪湖: 農業', '溪湖: 工商服務', '前鎮: 科技/重工', '前鎮: 服務/航運'],
+          datasets: [{
+            data: [35, 65, 45, 55], // 示意比例
+            backgroundColor: [
+              '#5ee39a', // 溪湖農
+              '#2eb872', // 溪湖工商
+              '#1689d8', // 前鎮科技
+              '#53b7ff'  // 前鎮服務
+            ],
+            borderWidth: 2,
+            borderColor: document.documentElement.getAttribute('data-theme') === 'dark' ? '#0c1c2d' : '#ffffff'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { position: 'bottom', labels: { color: colors.textColor, font: { family: "'Noto Sans TC', sans-serif" } } }
+          },
+          animation: {
+            animateScale: true,
+            animateRotate: true,
+            duration: 1500
+          }
+        }
+      });
+    }
+  };
+
+ // ====== 捲動觸發動畫與圖表初始化 ======
+document.addEventListener('DOMContentLoaded', () => {
+  // 1. 處理 animate-on-scroll 元素的顯示
+  const scrollObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view'); // 加上這個類別，CSS 就會把 opacity 變回 1
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.animate-on-scroll').forEach(el => {
+    scrollObserver.observe(el);
+  });
+
+  // 2. 處理圖表繪製 (避免重複繪製)
+  let chartsInitialized = false;
+  const chartObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !chartsInitialized) {
+        initCharts(); // 呼叫之前提供的 initCharts 函式
+        chartsInitialized = true;
+      }
+    });
+  }, { threshold: 0.2 });
+
+  const chartsSection = document.querySelector('.charts-grid');
+  if (chartsSection) chartObserver.observe(chartsSection);
+})
+});
