@@ -1,0 +1,426 @@
+:root {
+    --primary-red: #FF0000;
+    --gold: #FFD700;
+    --neon-green: #39FF14;
+    --electric-blue: #00FFFF;
+    --vibrant-yellow: #FFFF00;
+    --dark-bg: #111;
+    --rainbow: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
+}
+
+@font-face {
+    font-family: 'BiauKai';
+    src: local('DFKai-SB'), local('標楷體');
+}
+
+@font-face {
+    font-family: 'PMingLiU';
+    src: local('PMingLiU'), local('新細明體');
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--dark-bg);
+    color: white;
+    font-family: 'PMingLiU', '新細明體', serif; /* 基礎字體改用新細明體 */
+    overflow-x: hidden;
+    /* 彩色跑馬燈大金邊 */
+    border: 20px solid transparent;
+    border-image: linear-gradient(to right, red, yellow, green, blue, red) 1;
+    animation: borderMarquee 2s linear infinite;
+    padding: 20px;
+}
+
+@keyframes borderMarquee {
+    0% { border-image-source: linear-gradient(0deg, red, yellow, green, blue, red); }
+    25% { border-image-source: linear-gradient(90deg, red, yellow, green, blue, red); }
+    50% { border-image-source: linear-gradient(180deg, red, yellow, green, blue, red); }
+    75% { border-image-source: linear-gradient(270deg, red, yellow, green, blue, red); }
+    100% { border-image-source: linear-gradient(360deg, red, yellow, green, blue, red); }
+}
+
+/* 老虎神獸樣式 */
+.tiger {
+    position: absolute;
+    top: 350px;
+    width: 750px;
+    z-index: 500;
+    pointer-events: none;
+    filter: drop-shadow(0 0 30px var(--gold));
+    animation: tigerFloat 3s ease-in-out infinite;
+}
+
+.tiger-left { left: -150px; }
+.tiger-right { right: -150px; transform: scaleX(-1); animation: tigerFloatRight 3s ease-in-out infinite; }
+
+@keyframes tigerFloat {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-20px) scale(1.1); }
+}
+
+@keyframes tigerFloatRight {
+    0%, 100% { transform: scaleX(-1) translateY(0) scale(1); }
+    50% { transform: scaleX(-1) translateY(-20px) scale(1.1); }
+}
+
+/* 跑馬燈 Header */
+.marquee-container {
+    background: #FF0000;
+    color: #FFFF00;
+    padding: 10px 0;
+    font-size: 2rem;
+    font-weight: 900;
+    font-family: 'BiauKai', '標楷體';
+    border-bottom: 10px double var(--gold);
+    white-space: nowrap;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.marquee-content {
+    display: inline-block;
+    animation: marquee 10s linear infinite;
+}
+
+@keyframes marquee {
+    from { transform: translateX(100%); }
+    to { transform: translateX(-100%); }
+}
+
+/* Hero Section */
+.hero {
+    height: 110vh;
+    background: url('hero_bg.png') no-repeat center center/cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    padding-top: 80px;
+    border: 15px inset var(--gold);
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255,0,0,0.3) 0%, rgba(0,0,0,0.9) 100%);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 10;
+    perspective: 1000px;
+}
+
+/* 勳章裝飾：好吃到哭、分量十足、便宜大碗 */
+.badge-container {
+    margin: 40px 0;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.badge {
+    display: inline-block;
+    background: var(--neon-green);
+    color: #000;
+    padding: 15px 25px;
+    font-size: 1.8rem;
+    font-weight: 900;
+    font-family: 'BiauKai', '標楷體';
+    border: 5px solid #FFF;
+    box-shadow: 10px 10px 0 var(--primary-red);
+    animation: bounce 1s infinite alternate cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes bounce {
+    from { transform: translateY(0) rotate(-5deg); }
+    to { transform: translateY(-30px) rotate(5deg); }
+}
+
+.delay-1 { animation-delay: 0.2s; }
+.delay-2 { animation-delay: 0.4s; }
+
+/* 立即搶購按鈕 */
+.cta-button {
+    display: inline-block;
+    padding: 30px 60px;
+    font-size: 3rem;
+    font-family: 'BiauKai', '標楷體';
+    font-weight: 900;
+    color: #FFFF00;
+    background: #FF0000;
+    text-decoration: none;
+    border: 10px double var(--gold);
+    box-shadow: 0 0 50px var(--primary-red);
+    transition: all 0.2s;
+    animation: ctaPulse 0.5s infinite alternate;
+}
+
+@keyframes ctaPulse {
+    from { transform: scale(1); filter: brightness(1); }
+    to { transform: scale(1.1); filter: brightness(1.5); }
+}
+
+.cta-button:hover {
+    background: #FFFF00;
+    color: #FF0000;
+    transform: rotate(10deg) scale(1.3);
+}
+
+/* 3D 旋轉 + 卡拉 OK 變色大標題 */
+.glitch-text {
+    font-size: 10rem;
+    font-family: 'BiauKai', '標楷體';
+    font-weight: 900;
+    color: var(--electric-blue);
+    text-transform: uppercase;
+    position: relative;
+    display: inline-block;
+    /* 多層衝突陰影：黃邊紅影 */
+    text-shadow: 
+        5px 5px 0 var(--vibrant-yellow),
+        10px 10px 0 var(--primary-red),
+        15px 15px 0 var(--neon-green);
+    animation: rotate3D 4s linear infinite, karaoke 2s step-end infinite;
+}
+
+@keyframes rotate3D {
+    0% { transform: rotateY(0deg) rotateX(10deg); }
+    50% { transform: rotateY(180deg) rotateX(-10deg); }
+    100% { transform: rotateY(360deg) rotateX(10deg); }
+}
+
+@keyframes karaoke {
+    0% { color: var(--electric-blue); }
+    25% { color: var(--vibrant-yellow); }
+    50% { color: var(--primary-red); }
+    75% { color: var(--neon-green); }
+    100% { color: var(--electric-blue); }
+}
+
+.subtitle {
+    font-size: 3rem;
+    font-family: 'PMingLiU', '新細明體';
+    color: var(--vibrant-yellow);
+    margin-top: 20px;
+    letter-spacing: 20px;
+    font-weight: bold;
+    background: #000;
+    padding: 10px;
+    border: 5px dashed var(--primary-red);
+}
+
+/* 填滿補白專用標籤 */
+.filler-sticker {
+    position: absolute;
+    padding: 20px 40px;
+    background: var(--vibrant-yellow);
+    color: #000;
+    font-family: 'BiauKai', '標楷體';
+    font-weight: 900;
+    font-size: 3rem; /* 放大一倍！ */
+    border: 5px solid #000;
+    box-shadow: 10px 10px 0 var(--primary-red);
+    z-index: 100;
+    animation: stickerPulse 1s infinite alternate;
+}
+
+@keyframes stickerPulse {
+    from { transform: scale(1) rotate(-5deg); }
+    to { transform: scale(1.2) rotate(5deg); }
+}
+
+.sticker-1 { top: 20%; left: 5%; }
+.sticker-2 { top: 15%; right: 10%; background: var(--neon-green); }
+.sticker-3 { bottom: 20%; left: 10%; background: var(--electric-blue); color: white; }
+.sticker-4 { bottom: 15%; right: 5%; background: var(--primary-red); color: white; }
+
+/* Menu Section */
+.menu {
+    padding: 100px 5%;
+    background: linear-gradient(180deg, #300 0%, #600 50%, #000 100%);
+    position: relative;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 5rem;
+    font-family: 'BiauKai', '標楷體';
+    color: var(--gold);
+    margin-bottom: 80px;
+    text-shadow: 5px 5px 0 #000, -5px -5px 0 var(--primary-red);
+    animation: flash 0.5s infinite;
+}
+
+@keyframes flash {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 60px;
+}
+
+.product-card {
+    background: #000;
+    border: 10px groove var(--gold);
+    border-radius: 0px; /* 取消圓角更硬核 */
+    overflow: hidden;
+    transition: all 0.3s;
+}
+
+.product-card:hover {
+    transform: scale(1.1) rotate(-3deg);
+    box-shadow: 0 0 100px var(--vibrant-yellow);
+}
+
+.img-container {
+    position: relative;
+    height: 300px;
+    background: #222;
+}
+
+.img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-bottom: 5px solid var(--gold);
+}
+
+.hot-tag {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #FFFF00; /* 鮮黃色 */
+    color: #000;         /* 黑字 */
+    padding: 25px 15px;
+    font-family: 'BiauKai', '標楷體';
+    font-weight: 900;
+    font-size: 1.8rem;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* 真正的漫畫震撼爆炸雲 - 20點不規則噴發 */
+    clip-path: polygon(
+        50% 0%, 65% 10%, 85% 0%, 80% 25%, 100% 15%, 90% 45%, 100% 65%, 80% 80%, 95% 100%, 65% 90%, 50% 100%, 35% 90%, 5% 100%, 20% 80%, 0% 65%, 10% 45%, 0% 15%, 25% 25%, 15% 0%, 35% 10%
+    );
+    padding: 30px 20px;
+    border: none;
+    filter: drop-shadow(4px 4px 0 #000) drop-shadow(-4px -4px 0 #000) drop-shadow(4px -4px 0 #000) drop-shadow(-4px 4px 0 #000);
+    animation: hotExplosion 0.5s infinite alternate;
+    z-index: 20;
+    transform: rotate(-10deg);
+}
+
+@keyframes hotExplosion {
+    from { transform: rotate(-10deg) scale(1); background: #FFFF00; }
+    to { transform: rotate(10deg) scale(1.3); background: #FFD700; }
+}
+
+.card-content {
+    padding: 30px;
+    text-align: center;
+}
+
+.card-content h3 {
+    font-size: 2.5rem;
+    font-family: 'BiauKai', '標楷體';
+    margin-bottom: 15px;
+    background: linear-gradient(to right, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8f00ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    background-size: 400% 100%;
+    animation: rainbowNeon 2s linear infinite, textWave 1s ease-in-out infinite;
+    display: inline-block;
+    text-shadow: 2px 2px 0 blue; /* 衝突陰影 */
+}
+
+@keyframes rainbowNeon {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+}
+
+@keyframes textWave {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-15px) scale(1.2); }
+}
+
+.price {
+    font-size: 3.5rem;
+    font-family: 'Impact', sans-serif;
+    color: var(--neon-green);
+    font-weight: 900;
+    text-shadow: 2px 2px 0 #000;
+    background: #FFFF00;
+    color: #FF0000;
+    display: inline-block;
+    padding: 0 20px;
+    transform: skewX(-15deg);
+}
+
+.buy-btn {
+    display: block;
+    width: 100%;
+    padding: 20px;
+    font-size: 1.5rem;
+    font-family: 'BiauKai', '標楷體';
+    font-weight: bold;
+    background: var(--rainbow);
+    background-size: 200% auto;
+    color: white;
+    border: none;
+    text-decoration: none;
+    text-align: center;
+    animation: rainbowShift 1s linear infinite;
+    cursor: pointer;
+}
+
+@keyframes rainbowShift {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+}
+
+/* Footer */
+footer {
+    background: #FF0000;
+    color: #FFFF00;
+    padding: 50px 0;
+    text-align: center;
+    border-top: 20px solid var(--gold);
+    font-family: 'BiauKai', '標楷體';
+}
+
+.footer-marquee {
+    background: #000;
+    padding: 20px 0;
+    border: 5px dashed white;
+}
+
+.footer-marquee span {
+    font-size: 2rem;
+    color: #39FF14;
+    font-weight: 900;
+    animation: footerMarquee 15s linear infinite;
+}
+
+@keyframes footerMarquee {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+}
