@@ -1,4 +1,4 @@
-[
+window.dialogueData = [
   {
     "id": "start",
     "speaker": "旁白",

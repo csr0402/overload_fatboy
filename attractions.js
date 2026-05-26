@@ -1,4 +1,4 @@
-[
+window.attractionsData = [
   {
     "name": "溪湖羊肉爐",
     "region": "溪湖鎮",

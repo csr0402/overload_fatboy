@@ -400,6 +400,7 @@
       font-weight: 950;
       background: linear-gradient(135deg, #ffffff 30%, #e2e8f0 75%);
       -webkit-background-clip: text;
+      background-clip: text;
       -webkit-text-fill-color: transparent;
       line-height: 1.15;
       text-shadow: 0 4px 20px rgba(0,0,0,0.6);
@@ -907,18 +908,14 @@
 </footer>
 
 <script src="script.js"></script>
+<script src="dialogue.js"></script>
 
 <script>
   const { createApp, ref, computed, watch, nextTick, onMounted, onUnmounted } = Vue;
 
-  let storyScript = [];
+  let storyScript = window.dialogueData || [];
 
-  fetch('dialogue.json?t=' + new Date().getTime())
-    .then(res => res.json())
-    .then(data => {
-      storyScript = data;
-
-      createApp({
+  createApp({
     setup() {
       const playerName = ref('');
       const currentStepIndex = ref(0);
@@ -1321,10 +1318,6 @@
       };
     }
   }).mount('#app');
-  })
-  .catch(err => {
-    console.error("Error loading dialogue.json:", err);
-  });
 
   // Chart.js local initialization
   let chartsInitialized = false;

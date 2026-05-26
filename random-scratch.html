@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
@@ -251,7 +251,7 @@
   </footer>
 
   <script src="script.js"></script>
-  
+  <script src="attractions.js"></script>
   <script>
     const { createApp, ref, computed, watch, onMounted, nextTick } = Vue;
 
@@ -277,10 +277,9 @@
         });
 
         // 讀取 JSON 資料
-        onMounted(async () => {
+        onMounted(() => {
           try {
-            const response = await fetch('attractions.json');
-            attractions.value = await response.json();
+            attractions.value = window.attractionsData || [];
             resetScratch();
           } catch (error) {
             console.error('Failed to load attractions:', error);

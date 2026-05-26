@@ -205,6 +205,7 @@
   </footer>
 
   <script src="script.js"></script>
+  <script src="attractions.js"></script>
   <script>
     const { createApp, ref, computed, watch, onMounted } = Vue;
     createApp({
@@ -218,10 +219,9 @@
 
         const colors = ['#FF6B6B', '#4ECDC4', '#FFE66D', '#2A52BE', '#FF9F1C', '#92D050', '#8E44AD', '#34495E'];
 
-        onMounted(async () => {
+        onMounted(() => {
           try {
-            const res = await fetch('attractions.json');
-            attractions.value = await res.json();
+            attractions.value = window.attractionsData || [];
             drawWheel();
           } catch (e) { console.error(e); }
         });

@@ -324,6 +324,7 @@
   </footer>
 
   <script src="script.js"></script>
+  <script src="attractions.js"></script>
   <script>
     const { createApp, ref, computed, watch, onMounted } = Vue;
     createApp({
@@ -335,10 +336,10 @@
         const displayText = ref('拉下右側拉桿啟動！');
         const filters = ref({ region: 'all', day: 'all', time: 'all' });
 
-        onMounted(async () => {
+        onMounted(() => {
           try {
-            const res = await fetch('attractions.json');
-            attractions.value = await res.json();
+            attractions.value = window.attractionsData || [];
+            if (attractions.value.length === 0) throw new Error("No data");
           } catch (e) {
             displayText.value = '❌ 資料讀取失敗';
           }

@@ -378,7 +378,7 @@ footer strong{color:var(--text);}
 /* ── Sidebar layout (sub-pages) ── */
 .page-container{display:flex;gap:34px;max-width:1240px;margin:0 auto;padding:40px 24px;}
 .page-content{flex:1;min-width:0;}
-.page-sidebar{width:280px;flex-shrink:0;}
+.page-sidebar{width:280px;flex-shrink:0;order:-1;}
 .sidebar-menu{
   background:var(--surface);backdrop-filter:blur(16px);
   border:1px solid color-mix(in srgb,var(--muted) 18%,transparent);
