@@ -1,19 +1,55 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>雙城對話：溪湖鎮 vs 前鎮區 | 行政區比較</title>
   <meta name="description" content="深入探索彰化縣溪湖鎮與高雄市前鎮區的歷史、地理、人口與經濟發展，透過詳細的對比了解兩個特色行政區。">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=2">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || 'light');</script>
+  <style>
+    /* FORCE HERO FULLSCREEN */
+    #home.showdown-hero {
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      max-width: none !important;
+      margin: 0 !important;
+      padding: 0 !important; /* Remove nav padding */
+      gap: 0 !important;
+      z-index: 10;
+      overflow: hidden !important;
+    }
+
+    #compare {
+      position: relative;
+    }
+    
+    body.splash-active {
+      overflow: hidden !important;
+      height: 100vh !important;
+    }
+    
+    /* NAV HIDE/SHOW LOGIC */
+    header {
+      transform: translateY(-100%);
+      transition: transform 0.3s ease;
+    }
+    header.show-nav {
+      transform: translateY(0);
+    }
+  </style>
 </head>
-<body class="bg-orbs">
+
+<body class="bg-orbs splash-active">
 
   <!-- ── Fixed Header ── -->
-  <header>
-    <nav class="navbar" aria-label="主導覽列">
+  <header id="main-header">
+    <nav class="navbar" id="main-nav" aria-label="主導覽列" style="transform: translateY(-100%); transition: transform 0.3s ease;">
       <a class="brand" href="index.html">
         <span class="brand-badge">旅</span>
         <span>溪湖 × 前鎮</span>
@@ -21,7 +57,6 @@
 
       <div class="nav-links" id="navLinks">
         <a href="#home" class="active">首頁</a>
-        <a href="#overview">特色對比</a>
         <a href="#compare">圖文對照</a>
         <a href="#route">旅遊路線</a>
         <div class="nav-item">
@@ -61,6 +96,32 @@
   </aside>
 
   <main>
+
+    <!-- ── Splash Screen (Showdown Video) ── -->
+    <div id="splash-screen" class="showdown-hero show"
+      style="position: fixed !important; left: 0 !important; right: 0 !important; top: 0 !important; width: 100vw !important; height: 100vh !important; max-width: none !important; margin: 0 !important; padding: 0 !important; gap: 0 !important; display: flex !important; flex-direction: row !important; align-items: center !important; justify-content: stretch !important; transform: none !important; box-sizing: border-box !important; z-index: 9999 !important;">
+
+      <!-- 左側：溪湖鎮 -->
+      <div class="showdown-side showdown-left"
+        style="width: 50% !important; max-width: 50% !important; flex: 1 !important; margin: 0 !important; height: 100vh !important; box-sizing: border-box !important; position: relative !important; overflow: hidden !important; padding: 0 !important; display: flex !important; flex-direction: column !important; justify-content: center !important; align-items: center !important;">
+        <video id="video-xihu" src="images/溪湖火車.mp4" autoplay muted playsinline style="width: 100% !important; height: auto !important; object-fit: contain !important; z-index: 1; pointer-events: none !important; border: none !important; border-radius: 0 !important; padding: 0 !important; margin: 0 !important; max-width: none !important; max-height: none !important;"></video>
+      </div>
+
+      <!-- 右側：前鎮區 -->
+      <div class="showdown-side showdown-right"
+        style="width: 50% !important; max-width: 50% !important; flex: 1 !important; margin: 0 !important; height: 100vh !important; box-sizing: border-box !important; position: relative !important; overflow: hidden !important; padding: 0 !important; display: flex !important; flex-direction: column !important; justify-content: center !important; align-items: center !important;">
+        <video id="video-qianzhen" src="images/前鎮之星.mp4" autoplay muted playsinline style="width: 100% !important; height: auto !important; object-fit: contain !important; z-index: 1; pointer-events: none !important; border: none !important; border-radius: 0 !important; padding: 0 !important; margin: 0 !important; max-width: none !important; max-height: none !important;"></video>
+      </div>
+
+      <!-- 全寬度標題格 (底部對齊原本高度) -->
+      <div id="showdown-title-bar" style="position: absolute; bottom: 80px; left: 0; width: 100vw; z-index: 20; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); padding: 15px 0; text-align: center; pointer-events: auto; border-top: 1px solid rgba(255, 255, 255, 0.2); border-bottom: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+        <h1 style="font-size: clamp(2.5rem, 4vw, 4rem); color: white; margin: 0; display: flex; justify-content: center; align-items: center; gap: 4vw; font-weight: 900; letter-spacing: 4px; font-family: 'Inter', sans-serif;">
+          <span style="text-shadow: 0 0 20px #0cf;">溪湖鎮</span>
+          <span onclick="openCurtain()" style="font-size: clamp(1.5rem, 2vw, 2.5rem); color: #f04; font-style: italic; font-weight: 900; text-shadow: 0 0 10px rgba(255,0,68,0.8); cursor: pointer; padding: 10px 20px; border-radius: 20px; transition: transform 0.2s, background 0.2s;" onmouseover="this.style.transform='scale(1.2)'; this.style.background='rgba(255,0,68,0.2)';" onmouseout="this.style.transform='scale(1)'; this.style.background='transparent';">VS</span>
+          <span style="text-shadow: 0 0 20px #f04;">前鎮區</span>
+        </h1>
+      </div>
+    </div>
 
     <!-- ── Section 1: Hero ── -->
     <section id="home" class="show">
@@ -114,9 +175,11 @@
     </section>
 
     <!-- ── Section 3: Compare ── -->
-<section id="compare">
+    <section id="compare">
       <h2 data-zh="圖文對照與數據分析" data-en="Data & Comparison">圖文對照與數據分析</h2>
-      <p class="lead" data-zh="透過關鍵數據、地理位置與視覺化圖表，深度解析溪湖與前鎮的發展輪廓。" data-en="Analyze the development of Xihu and Qianzhen through key data, maps, and visual charts.">透過關鍵數據、地理位置與視覺化圖表，深度解析溪湖與前鎮的發展輪廓。</p>
+      <p class="lead" data-zh="透過關鍵數據、地理位置與視覺化圖表，深度解析溪湖與前鎮的發展輪廓。"
+        data-en="Analyze the development of Xihu and Qianzhen through key data, maps, and visual charts.">
+        透過關鍵數據、地理位置與視覺化圖表，深度解析溪湖與前鎮的發展輪廓。</p>
 
       <div class="kpi-grid">
         <div class="kpi-card xihu-kpi">
@@ -136,28 +199,32 @@
       </div>
 
       <div class="charts-grid">
-        <div class="chart-wrapper animate-on-scroll">
+        <div class="chart-wrapper">
           <h3>人口趨勢變化 (2016-2026)</h3>
           <canvas id="populationChart"></canvas>
         </div>
-        <div class="chart-wrapper animate-on-scroll">
+        <div class="chart-wrapper">
           <h3>在地產業結構比重</h3>
           <canvas id="industryChart"></canvas>
         </div>
       </div>
 
       <div class="maps-grid">
-        <div class="map-wrapper animate-on-scroll">
+        <div class="map-wrapper">
           <h3>📍 彰化縣溪湖鎮</h3>
-          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d58282.88046467007!2d120.44318715!3d23.955465!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346947610014b9c1%3A0x6b1397baee85426b!2z5b2w5YyW57ij5rqq5rmW6Y6u!5e0!3m2!1szh-TW!2stw!4v1715610000000!5m2!1szh-TW!2stw" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d58282.88046467007!2d120.44318715!3d23.955465!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346947610014b9c1%3A0x6b1397baee85426b!2z5b2w5YyW57ij5rqq5rmW6Y6u!5e0!3m2!1szh-TW!2stw!4v1715610000000!5m2!1szh-TW!2stw"
+            allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
-        <div class="map-wrapper animate-on-scroll">
+        <div class="map-wrapper">
           <h3>📍 高雄市前鎮區</h3>
-          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d29462.63665487693!2d120.29828555!3d22.6006429!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346e037807b57f05%3A0xcb1b6819dd3bfa82!2z6auY6ZuE5biC5YmN6Y6u5Y2A!5e0!3m2!1szh-TW!2stw!4v1715610000001!5m2!1szh-TW!2stw" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d29462.63665487693!2d120.29828555!3d22.6006429!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346e037807b57f05%3A0xcb1b6819dd3bfa82!2z6auY6ZuE5biC5YmN6Y6u5Y2A!5e0!3m2!1szh-TW!2stw!4v1715610000001!5m2!1szh-TW!2stw"
+            allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
       </div>
 
-      <h3 style="margin-top: 40px;">核心重點對照表</h3>
+      <h3 style="margin-top: 20px;">核心重點對照表</h3>
 
       <div class="compare-table" role="table" aria-label="溪湖與前鎮對照表">
         <!-- Header -->
@@ -174,14 +241,16 @@
             <div class="thumb" aria-hidden="true"></div>
             <div>
               <span class="cell-title" data-zh="約 5.3 萬人" data-en="~53,000">約 5.3 萬人</span>
-              <p data-zh="25 個里，縣內第五大鄉鎮 (2025)" data-en="25 villages, 5th largest in Changhua (2025)">25 個里，縣內第五大鄉鎮 (2025)</p>
+              <p data-zh="25 個里，縣內第五大鄉鎮 (2025)" data-en="25 villages, 5th largest in Changhua (2025)">25 個里，縣內第五大鄉鎮
+                (2025)</p>
             </div>
           </div>
           <div class="table-cell">
             <div class="thumb" aria-hidden="true"></div>
             <div>
               <span class="cell-title" data-zh="約 17.7 萬人" data-en="~177,000">約 17.7 萬人</span>
-              <p data-zh="59 個里，市內第五大區 (2025)" data-en="59 villages, 5th largest in Kaohsiung (2025)">59 個里，市內第五大區 (2025)</p>
+              <p data-zh="59 個里，市內第五大區 (2025)" data-en="59 villages, 5th largest in Kaohsiung (2025)">59 個里，市內第五大區
+                (2025)</p>
             </div>
           </div>
         </div>
@@ -192,13 +261,17 @@
           <div class="table-cell">
             <div>
               <span class="cell-title" data-zh="彰化平原中心" data-en="Changhua Plain Center">彰化平原中心</span>
-              <p data-zh="濁水溪沖積扇平原，地勢平坦沃腴，農業條件絕佳。" data-en="Zhuoshui River alluvial plain, flat and fertile, ideal for agriculture.">濁水溪沖積扇平原，地勢平坦沃腴，農業條件絕佳。</p>
+              <p data-zh="濁水溪沖積扇平原，地勢平坦沃腴，農業條件絕佳。"
+                data-en="Zhuoshui River alluvial plain, flat and fertile, ideal for agriculture.">
+                濁水溪沖積扇平原，地勢平坦沃腴，農業條件絕佳。</p>
             </div>
           </div>
           <div class="table-cell">
             <div>
               <span class="cell-title" data-zh="高雄港核心區" data-en="Kaohsiung Harbor Core">高雄港核心區</span>
-              <p data-zh="沿海平原緊臨高雄港，擁有前鎮漁港與亞洲新灣區。" data-en="Coastal plain adjacent to Kaohsiung Port, home to the Asia New Bay Area.">沿海平原緊臨高雄港，擁有前鎮漁港與亞洲新灣區。</p>
+              <p data-zh="沿海平原緊臨高雄港，擁有前鎮漁港與亞洲新灣區。"
+                data-en="Coastal plain adjacent to Kaohsiung Port, home to the Asia New Bay Area.">
+                沿海平原緊臨高雄港，擁有前鎮漁港與亞洲新灣區。</p>
             </div>
           </div>
         </div>
@@ -209,13 +282,17 @@
           <div class="table-cell">
             <div>
               <span class="cell-title" data-zh="農業樞紐" data-en="Agricultural Hub">農業樞紐</span>
-              <p data-zh="全台蔬果專區，特產有韭菜花、巨峰葡萄、羊肉爐、糖廠冰棒。" data-en="Taiwan's vegetable & fruit zone, famous for chives, grapes, and lamb hot pot.">全台蔬果專區，特產有韭菜花、巨峰葡萄、羊肉爐、糖廠冰棒。</p>
+              <p data-zh="全台蔬果專區，特產有韭菜花、巨峰葡萄、羊肉爐、糖廠冰棒。"
+                data-en="Taiwan's vegetable & fruit zone, famous for chives, grapes, and lamb hot pot.">
+                全台蔬果專區，特產有韭菜花、巨峰葡萄、羊肉爐、糖廠冰棒。</p>
             </div>
           </div>
           <div class="table-cell">
             <div>
               <span class="cell-title" data-zh="科技與港灣" data-en="Tech & Harbor">科技與港灣</span>
-              <p data-zh="中鋼集團、高雄軟體園區、前鎮科技產業園區，兼具重工業與新科技。" data-en="CSMC, Kaohsiung Software Park, tech & heavy industry combined.">中鋼集團、高雄軟體園區、前鎮科技產業園區，兼具重工業與新科技。</p>
+              <p data-zh="中鋼集團、高雄軟體園區、前鎮科技產業園區，兼具重工業與新科技。"
+                data-en="CSMC, Kaohsiung Software Park, tech & heavy industry combined.">中鋼集團、高雄軟體園區、前鎮科技產業園區，兼具重工業與新科技。
+              </p>
             </div>
           </div>
         </div>
@@ -224,10 +301,13 @@
         <div class="table-row" role="row">
           <div class="table-cell"><strong data-zh="交通建設" data-en="Transport">交通建設</strong></div>
           <div class="table-cell">
-            <p data-zh="公路為主，緊鄰國道一號溪湖交流道，省道縱橫。" data-en="Road-based, near National Freeway 1's Xihu interchange.">公路為主，緊鄰國道一號溪湖交流道，省道縱橫。</p>
+            <p data-zh="公路為主，緊鄰國道一號溪湖交流道，省道縱橫。" data-en="Road-based, near National Freeway 1's Xihu interchange.">
+              公路為主，緊鄰國道一號溪湖交流道，省道縱橫。</p>
           </div>
           <div class="table-cell">
-            <p data-zh="國道一號端點、高雄捷運紅線、環狀輕軌、渡輪四線交織，全台最完善捷運網之一。" data-en="Freeway, MRT, LRT & ferry — one of Taiwan's most complete transit networks.">國道一號端點、高雄捷運紅線、環狀輕軌、渡輪四線交織，全台最完善捷運網之一。</p>
+            <p data-zh="國道一號端點、高雄捷運紅線、環狀輕軌、渡輪四線交織，全台最完善捷運網之一。"
+              data-en="Freeway, MRT, LRT & ferry — one of Taiwan's most complete transit networks.">
+              國道一號端點、高雄捷運紅線、環狀輕軌、渡輪四線交織，全台最完善捷運網之一。</p>
           </div>
         </div>
 
@@ -235,10 +315,14 @@
         <div class="table-row" role="row">
           <div class="table-cell"><strong data-zh="推薦景點" data-en="Top Spots">推薦景點</strong></div>
           <div class="table-cell">
-            <p data-zh="溪湖糖廠、觀光五分車、沐卉庇護農場、軍機展示公園、葡萄產業文化園區。" data-en="Xihu Sugar Factory, mini train, Muhuei Farm, Military Park, Grape Culture Park.">溪湖糖廠、觀光五分車、沐卉庇護農場、軍機展示公園、葡萄產業文化園區。</p>
+            <p data-zh="溪湖糖廠、觀光五分車、沐卉庇護農場、軍機展示公園、葡萄產業文化園區。"
+              data-en="Xihu Sugar Factory, mini train, Muhuei Farm, Military Park, Grape Culture Park.">
+              溪湖糖廠、觀光五分車、沐卉庇護農場、軍機展示公園、葡萄產業文化園區。</p>
           </div>
           <div class="table-cell">
-            <p data-zh="統一夢時代、高雄之眼摩天輪、高雄市立圖書館總館、高雄展覽館、SKM Park Outlets。" data-en="Dream Mall, Kaohsiung Eye Ferris Wheel, City Library, Exhibition Center, SKM Park.">統一夢時代、高雄之眼摩天輪、高雄市立圖書館總館、高雄展覽館、SKM Park Outlets。</p>
+            <p data-zh="統一夢時代、高雄之眼摩天輪、高雄市立圖書館總館、高雄展覽館、SKM Park Outlets。"
+              data-en="Dream Mall, Kaohsiung Eye Ferris Wheel, City Library, Exhibition Center, SKM Park.">
+              統一夢時代、高雄之眼摩天輪、高雄市立圖書館總館、高雄展覽館、SKM Park Outlets。</p>
           </div>
         </div>
       </div>
@@ -247,27 +331,35 @@
     <!-- ── Section 4: Route ── -->
     <section id="route">
       <h2 data-zh="一日旅遊路線提案" data-en="One-Day Route Suggestions">一日旅遊路線提案</h2>
-      <p class="lead" data-zh="無論選擇哪一邊，這裡有完整的一日行程建議，讓你的旅程更充實。" data-en="Whether you pick Xihu or Qianzhen, here are full one-day itineraries.">無論選擇哪一邊，這裡有完整的一日行程建議，讓你的旅程更充實。</p>
+      <p class="lead" data-zh="無論選擇哪一邊，這裡有完整的一日行程建議，讓你的旅程更充實。"
+        data-en="Whether you pick Xihu or Qianzhen, here are full one-day itineraries.">無論選擇哪一邊，這裡有完整的一日行程建議，讓你的旅程更充實。
+      </p>
       <div class="timeline">
         <div class="step">
           <div class="step-num">1</div>
           <div class="step-content">
             <h3 data-zh="前鎮城市線（適合都市旅人）" data-en="Qianzhen Urban Route">前鎮城市線（適合都市旅人）</h3>
-            <p class="lead" data-zh="高雄市立圖書館總館 → 亞洲新灣區漫步 → 高雄展覽館 → 夢時代購物中心 → 高雄之眼摩天輪夜景收尾。" data-en="City Library → New Bay Area stroll → Exhibition Center → Dream Mall → Kaohsiung Eye at dusk.">高雄市立圖書館總館 → 亞洲新灣區漫步 → 高雄展覽館 → 夢時代購物中心 → 高雄之眼摩天輪夜景收尾。</p>
+            <p class="lead" data-zh="高雄市立圖書館總館 → 亞洲新灣區漫步 → 高雄展覽館 → 夢時代購物中心 → 高雄之眼摩天輪夜景收尾。"
+              data-en="City Library → New Bay Area stroll → Exhibition Center → Dream Mall → Kaohsiung Eye at dusk.">
+              高雄市立圖書館總館 → 亞洲新灣區漫步 → 高雄展覽館 → 夢時代購物中心 → 高雄之眼摩天輪夜景收尾。</p>
           </div>
         </div>
         <div class="step">
           <div class="step-num">2</div>
           <div class="step-content">
             <h3 data-zh="溪湖懷舊線（適合親子、鐵道迷）" data-en="Xihu Heritage Route">溪湖懷舊線（適合親子、鐵道迷）</h3>
-            <p class="lead" data-zh="溪湖糖廠 → 製糖工場與老煙囪 → 搭觀光五分車 → 糖廠冰品 → 沐卉庇護農場 → 溪湖中央公園散步。" data-en="Xihu Sugar Factory → Old smokestack → Mini-train ride → Ice cream → Muhuei Farm → Central Park.">溪湖糖廠 → 製糖工場與老煙囪 → 搭觀光五分車 → 糖廠冰品 → 沐卉庇護農場 → 溪湖中央公園散步。</p>
+            <p class="lead" data-zh="溪湖糖廠 → 製糖工場與老煙囪 → 搭觀光五分車 → 糖廠冰品 → 沐卉庇護農場 → 溪湖中央公園散步。"
+              data-en="Xihu Sugar Factory → Old smokestack → Mini-train ride → Ice cream → Muhuei Farm → Central Park.">
+              溪湖糖廠 → 製糖工場與老煙囪 → 搭觀光五分車 → 糖廠冰品 → 沐卉庇護農場 → 溪湖中央公園散步。</p>
           </div>
         </div>
         <div class="step">
           <div class="step-num">3</div>
           <div class="step-content">
             <h3 data-zh="還是選不了？讓命運決定！" data-en="Can't Decide? Let Fate Choose!">還是選不了？讓命運決定！</h3>
-            <p class="lead" data-zh="想拍夜景逛商場選前鎮；想體驗鐵道、吃冰、感受懷舊糖業故事選溪湖。或直接啟動我們的隨機推薦遊戲！" data-en="Prefer night views & malls? Choose Qianzhen. Want trains, ice cream & nostalgia? Pick Xihu. Or just let our random selector decide!">想拍夜景逛商場選前鎮；想體驗鐵道、吃冰、感受懷舊糖業故事選溪湖。或直接啟動我們的隨機推薦遊戲！</p>
+            <p class="lead" data-zh="想拍夜景逛商場選前鎮；想體驗鐵道、吃冰、感受懷舊糖業故事選溪湖。或直接啟動我們的隨機推薦遊戲！"
+              data-en="Prefer night views & malls? Choose Qianzhen. Want trains, ice cream & nostalgia? Pick Xihu. Or just let our random selector decide!">
+              想拍夜景逛商場選前鎮；想體驗鐵道、吃冰、感受懷舊糖業故事選溪湖。或直接啟動我們的隨機推薦遊戲！</p>
             <div class="cta-row" style="margin-top:16px;">
               <a class="btn" href="random-slot.html" data-zh="🎰 命運拉霸機" data-en="🎰 Slot Machine">🎰 命運拉霸機</a>
               <a class="btn secondary" href="random-wheel.html" data-zh="🎡 幸運轉盤" data-en="🎡 Spin Wheel">🎡 幸運轉盤</a>
@@ -282,7 +374,9 @@
 
   <footer>
     <strong data-zh="雙城對話 © 2026" data-en="Twin City Dialogue © 2026">雙城對話 © 2026</strong>
-    <p data-zh="資料來源：維基百科、內政部戶政司、彰化縣政府、高雄市政府" data-en="Sources: Wikipedia, Ministry of Interior, Changhua County Government, Kaohsiung City Government">資料來源：維基百科、內政部戶政司、彰化縣政府、高雄市政府</p>
+    <p data-zh="資料來源：維基百科、內政部戶政司、彰化縣政府、高雄市政府"
+      data-en="Sources: Wikipedia, Ministry of Interior, Changhua County Government, Kaohsiung City Government">
+      資料來源：維基百科、內政部戶政司、彰化縣政府、高雄市政府</p>
   </footer>
 
   <script src="script.js"></script>
@@ -304,6 +398,62 @@
     }, { threshold: 0.25 });
 
     sections.forEach(s => observer.observe(s));
+
+    // ==========================================
+    // Adjust video playback speeds
+    // ==========================================
+    const videoXihu = document.getElementById('video-xihu');
+    if (videoXihu) {
+      videoXihu.playbackRate = 1.6;
+    }
+    // Scroll Nav Hide/Show Logic
+    window.addEventListener('scroll', () => {
+      const header = document.querySelector('header');
+      if (window.scrollY > 50) {
+        header.classList.add('show-nav');
+      } else {
+        header.classList.remove('show-nav');
+      }
+    });
+
+    // Curtain Split Logic
+    let curtainOpened = false;
+    function openCurtain() {
+      if (curtainOpened) return;
+      curtainOpened = true;
+      
+      const leftSide = document.querySelector('.showdown-left');
+      const rightSide = document.querySelector('.showdown-right');
+      const titleBar = document.getElementById('showdown-title-bar');
+      const splashSec = document.getElementById('splash-screen');
+      const nav = document.getElementById('main-nav');
+      
+      // Add CSS transitions
+      leftSide.style.transition = 'transform 1.2s cubic-bezier(0.77, 0, 0.175, 1)';
+      rightSide.style.transition = 'transform 1.2s cubic-bezier(0.77, 0, 0.175, 1)';
+      titleBar.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+      
+      // Trigger animation
+      leftSide.style.transform = 'translateX(-100vw)';
+      rightSide.style.transform = 'translateX(100vw)';
+      titleBar.style.opacity = '0';
+      titleBar.style.transform = 'scale(1.2)';
+      
+      // Show nav
+      setTimeout(() => {
+        if(nav) nav.style.transform = 'translateY(0)';
+      }, 500);
+      
+      // Re-enable scrolling
+      document.body.classList.remove('splash-active');
+      
+      // Hide section completely after animation
+      setTimeout(() => {
+        splashSec.style.display = 'none';
+      }, 1200);
+    }
+
   </script>
 </body>
+
 </html>
