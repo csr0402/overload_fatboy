@@ -57,6 +57,7 @@
 
       <div class="nav-links" id="navLinks">
         <a href="#home" class="active">首頁</a>
+        <a href="#overview">特色對比</a>
         <a href="#compare">圖文對照</a>
         <a href="#route">旅遊路線</a>
         <div class="nav-item">
@@ -395,7 +396,7 @@
           navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + id));
         }
       });
-    }, { threshold: 0.25 });
+    }, { threshold: 0.15 });
 
     sections.forEach(s => observer.observe(s));
 

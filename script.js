@@ -279,7 +279,6 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
  // ====== 捲動觸發動畫與圖表初始化 ======
-document.addEventListener('DOMContentLoaded', () => {
   // 1. 處理 animate-on-scroll 元素的顯示
   const scrollObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
@@ -294,17 +293,14 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // 2. 處理圖表繪製 (避免重複繪製)
-  let chartsInitialized = false;
   const chartObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting && !chartsInitialized) {
         initCharts(); // 呼叫之前提供的 initCharts 函式
-        chartsInitialized = true;
       }
     });
   }, { threshold: 0.2 });
 
   const chartsSection = document.querySelector('.charts-grid');
   if (chartsSection) chartObserver.observe(chartsSection);
-})
 });

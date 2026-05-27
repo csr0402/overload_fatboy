@@ -722,10 +722,6 @@ main > section#home.showdown-hero {
   transform: none !important; /* Override any entrance animation transforms */
 }
 
-/* Because #home is absolute, push the next section down */
-main > section#compare {
-  margin-top: calc(100vh - 72px) !important;
-}
 
 @media (max-width: 768px) {
   main > section#home.showdown-hero {
