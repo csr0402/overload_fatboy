@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>?��?對決：命?��??��??��? | PK 總�? | ?��?對話</title>
+  <title>雙城對決：命運的旅行抉擇 | PK 總結 | 雙城對話</title>
   <link rel="stylesheet" href="style.css">
   
   <!-- 引入 Chart.js & Vue 3 & Canvas Confetti -->
@@ -12,7 +12,7 @@
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   
   <style>
-    /* ?�?� Galgame Premium Styles ?�?� */
+    /* ── Galgame Premium Styles ── */
     .vn-card {
       position: fixed;
       top: 72px;
@@ -612,97 +612,99 @@
 <body class="bg-orbs">
 
 <header>
-  <nav class="navbar" aria-label="主�?覽�?">
+  <nav class="navbar" aria-label="主導覽列">
     <a class="brand" href="index.html">
-      <span class="brand-badge">??/span>
-      <span>溪�? ? ?�鎮</span>
+      <span class="brand-badge">旅</span>
+      <span>溪湖 × 前鎮</span>
     </a>
     <div class="nav-links">
-      <a href="index.html">首�?</a>
+      <a href="index.html">首頁</a>
       <div class="nav-item">
-        <a href="xihu.html">溪�?????/a>
+        <a href="xihu.html">溪湖鎮 ▾</a>
         <div class="dropdown-menu">
           <a href="xihu.html#history">歷史沿革</a>
-          <a href="xihu.html#geography">?��??�氣??/a>
-          <a href="xihu.html#population">人口統�?</a>
-          <a href="xihu.html#education">學�??��???/a>
-          <a href="xihu.html#facilities">?��??�設??/a>
-          <a href="xihu.html#religion">宗�?信仰</a>
-          <a href="xihu.html#attractions">美�??�特??/a>
+          <a href="xihu.html#geography">地理與氣候</a>
+          <a href="xihu.html#population">人口統計</a>
+          <a href="xihu.html#education">學區與教育</a>
+          <a href="xihu.html#facilities">公園與設施</a>
+          <a href="xihu.html#religion">宗教信仰</a>
+          <a href="xihu.html#attractions">美食與特產</a>
         </div>
       </div>
       <div class="nav-item">
-        <a href="qianzhen.html">?�鎮?� ??/a>
+        <a href="qianzhen.html">前鎮區 ▾</a>
         <div class="dropdown-menu">
           <a href="qianzhen.html#history">歷史沿革</a>
-          <a href="qianzhen.html#geography">?��??�氣??/a>
-          <a href="qianzhen.html#economy">經�??�交??/a>
-          <a href="qianzhen.html#population">人口統�?</a>
-          <a href="qianzhen.html#education">學�??��???/a>
-          <a href="qianzhen.html#facilities">?��??�設??/a>
-          <a href="qianzhen.html#religion">宗�?信仰</a>
-          <a href="qianzhen.html#attractions">美�??�購??/a>
+          <a href="qianzhen.html#geography">地理與氣候</a>
+          <a href="qianzhen.html#economy">經濟與交通</a>
+          <a href="qianzhen.html#population">人口統計</a>
+          <a href="qianzhen.html#education">學區與教育</a>
+          <a href="qianzhen.html#facilities">公園與設施</a>
+          <a href="qianzhen.html#religion">宗教信仰</a>
+          <a href="qianzhen.html#attractions">美食與購物</a>
         </div>
       </div>
       <div class="nav-item">
-        <a href="random-slot.html">?��??�薦 ??/a>
+        <a href="random-slot.html">景點推薦 ▾</a>
         <div class="dropdown-menu">
-          <a href="random-slot.html">?�� ?��??�霸�?/a>
-          <a href="random-wheel.html">?�� 幸�?轉盤</a>
-          <a href="random-scratch.html">?? ?�刮�?/a>
+          <a href="random-slot.html">🎰 命運拉霸機</a>
+          <a href="random-wheel.html">🎡 幸運轉盤</a>
+          <a href="random-scratch.html">🎟 刮刮樂</a>
         </div>
       </div>
-      <a href="summary.html" class="active">PK 總�?</a>
+      <a href="summary.html" class="active">PK 總結</a>
     </div>
     <div class="nav-controls">
-      <button id="lang-toggle-btn" onclick="toggleLanguage()" title="?��?語�?">EN</button>
-      <button id="theme-toggle-btn" onclick="toggleTheme()" title="?��?深淺??>??</button>
+      <button id="lang-toggle-btn" onclick="toggleLanguage()" title="切換語言">EN</button>
+      <button id="theme-toggle-btn" onclick="toggleTheme()" title="切換深淺色">🌙</button>
     </div>
   </nav>
 </header>
 
 <div class="breadcrumbs">
-  <a href="index.html">首�?</a> <span>></span> PK 總�??��?決�???</div>
+  <a href="index.html">首頁</a> <span>></span> PK 總結與對決遊戲
+</div>
 
 <section class="section" style="padding-top: 1.5rem;">
   <div class="page-container" id="app" style="flex-direction: column;">
     
     <main class="page-content" style="width:100%; max-width:1000px; margin:0 auto;">
       
-      <!-- ?�?� Vue Galgame App Card ?�?� -->
+      <!-- ── Vue Galgame App Card ── -->
       <div class="vn-card" v-if="!reportUnlocked">
         
-        <!-- ?�?� Title Screen ?�?� -->
+        <!-- ── Title Screen ── -->
         <div class="vn-title-screen" v-if="showTitleScreen">
           <div class="vn-logo">
             <span class="vn-logo-eyebrow">Interactive PK Game</span>
-            <h1 class="vn-logo-title">?��?對決：命?��??��??��?</h1>
+            <h1 class="vn-logo-title">雙城對決：命運的旅行抉擇</h1>
             <p class="vn-logo-subtitle">
-              純樸?�田?��?�??�� ?��? ?�炫?�都?�港????️�?<br>
-              溪�??��??�鎮?��?魅�??�奪?�正式�??��??��?次�?你�??��?心�??��??�哪一?��?
+              純樸的田園糖香 🌾 遇上 酷炫的都會港灣 🏙️！<br>
+              溪湖醬與前鎮醬的魅力爭奪戰正式打響，這一次，你的胃和心靈會站在哪一邊？
             </p>
           </div>
           <div class="vn-title-actions">
             <!-- Name Input Field -->
             <div class="vn-name-input-container">
-              <input type="text" v-model="playerName" placeholder="請輸?�您?��?字�?始�???.." class="vn-name-input" @keyup.enter="startGame" />
+              <input type="text" v-model="playerName" placeholder="請輸入您的名字開始遊玩..." class="vn-name-input" @keyup.enter="startGame" />
             </div>
             <button class="btn btn-game-primary" @click="startGame" :disabled="!playerName.trim()" :style="{ opacity: !playerName.trim() ? 0.5 : 1, cursor: !playerName.trim() ? 'not-allowed' : 'pointer' }">
-              ?�� ?��?互�?對決�?            </button>
+              🎮 開始互動對決！
+            </button>
           </div>
         </div>
 
-        <!-- ?�?� Battle Viewport ?�?� -->
+        <!-- ── Battle Viewport ── -->
         <div class="battle-viewport" v-else-if="isBattleMode" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 9999; background: #000; overflow: hidden;">
           <canvas id="battleCanvas" style="display: block; box-shadow: inset 0 0 40px rgba(0,0,0,0.8);"></canvas>
         </div>
 
-        <!-- ?�?� Visual Novel Viewport ?�?� -->
+        <!-- ── Visual Novel Viewport ── -->
         <div class="vn-viewport" v-else
              :class="{
-               'talking-xi': currentStep.speaker.includes('溪�?') || currentStep.speaker.includes('小溪'),
-               'talking-qian': currentStep.speaker.includes('?�鎮') || currentStep.speaker.includes('小�?'),
-               'talking-narrator': currentStep.speaker === '?�白' || currentStep.speaker === '決�??��?'
+               'talking-xi': currentStep.speaker.includes('溪湖') || currentStep.speaker.includes('小溪'),
+               'talking-qian': currentStep.speaker.includes('前鎮') || currentStep.speaker.includes('小前'),
+               'talking-narrator': currentStep.speaker === '旁白' || currentStep.speaker === '決策時間'
              }">
           
           <!-- Background image -->
@@ -714,7 +716,7 @@
             <div class="vn-affinity-card">
               <img src="images/xihu_chan.png" class="vn-affinity-avatar" alt="小溪" />
               <div class="vn-affinity-info">
-                <span class="vn-affinity-name">小溪 (溪�?) - 好�?�? {{ xihuScore }}%</span>
+                <span class="vn-affinity-name">小溪 (溪湖) - 好感度: {{ xihuScore }}%</span>
                 <div class="vn-progress-bar-bg">
                   <div class="vn-progress-bar-fill" style="background: linear-gradient(90deg, #2eb872, #5ee39a);" :style="{ width: xihuScore + '%' }"></div>
                 </div>
@@ -723,9 +725,9 @@
             
             <!-- Qianzhen Affinity Score -->
             <div class="vn-affinity-card">
-              <img src="images/qianzhen_chan.png" class="vn-affinity-avatar" alt="小�?" />
+              <img src="images/qianzhen_chan.png" class="vn-affinity-avatar" alt="小前" />
               <div class="vn-affinity-info">
-                <span class="vn-affinity-name">小�? (?�鎮) - 好�?�? {{ qianzhenScore }}%</span>
+                <span class="vn-affinity-name">小前 (前鎮) - 好感度: {{ qianzhenScore }}%</span>
                 <div class="vn-progress-bar-bg">
                   <div class="vn-progress-bar-fill" style="background: linear-gradient(90deg, #1689d8, #53b7ff);" :style="{ width: qianzhenScore + '%' }"></div>
                 </div>
@@ -739,9 +741,9 @@
           <div class="vn-sprites-container">
             <!-- Floating Effects Container Xihu -->
             <div class="vn-effect-container" v-if="xihuLoved" style="left: 20%; bottom: 40%;">
-              <div class="floating-heart" style="animation-delay: 0s;">??</div>
-              <div class="floating-heart" style="animation-delay: 0.1s; margin-left: -30px;">??</div>
-              <div class="floating-heart" style="animation-delay: 0.2s; margin-left: 30px;">??</div>
+              <div class="floating-heart" style="animation-delay: 0s;">💖</div>
+              <div class="floating-heart" style="animation-delay: 0.1s; margin-left: -30px;">💖</div>
+              <div class="floating-heart" style="animation-delay: 0.2s; margin-left: 30px;">💖</div>
             </div>
 
             <!-- Xihu Sprite (小溪) -->
@@ -755,16 +757,16 @@
                    'damaged': xihuDamaged
                  }" 
                  v-show="currentStep.xiSprite !== 'hidden'"
-                 alt="溪�??? />
+                 alt="溪湖醬" />
 
             <!-- Floating Effects Container Qianzhen -->
             <div class="vn-effect-container" v-if="qianzhenLoved" style="left: 70%; bottom: 40%;">
-              <div class="floating-heart" style="animation-delay: 0s;">??</div>
-              <div class="floating-heart" style="animation-delay: 0.1s; margin-left: -30px;">??</div>
-              <div class="floating-heart" style="animation-delay: 0.2s; margin-left: 30px;">??</div>
+              <div class="floating-heart" style="animation-delay: 0s;">💖</div>
+              <div class="floating-heart" style="animation-delay: 0.1s; margin-left: -30px;">💖</div>
+              <div class="floating-heart" style="animation-delay: 0.2s; margin-left: 30px;">💖</div>
             </div>
                  
-            <!-- Qianzhen Sprite (小�?) -->
+            <!-- Qianzhen Sprite (小前) -->
             <img src="images/qianzhen_chan.png" 
                  class="vn-sprite" 
                  :class="{ 
@@ -775,7 +777,7 @@
                    'damaged': qianzhenDamaged
                  }" 
                  v-show="currentStep.qianSprite !== 'hidden'"
-                 alt="?�鎮?? />
+                 alt="前鎮醬" />
           </div>
 
           <!-- Dialogue Box Overlay -->
@@ -783,10 +785,10 @@
             <!-- Speaker Label Badge -->
             <span class="vn-speaker-badge"
                   :class="{
-                    'speaker-xihu': currentStep.speaker.includes('溪�?') || currentStep.speaker.includes('小溪'),
-                    'speaker-qianzhen': currentStep.speaker.includes('?�鎮') || currentStep.speaker.includes('小�?'),
-                    'speaker-narrator': currentStep.speaker === '?�白',
-                    'speaker-choice': currentStep.speaker === '決�??��?'
+                    'speaker-xihu': currentStep.speaker.includes('溪湖') || currentStep.speaker.includes('小溪'),
+                    'speaker-qianzhen': currentStep.speaker.includes('前鎮') || currentStep.speaker.includes('小前'),
+                    'speaker-narrator': currentStep.speaker === '旁白',
+                    'speaker-choice': currentStep.speaker === '決策時間'
                   }">
               {{ currentStep.speaker }}
             </span>
@@ -800,13 +802,13 @@
                       :key="idx" 
                       class="vn-choice-btn-inline"
                       @click.stop="makeChoice(choice)">
-                <span>??</span> {{ choice.text }}
+                <span>👉</span> {{ choice.text }}
               </button>
             </div>
             
             <!-- Click Indicator Icon -->
             <div class="vn-click-hint" v-if="!isTyping && (!currentStep.choices || currentStep.choices.length === 0)">
-              <span>{{ currentStep.isEnding ? '??展�??��?' : '點�?繼�? ?? }}</span>
+              <span>{{ currentStep.isEnding ? '✨ 展開報告' : '點擊繼續 ➔' }}</span>
             </div>
           </div>
 
@@ -814,66 +816,69 @@
 
       </div>
 
-      <!-- ?�?� Success Unlock screen banner ?�?� -->
+      <!-- ── Success Unlock screen banner ── -->
       <div class="vn-unlock-overlay" v-if="showUnlockScreen">
         <div class="vn-unlock-card">
           <div class="unlock-avatar-group">
             <img src="images/xihu_chan.png" class="unlock-avatar xihu-av" alt="小溪" />
-            <img src="images/qianzhen_chan.png" class="unlock-avatar qianzhen-av" alt="小�?" />
+            <img src="images/qianzhen_chan.png" class="unlock-avatar qianzhen-av" alt="小前" />
           </div>
           
           <template v-if="endingType === 'xihu'">
-            <h2 class="vn-unlock-title">?? ?��??��?：�?溪�??��?約�?結�?�?/h2>
+            <h2 class="vn-unlock-title">🎉 恭喜達成：小溪的田園約會結局！</h2>
             <p class="vn-unlock-desc">
-              你深?��?馱�??��?了�?樸�??��?魅�?！�?�??溢�?羊�??��??��?五�?車徹底�?住�?你�?心。快來查?�這兩座�?市�?完整?��?，�?�?��湖�?豐�??�特?��?
+              你深邃的馱情選擇了純樸的田園魅力！香氣洋溢的羊肉爐與懷舊五分車徹底抓住了你的心。快來查看這兩座城市的完整數據，了解溪湖的豐饒與特色！
             </p>
           </template>
           <template v-else-if="endingType === 'qianzhen'">
-            <h2 class="vn-unlock-title">?? ?��??��?：�??��??��?派�?結�?�?/h2>
+            <h2 class="vn-unlock-title">🎉 恭喜達成：小前的都會派對結局！</h2>
             <p class="vn-unlock-desc">
-              你被高度?��??�都?�海港徹底吸引�??��??��?洲新????�便?��?輕�??�摩天輪?��?夜�??�美�?底色?�快來深?��??��??��?溪�??�硬?�數?�大PK�?            </p>
+              你被高度發達的都會海港徹底吸引！閃爍的亞洲新灣區、便捷的輕軌與摩天輪是不夜城最美的底色。快來深入剖析前鎮與溪湖的硬核數據大PK！
+            </p>
           </template>
           <template v-else>
-            <h2 class="vn-unlock-title">?? ?��??��?：�??��?諧大?��?結�?�?/h2>
+            <h2 class="vn-unlock-title">🎉 恭喜達成：雙城和諧大團圓結局！</h2>
             <p class="vn-unlock-desc">
-              不�?軒�?！�?樸自?��?溪�??��??�?��??��??��??��?心中?�是?�灣?�完�??�縮影。�?不�??��??��?少女已�??��?準�?好�??�完整?�統計PK大�??��?
+              不分軒輊！純樸自然的溪湖與科技發達的前鎮，在你心中都是台灣最完美的縮影。事不宜遲，兩位少女已經為你準備好了最完整的統計PK大對照！
             </p>
           </template>
           
           <button class="btn btn-game-primary" @click="enterDashboard">
-            ?? ?�入�??後�??��? PK ?��? ??          </button>
+            📊 進入解鎖後的雙城 PK 報告 ➔
+          </button>
         </div>
       </div>
 
-      <!-- ?�?� Traditional PK Stats & Charts Dashboard ?�?� -->
+      <!-- ── Traditional PK Stats & Charts Dashboard ── -->
       <div id="report-dashboard" :class="reportUnlocked ? 'report-visible' : 'report-hidden'">
         
         <div class="glass-card" style="position: relative;">
           <!-- Replay Button floats inside stats dashboard -->
           <button class="btn secondary" @click="resetGame" style="position: absolute; top: 20px; right: 20px; font-size: 0.85rem; padding: 8px 18px; z-index: 10;">
-            ?�� ?�新?��?決�???          </button>
+            🎮 重新玩對決遊戲
+          </button>
 
-          <div class="eyebrow">?�� Twin City Conclusion</div>
-          <h2 style="color: var(--primary); margin-bottom: 1.5rem;">?��?對決：�?極數??PK 總�?</h2>
-          <p style="color: var(--muted); margin-bottom: 2rem;">?�網站透�?多面?��??��??��??��?比�?深入?��?了「彰?�縣溪�??�」�??��??��??�鎮?�?�這兩?�截?��??��?行政?�?�透�?下方�???��?業�?表�?讓�??��?客�?維度?�次審�??�地?�風?�特點�?/p>
+          <div class="eyebrow">🎨 Twin City Conclusion</div>
+          <h2 style="color: var(--primary); margin-bottom: 1.5rem;">雙城對決：終極數據 PK 總結</h2>
+          <p style="color: var(--muted); margin-bottom: 2rem;">本網站透過多面向的數據與文化對比，深入探討了「彰化縣溪湖鎮」與「高雄市前鎮區」這兩個截然不同的行政區。透過下方解鎖的專業圖表，讓我們從客觀維度再次審視兩地的風情特點。</p>
 
           <!-- Highlights comparison grids -->
           <div class="grid-2" style="margin: 2.5rem 0; gap: 1.5rem;">
             <div style="padding: 2.2rem; background: color-mix(in srgb, var(--secondary) 8%, transparent); border-radius: 24px; border-left: 6px solid var(--secondary); box-shadow: var(--shadow);">
-              <span class="region-badge badge-xihu">溪�???/span>
-              <h3 style="color: var(--secondary); margin: 0.5rem 0 1rem 0;">?�� ?�統農業?��?饒�?�?/h3>
-              <p style="color: var(--text); font-size: 0.95rem; line-height: 1.85;">作為彰�?平�??�中心�?溪�??��??��?純樸?�風?��??��?5?��??��??��?中�??��??��??�質農產?��?活�?（�?巨峰?��??�韭?�花）。其?��?以「穩定、傳?�、特?�農?�」為主�?並透�?羊�??��?糖�?觀?��??��?將農業�??�為觀?��?源�?/p>
+              <span class="region-badge badge-xihu">溪湖鎮</span>
+              <h3 style="color: var(--secondary); margin: 0.5rem 0 1rem 0;">🌾 傳統農業的豐饒之心</h3>
+              <p style="color: var(--text); font-size: 0.95rem; line-height: 1.85;">作為彰化平原的中心，溪湖鎮保留了純樸的風土民情。25個村里的劃分中，隨處可見優質農產品的活力（如巨峰葡萄、韭菜花）。其發展以「穩定、傳承、特色農產」為主，並透過羊肉爐與糖廠觀光，成功將農業轉型為觀光資源。</p>
             </div>
             <div style="padding: 2.2rem; background: color-mix(in srgb, var(--primary) 8%, transparent); border-radius: 24px; border-left: 6px solid var(--primary); box-shadow: var(--shadow);">
-              <span class="region-badge badge-qianzhen">?�鎮?�</span>
-              <h3 style="color: var(--primary); margin: 0.5rem 0 1rem 0;">??�?科�??��?業�?繁華港灣</h3>
-              <p style="color: var(--text); font-size: 0.95rem; line-height: 1.85;">?�鎮?�?��? 59 ?��?，�??��??��?港�??�工業�??��?轉身?�「�?洲新????�。�??��?度�??��??�育資�??��??��??�共設施（�?總�??��?覽館）以?�極度發?��?交通路網�??�現�??大都?��?縮影??/p>
+              <span class="region-badge badge-qianzhen">前鎮區</span>
+              <h3 style="color: var(--primary); margin: 0.5rem 0 1rem 0;">🏙️ 科技與商業的繁華港灣</h3>
+              <p style="color: var(--text); font-size: 0.95rem; line-height: 1.85;">前鎮區擁有 59 個里，從早期的漁港與重工業，華麗轉身為「亞洲新灣區」。擁有高度密集的教育資源、世界級公共設施（如總圖、展覽館）以及極度發達的交通路網，是現代化大都會的縮影。</p>
             </div>
           </div>
 
           <!-- 4 Dashboards (Gauges) -->
           <div style="margin: 2.5rem 0 3.5rem 0;">
-            <h3 style="text-align:center; margin-bottom:1.5rem; font-size: 1.4rem;">?? 好�??��?�?��?��?</h3>
+            <h3 style="text-align:center; margin-bottom:1.5rem; font-size: 1.4rem;">💖 好感與了解度分析</h3>
             <div style="display:flex; justify-content:center; gap:2rem; flex-wrap:wrap; background: rgba(128,128,128,0.03); padding: 25px; border-radius: 24px; border: 1px solid var(--glass-border);">
               <div style="width:100%; max-width:180px; height: 140px; text-align:center;">
                 <canvas id="xihuAffectionChart"></canvas>
@@ -892,7 +897,7 @@
 
           <!-- Chart.js Canvases Container (Existing) -->
           <div style="margin: 3.5rem 0 2rem 0;">
-            <h3 style="text-align:center; margin-bottom:1.8rem; font-size: 1.4rem;">?? ?��??��?總人??��：�?覺�? PK</h3>
+            <h3 style="text-align:center; margin-bottom:1.8rem; font-size: 1.4rem;">📊 里村數與總人口數：視覺化 PK</h3>
             <div style="display:flex; justify-content:center; gap:2.5rem; flex-wrap:wrap;">
               <div style="width:100%; max-width:440px; height: 320px; background: rgba(128,128,128,0.03); padding: 20px; border-radius: 24px; border: 1px solid var(--glass-border);">
                 <canvas id="popChart"></canvas>
@@ -904,12 +909,12 @@
           </div>
 
           <!-- Citations and statement -->
-          <h3 style="margin-top: 3.5rem;">?? 資�?來�??��?權聲??/h3>
+          <h3 style="margin-top: 3.5rem;">📚 資料來源與版權聲明</h3>
           <ul style="opacity: 0.85; font-size: 0.95rem; line-height: 1.8; margin-top: 0.8rem; padding-left: 20px;">
-            <li><strong>統�??��?�?/strong>?�政?�戶?�司?��?資�?�?(2025年度資�?)?�彰?�縣/高�?市�??��???/li>
-            <li><strong>歷史?�地?��?</strong>維基?��? (Wikipedia) - 溪�??�、�??��?條目??/li>
-            <li><strong>美�??�特?��?</strong>實地訪查?�網路公?��?訊�???(?�隱?��?食推????/li>
-            <li><strong>?��?來�?�?/strong>此為學�?作業範�?，部?�示?��??�系�?AI ?��???/li>
+            <li><strong>統計數據：</strong>內政部戶政司全球資訊網 (2025年度資料)、彰化縣/高雄市民政局。</li>
+            <li><strong>歷史與地理：</strong>維基百科 (Wikipedia) - 溪湖鎮、前鎮區條目。</li>
+            <li><strong>美食與特色：</strong>實地訪查與網路公開資訊彙整 (含隱藏美食推薦)。</li>
+            <li><strong>圖片來源：</strong>此為學術作業範例，部分示意圖為系統 AI 生成。</li>
           </ul>
 
         </div>
@@ -922,7 +927,7 @@
 </section>
 
 <footer>
-  <p>&copy; 2026 行政?�?��?較平??- ?��?對話. 資�?來�?：維?�百科�??�政?�戶?�司</p>
+  <p>&copy; 2026 行政區域比較平台 - 雙城對話. 資料來源：維基百科與內政部戶政司</p>
 </footer>
 
 <script src="script.js"></script>
@@ -1051,7 +1056,7 @@
       // Watch dialogue changes to type text
       watch(currentStepIndex, (newIdx) => {
         if (storyScript[newIdx]) {
-          const textToType = storyScript[newIdx].text.replace(/{player}/g, playerName.value || '?�人');
+          const textToType = storyScript[newIdx].text.replace(/{player}/g, playerName.value || '旅人');
           typeText(textToType);
         }
       });
@@ -1063,7 +1068,7 @@
         showTitleScreen.value = false;
         currentStepIndex.value = 0;
         // Seed first text
-        const textToType = storyScript[0].text.replace(/{player}/g, playerName.value || '?�人');
+        const textToType = storyScript[0].text.replace(/{player}/g, playerName.value || '旅人');
         typeText(textToType);
       };
 
@@ -1071,7 +1076,7 @@
         if (isTyping.value) {
           // Instant skip typing
           if (typeInterval) clearInterval(typeInterval);
-          dialogueText.value = currentStep.value.text.replace(/{player}/g, playerName.value || '?�人');
+          dialogueText.value = currentStep.value.text.replace(/{player}/g, playerName.value || '旅人');
           isTyping.value = false;
           playSound('click');
         } else {
@@ -1103,11 +1108,11 @@
               script.id = 'battle-script';
               script.src = 'battle.js';
               script.onload = () => {
-                if (window.initBattleEngine) window.initBattleEngine(step.isBattleTrigger);
+                if (window.initBattleEngine) window.initBattleEngine(step.isBattleTrigger, window.onBattleEnd);
               };
               document.body.appendChild(script);
             } else {
-              if (window.initBattleEngine) window.initBattleEngine(step.isBattleTrigger);
+              if (window.initBattleEngine) window.initBattleEngine(step.isBattleTrigger, window.onBattleEnd);
             }
           });
           return;
@@ -1186,7 +1191,7 @@
           endingStep = {
             id: 'ending_zero_both',
             speaker: '系統',
-            text: '你�??��??��??��??��?大�?�?.. 空�??�溫度�??�冰點。�??�進入?��??�暴走模式】�?',
+            text: '你竟然同時激怒了兩位大小姐... 空間的溫度降至冰點。準備進入【雙重暴走模式】！',
             xiSprite: 'dim-sad',
             qianSprite: 'dim-sad',
             isBattleTrigger: 'both'
@@ -1195,7 +1200,7 @@
           endingStep = {
             id: 'ending_zero_xihu',
             speaker: '系統',
-            text: '你徹底惹?��?溪�???.. 她身上散?�出極度?�險?�殺�?���??�進入?�暴走模式】�?',
+            text: '你徹底惹火了溪湖醬... 她身上散發出極度危險的殺氣。準備進入【暴走模式】！',
             xiSprite: 'dim-sad',
             qianSprite: 'dim-sad',
             isBattleTrigger: 'xihu'
@@ -1204,7 +1209,7 @@
           endingStep = {
             id: 'ending_zero_qianzhen',
             speaker: '系統',
-            text: '你徹底惹?��??�鎮??.. 她身上散?�出極度?�險?�殺�?���??�進入?�暴走模式】�?',
+            text: '你徹底惹火了前鎮醬... 她身上散發出極度危險的殺氣。準備進入【暴走模式】！',
             xiSprite: 'dim-sad',
             qianSprite: 'dim-sad',
             isBattleTrigger: 'qianzhen'
@@ -1213,8 +1218,8 @@
           endingType.value = 'xihu_perfect';
           endingStep = {
             id: 'ending_100_xihu',
-            speaker: '溪�???(小溪)',
-            text: '?��?！�?小溪?��??�是?��??��?！�??�是?��??�貴?�寶貝�??�給你�??�們現?�就?��??�吧�?,
+            speaker: '溪湖醬 (小溪)',
+            text: '耶！！！小溪的魅力是無法擋的！！這是我最珍貴的寶貝，送給你！我們現在就去約會吧！',
             xiSprite: 'active-talk',
             qianSprite: 'dim-sad',
             isEnding: true
@@ -1223,8 +1228,8 @@
           endingType.value = 'qianzhen_perfect';
           endingStep = {
             id: 'ending_100_qianzhen',
-            speaker: '?�鎮??(小�?)',
-            text: '?��?算�??�眼?��??�大小�??��?人�??�已經�??�好了�?今�?就�??�們在海�??�派對吧�?,
+            speaker: '前鎮醬 (小前)',
+            text: '哼，算你有眼光！本大小姐的私人遊艇已經準備好了，今晚就讓我們在海上開派對吧！',
             xiSprite: 'dim-sad',
             qianSprite: 'active-talk',
             isEnding: true
@@ -1233,8 +1238,8 @@
           endingType.value = 'xihu';
           endingStep = {
             id: 'ending_xihu',
-            speaker: '溪�???(小溪)',
-            text: '?��?！太棒�?！�?就知?�{player}?�?��?活�?！走?��??�帶你去溪�?糖�??��??�地?��?豆鮮乳冰棒�??��??�田?��??�?��??��?！這�??�是一?��?幸�??�田?��??��?！�?��?��??,
+            speaker: '溪湖醬 (小溪)',
+            text: '哇啊！太棒了！我就知道{player}最懂生活了！走吧！我帶你去溪湖糖廠吃最道地的紅豆鮮乳冰棒，然後去田野摘最甜的葡萄！這將會是一場最幸福的田園約會喔！🍇🌾💖',
             xiSprite: 'active-talk',
             qianSprite: 'dim-sad',
             isEnding: true
@@ -1243,8 +1248,8 @@
           endingType.value = 'qianzhen';
           endingStep = {
             id: 'ending_qianzhen',
-            speaker: '?�鎮??(小�?)',
-            text: '?��??�智?��??��?不愧?�眼?��?越�?{player}?��??��??�已經�?好�?私人?��??��?級海?��??�館，�??�就讓�??�在亞洲?�灣?�?��??��??��?，�??��?奢華?�派對吧！�?��?????,
+            speaker: '前鎮醬 (小前)',
+            text: '哼，明智的抉擇！不愧是眼光卓越的{player}。來吧，我已經訂好了私人遊艇與頂級海景餐酒館，今晚就讓我們在亞洲新灣區的璀璨星光下，開啟最奢華的派對吧！🏙️🥂✨',
             xiSprite: 'dim-sad',
             qianSprite: 'active-talk',
             isEnding: true
@@ -1253,19 +1258,19 @@
           endingType.value = 'tie';
           endingStep = {
             id: 'ending_tie',
-            speaker: '小溪 & 小�?',
-            text: '?��?居然平�?？�??��?溪�??�懷?�田?��??�鎮?��??�繁華?��??��?，�?你�?說都?�無?�替�??魅�??��????不�??��??�們�??�人一起出?��??�溪湖�??�鎮?�個透徹?��????��??,
+            speaker: '小溪 & 小前',
+            text: '咦？居然平手？！看來溪湖的懷舊田園與前鎮的科技繁華各有千秋，對你來說都是無可替代的魅力呢！那事不宜遲，我們三個人一起出發，把溪湖和前鎮玩個透徹吧！🚗💨✨',
             xiSprite: 'active-talk',
             qianSprite: 'active-talk',
             isEnding: true
           };
         } else {
-          // 好�?度未??60%
+          // 好感度未達 60%
           endingType.value = 'none';
           endingStep = {
             id: 'ending_none',
-            speaker: '?�白',
-            text: '經�?了�??��?決�?你覺得兩?�似乎都?�差了那麼�?點�??��??�覺?��?許�??��?了解她們�?些�?下次?��?行�??��?定決心吧...',
+            speaker: '旁白',
+            text: '經過了一番對決，你覺得兩邊似乎都還差了那麼一點心動的感覺。或許，再多了解她們一些，下次的旅行才能下定決心吧...',
             xiSprite: 'dim-sad',
             qianSprite: 'dim-sad',
             isEnding: true
@@ -1309,6 +1314,11 @@
         });
       };
 
+      window.onBattleEnd = () => {
+        isBattleMode.value = false;
+        enterDashboard();
+      };
+
       const skipGame = () => {
         playSound('click');
         reportUnlocked.value = true;
@@ -1339,7 +1349,7 @@
 
       const handleKeyDown = (e) => {
         if (e.key === 'ArrowDown') {
-          if (isBattleMode.value) return; // ?�鬥模�?中�?止觸?��?話�?點�?
+          if (isBattleMode.value) return; // 戰鬥模式中禁止觸發對話框點擊
           if (showTitleScreen.value || showUnlockScreen.value || reportUnlocked.value) return;
           if (currentStep.value && currentStep.value.choices && currentStep.value.choices.length > 0) return;
           e.preventDefault();
@@ -1401,7 +1411,7 @@
       new Chart(ctx, {
         type: 'doughnut',
         data: {
-          labels: [label, '?��?�?],
+          labels: [label, '未達標'],
           datasets: [{
             data: [value, 100 - value],
             backgroundColor: [color, isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'],
@@ -1429,25 +1439,25 @@
     };
 
     const ctxXA = document.getElementById('xihuAffectionChart');
-    if(ctxXA) createGauge(ctxXA.getContext('2d'), '溪�??��?�?, xScore, '#2eb872');
+    if(ctxXA) createGauge(ctxXA.getContext('2d'), '溪湖喜愛度', xScore, '#2eb872');
     
     const ctxXK = document.getElementById('xihuKnowledgeChart');
-    if(ctxXK) createGauge(ctxXK.getContext('2d'), '溪�?了解�?, xKnowledge, '#10ac84');
+    if(ctxXK) createGauge(ctxXK.getContext('2d'), '溪湖了解度', xKnowledge, '#10ac84');
     
     const ctxQA = document.getElementById('qianzhenAffectionChart');
-    if(ctxQA) createGauge(ctxQA.getContext('2d'), '?�鎮?��?�?, qScore, '#1689d8');
+    if(ctxQA) createGauge(ctxQA.getContext('2d'), '前鎮喜愛度', qScore, '#1689d8');
     
     const ctxQK = document.getElementById('qianzhenKnowledgeChart');
-    if(ctxQK) createGauge(ctxQK.getContext('2d'), '?�鎮了解�?, qKnowledge, '#5f27cd');
+    if(ctxQK) createGauge(ctxQK.getContext('2d'), '前鎮了解度', qKnowledge, '#5f27cd');
 
     // 1. Bar Chart (Population comparison)
     const popCtx = document.getElementById('popChart').getContext('2d');
     new Chart(popCtx, {
         type: 'bar',
         data: {
-            labels: ['溪�???(彰�?�?', '?�鎮?� (高�?�?'],
+            labels: ['溪湖鎮 (彰化縣)', '前鎮區 (高雄市)'],
             datasets: [{
-                label: '總人??�� (�?',
+                label: '總人口數 (人)',
                 data: [52500, 177200],
                 backgroundColor: ['#2eb872', '#1689d8'],
                 borderWidth: 0,
@@ -1460,7 +1470,7 @@
             plugins: { 
               title: { 
                 display: true, 
-                text: '?�地總人??��比�?', 
+                text: '兩地總人口數比較', 
                 color: textColor, 
                 font: { size: 15, weight: 'bold', family: "'Noto Sans TC', sans-serif" } 
               },
@@ -1479,12 +1489,12 @@
         }
     });
 
-    // 2. Doughnut Chart (?��??��?�?
+    // 2. Doughnut Chart (里村數比較)
     const villageCtx = document.getElementById('villageChart').getContext('2d');
     new Chart(villageCtx, {
         type: 'doughnut',
         data: {
-            labels: ['溪�???(25 ?��???', '?�鎮?� (59 ?��??��?)'],
+            labels: ['溪湖鎮 (25 個村里)', '前鎮區 (59 個行政里)'],
             datasets: [{
                 data: [25, 59],
                 backgroundColor: ['#2eb872', '#1689d8'],
@@ -1498,7 +1508,7 @@
             plugins: { 
               title: { 
                 display: true, 
-                text: '行政?�?��??�數比�?', 
+                text: '行政區劃里村數比較', 
                 color: textColor, 
                 font: { size: 15, weight: 'bold', family: "'Noto Sans TC', sans-serif" } 
               }, 
@@ -1514,4 +1524,3 @@
 
 </body>
 </html>
-

@@ -354,7 +354,7 @@ window.dialogueData = [
       { "text": "亞洲新灣區", "points": { "xihu": 0, "qianzhen": 5 }, "next": "q9_pref_xi" },
       { "text": "信義計畫區", "points": { "xihu": 0, "qianzhen": -10 }, "next": "q9_pref_xi" },
       { "text": "水湳經貿園區", "points": { "xihu": 0, "qianzhen": -10 }, "next": "q9_pref_xi" },
-      { "text": "緬北詐騙中心", "points": { "xihu": 0, "qianzhen": 0 }, "next": "q9_pref_xi" },
+      { "text": "緬北詐騙中心", "points": { "xihu": 0, "qianzhen": 0 }, "next": "q9_pref_xi" }
 
     ]
   },
