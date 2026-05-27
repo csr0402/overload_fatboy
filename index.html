@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-TW">
 
 <head>
@@ -19,7 +19,8 @@
       height: 100vh !important;
       max-width: none !important;
       margin: 0 !important;
-      padding: 0 !important; /* Remove nav padding */
+      padding: 0 !important;
+      /* Remove nav padding */
       gap: 0 !important;
       z-index: 10;
       overflow: hidden !important;
@@ -28,17 +29,18 @@
     #compare {
       position: relative;
     }
-    
+
     body.splash-active {
       overflow: hidden !important;
       height: 100vh !important;
     }
-    
+
     /* NAV HIDE/SHOW LOGIC */
     header {
       transform: translateY(-100%);
       transition: transform 0.3s ease;
     }
+
     header.show-nav {
       transform: translateY(0);
     }
@@ -49,7 +51,8 @@
 
   <!-- ── Fixed Header ── -->
   <header id="main-header">
-    <nav class="navbar" id="main-nav" aria-label="主導覽列" style="transform: translateY(-100%); transition: transform 0.3s ease;">
+    <nav class="navbar" id="main-nav" aria-label="主導覽列"
+      style="transform: translateY(-100%); transition: transform 0.3s ease;">
       <a class="brand" href="index.html">
         <span class="brand-badge">旅</span>
         <span>溪湖 × 前鎮</span>
@@ -99,26 +102,33 @@
   <main>
 
     <!-- ── Splash Screen (Showdown Video) ── -->
-    <div id="splash-screen" class="showdown-hero show"
-      style="position: fixed !important; left: 0 !important; right: 0 !important; top: 0 !important; width: 100vw !important; height: 100vh !important; max-width: none !important; margin: 0 !important; padding: 0 !important; gap: 0 !important; display: flex !important; flex-direction: row !important; align-items: center !important; justify-content: stretch !important; transform: none !important; box-sizing: border-box !important; z-index: 9999 !important;">
+    <div id="splash-screen" class="showdown-hero show" onclick="openCurtain()"
+      style="position: fixed !important; left: 0 !important; right: 0 !important; top: 0 !important; width: 100vw !important; height: 100vh !important; max-width: none !important; margin: 0 !important; padding: 0 !important; gap: 0 !important; display: flex !important; flex-direction: row !important; align-items: center !important; justify-content: stretch !important; transform: none !important; box-sizing: border-box !important; z-index: 9999 !important; cursor: pointer;">
 
       <!-- 左側：溪湖鎮 -->
       <div class="showdown-side showdown-left"
         style="width: 50% !important; max-width: 50% !important; flex: 1 !important; margin: 0 !important; height: 100vh !important; box-sizing: border-box !important; position: relative !important; overflow: hidden !important; padding: 0 !important; display: flex !important; flex-direction: column !important; justify-content: center !important; align-items: center !important;">
-        <video id="video-xihu" src="images/溪湖火車.mp4" autoplay muted playsinline style="width: 100% !important; height: auto !important; object-fit: contain !important; z-index: 1; pointer-events: none !important; border: none !important; border-radius: 0 !important; padding: 0 !important; margin: 0 !important; max-width: none !important; max-height: none !important;"></video>
+        <video id="video-xihu" src="images/溪湖火車.mp4" autoplay muted playsinline
+          style="width: 100% !important; height: auto !important; object-fit: contain !important; z-index: 1; pointer-events: none !important; border: none !important; border-radius: 0 !important; padding: 0 !important; margin: 0 !important; max-width: none !important; max-height: none !important;"></video>
       </div>
 
       <!-- 右側：前鎮區 -->
       <div class="showdown-side showdown-right"
         style="width: 50% !important; max-width: 50% !important; flex: 1 !important; margin: 0 !important; height: 100vh !important; box-sizing: border-box !important; position: relative !important; overflow: hidden !important; padding: 0 !important; display: flex !important; flex-direction: column !important; justify-content: center !important; align-items: center !important;">
-        <video id="video-qianzhen" src="images/前鎮之星.mp4" autoplay muted playsinline style="width: 100% !important; height: auto !important; object-fit: contain !important; z-index: 1; pointer-events: none !important; border: none !important; border-radius: 0 !important; padding: 0 !important; margin: 0 !important; max-width: none !important; max-height: none !important;"></video>
+        <video id="video-qianzhen" src="images/前鎮之星.mp4" autoplay muted playsinline
+          style="width: 100% !important; height: auto !important; object-fit: contain !important; z-index: 1; pointer-events: none !important; border: none !important; border-radius: 0 !important; padding: 0 !important; margin: 0 !important; max-width: none !important; max-height: none !important;"></video>
       </div>
 
       <!-- 全寬度標題格 (底部對齊原本高度) -->
-      <div id="showdown-title-bar" style="position: absolute; bottom: 80px; left: 0; width: 100vw; z-index: 20; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); padding: 15px 0; text-align: center; pointer-events: auto; border-top: 1px solid rgba(255, 255, 255, 0.2); border-bottom: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
-        <h1 style="font-size: clamp(2.5rem, 4vw, 4rem); color: white; margin: 0; display: flex; justify-content: center; align-items: center; gap: 4vw; font-weight: 900; letter-spacing: 4px; font-family: 'Inter', sans-serif;">
+      <div id="showdown-title-bar"
+        style="position: absolute; bottom: 80px; left: 0; width: 100vw; z-index: 20; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); padding: 15px 0; text-align: center; pointer-events: auto; border-top: 1px solid rgba(255, 255, 255, 0.2); border-bottom: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+        <h1
+          style="font-size: clamp(2.5rem, 4vw, 4rem); color: white; margin: 0; display: flex; justify-content: center; align-items: center; gap: 4vw; font-weight: 900; letter-spacing: 4px; font-family: 'Inter', sans-serif;">
           <span style="text-shadow: 0 0 20px #0cf;">溪湖鎮</span>
-          <span onclick="openCurtain()" style="font-size: clamp(1.5rem, 2vw, 2.5rem); color: #f04; font-style: italic; font-weight: 900; text-shadow: 0 0 10px rgba(255,0,68,0.8); cursor: pointer; padding: 10px 20px; border-radius: 20px; transition: transform 0.2s, background 0.2s;" onmouseover="this.style.transform='scale(1.2)'; this.style.background='rgba(255,0,68,0.2)';" onmouseout="this.style.transform='scale(1)'; this.style.background='transparent';">VS</span>
+          <span
+            style="font-size: clamp(1.5rem, 2vw, 2.5rem); color: #f04; font-style: italic; font-weight: 900; text-shadow: 0 0 10px rgba(255,0,68,0.8); padding: 10px 20px; border-radius: 20px; transition: transform 0.2s, background 0.2s;"
+            onmouseover="this.style.transform='scale(1.2)'; this.style.background='rgba(255,0,68,0.2)';"
+            onmouseout="this.style.transform='scale(1)'; this.style.background='transparent';">VS</span>
           <span style="text-shadow: 0 0 20px #f04;">前鎮區</span>
         </h1>
       </div>
@@ -129,7 +139,9 @@
       <div>
         <span class="eyebrow">🌿 田園糖香 meets 🌊 城市港灣</span>
         <h1 data-zh="農業樞紐<br>與科技港灣" data-en="Rural Hub<br>& Tech Bay">農業樞紐<br>與科技港灣</h1>
-        <p class="lead" data-zh="彰化縣溪湖鎮（縣內人口第五大鄉鎮）與高雄市前鎮區（市內人口第五大區）。一個孕育豐饒蔬果，一個帶動都會經濟。用圖文對比與互動推薦，探索兩地獨特的發展脈絡。" data-en="Xihu Township (5th largest in Changhua) vs Qianzhen District (5th largest in Kaohsiung). One grows Taiwan's finest produce; the other drives urban commerce. Explore through visual comparison and interactive picks.">彰化縣溪湖鎮（縣內人口第五大鄉鎮）與高雄市前鎮區（市內人口第五大區）。一個孕育豐饒蔬果，一個帶動都會經濟。用圖文對比與互動推薦，探索兩地獨特的發展脈絡。</p>
+        <p class="lead" data-zh="彰化縣溪湖鎮（縣內人口第五大鄉鎮）與高雄市前鎮區（市內人口第五大區）。一個孕育豐饒蔬果，一個帶動都會經濟。用圖文對比與互動推薦，探索兩地獨特的發展脈絡。"
+          data-en="Xihu Township (5th largest in Changhua) vs Qianzhen District (5th largest in Kaohsiung). One grows Taiwan's finest produce; the other drives urban commerce. Explore through visual comparison and interactive picks.">
+          彰化縣溪湖鎮（縣內人口第五大鄉鎮）與高雄市前鎮區（市內人口第五大區）。一個孕育豐饒蔬果，一個帶動都會經濟。用圖文對比與互動推薦，探索兩地獨特的發展脈絡。</p>
         <div class="cta-row">
           <a class="btn" href="#compare" data-zh="開始比較 →" data-en="Compare →">開始比較 →</a>
           <a class="btn secondary" href="random-slot.html" data-zh="隨機推薦景點 ✨" data-en="Random Pick ✨">隨機推薦景點 ✨</a>
@@ -155,7 +167,9 @@
     <!-- ── Section 2: Overview / Feature Cards ── -->
     <section id="overview">
       <h2 data-zh="兩種截然不同的旅行節奏" data-en="Two Very Different Rhythms">兩種截然不同的旅行節奏</h2>
-      <p class="lead" data-zh="前鎮適合喜歡都會娛樂、購物展演與港灣夜景的旅人；溪湖適合親子、鐵道迷與喜歡慢步調農村風情的訪客。" data-en="Qianzhen suits urban explorers craving malls and harbor views; Xihu suits families and rail fans seeking a slower, agricultural pace.">前鎮適合喜歡都會娛樂、購物展演與港灣夜景的旅人；溪湖適合親子、鐵道迷與喜歡慢步調農村風情的訪客。</p>
+      <p class="lead" data-zh="前鎮適合喜歡都會娛樂、購物展演與港灣夜景的旅人；溪湖適合親子、鐵道迷與喜歡慢步調農村風情的訪客。"
+        data-en="Qianzhen suits urban explorers craving malls and harbor views; Xihu suits families and rail fans seeking a slower, agricultural pace.">
+        前鎮適合喜歡都會娛樂、購物展演與港灣夜景的旅人；溪湖適合親子、鐵道迷與喜歡慢步調農村風情的訪客。</p>
       <div class="cards">
         <article class="card">
           <div class="card-icon">🌃</div>
@@ -405,11 +419,11 @@
     // ==========================================
     const videoXihu = document.getElementById('video-xihu');
     if (videoXihu) {
-      videoXihu.playbackRate = 3.2;
+      videoXihu.playbackRate = 12.8;
     }
     const videoQianzhen = document.getElementById('video-qianzhen');
     if (videoQianzhen) {
-      videoQianzhen.playbackRate = 2.0;
+      videoQianzhen.playbackRate = 8.0;
     }
     // Scroll Nav Hide/Show Logic
     window.addEventListener('scroll', () => {
@@ -426,32 +440,32 @@
     function openCurtain() {
       if (curtainOpened) return;
       curtainOpened = true;
-      
+
       const leftSide = document.querySelector('.showdown-left');
       const rightSide = document.querySelector('.showdown-right');
       const titleBar = document.getElementById('showdown-title-bar');
       const splashSec = document.getElementById('splash-screen');
       const nav = document.getElementById('main-nav');
-      
+
       // Add CSS transitions
       leftSide.style.transition = 'transform 1.2s cubic-bezier(0.77, 0, 0.175, 1)';
       rightSide.style.transition = 'transform 1.2s cubic-bezier(0.77, 0, 0.175, 1)';
       titleBar.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
-      
+
       // Trigger animation
       leftSide.style.transform = 'translateX(-100vw)';
       rightSide.style.transform = 'translateX(100vw)';
       titleBar.style.opacity = '0';
       titleBar.style.transform = 'scale(1.2)';
-      
+
       // Show nav
       setTimeout(() => {
-        if(nav) nav.style.transform = 'translateY(0)';
+        if (nav) nav.style.transform = 'translateY(0)';
       }, 500);
-      
+
       // Re-enable scrolling
       document.body.classList.remove('splash-active');
-      
+
       // Hide section completely after animation
       setTimeout(() => {
         splashSec.style.display = 'none';
