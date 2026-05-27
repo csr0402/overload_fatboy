@@ -340,7 +340,7 @@ window.dialogueData = [
     "choices": [
       { "text": "充滿誠意的新鮮特產", "points": { "xihu": 10, "qianzhen": -5 }, "next": "q4_qian_quiz" },
       { "text": "精緻高質感的伴手禮", "points": { "xihu": -5, "qianzhen": 10 }, "next": "q4_qian_quiz" },
-      { "text": "50萬馬克的麵包", "points": { "xihu": -10, "qianzhen": -10 }, "next": "q4_qian_quiz" },
+      { "text": "50萬馬克的麵包", "points": { "xihu": -10, "qianzhen": -10 }, "next": "q4_qian_quiz" }
     ]
   },
 
