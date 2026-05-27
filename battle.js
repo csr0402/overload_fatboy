@@ -479,6 +479,7 @@ window.initBattleEngine = function (bossType, onEndCallback) {
           if (player.hp <= 0) {
             isGameOver = true;
             endBattle(false);
+            return;
           }
         }
       }
@@ -487,6 +488,7 @@ window.initBattleEngine = function (bossType, onEndCallback) {
     if (elapsed >= survivalTimeMs + introTimeMs) {
       isWin = true;
       endBattle(true);
+      return;
     }
 
     draw();
