@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>資料來源 | 雙城對話</title>
+  <link rel="stylesheet" href="style.css?v=2">
+  <script>document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || 'light');</script>
+  <style>
+    .sources-container {
+      max-width: 800px;
+      margin: 100px auto 50px;
+      padding: 30px;
+      background: var(--surface);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--glass-border);
+    }
+    
+    .sources-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background: var(--surface-solid);
+    }
+    
+    .sources-table th, .sources-table td {
+      border: 1px solid var(--glass-border);
+      padding: 12px 15px;
+      text-align: left;
+    }
+    
+    .sources-table th {
+      background-color: var(--table-header-bg);
+      font-weight: bold;
+      color: var(--primary);
+    }
+
+    .back-btn {
+      display: inline-block;
+      margin-bottom: 20px;
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: bold;
+    }
+    
+    .back-btn:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+  <header id="main-header" class="show-nav">
+    <nav class="navbar" id="main-nav">
+      <a class="brand" href="index.html">
+        <span class="brand-badge">旅</span>
+        <span>溪湖 × 前鎮</span>
+      </a>
+      <div class="nav-controls">
+        <button id="lang-toggle-btn" onclick="toggleLanguage()" title="切換語言">EN</button>
+        <button id="theme-toggle-btn" onclick="toggleTheme()" title="切換深淺色">🌙</button>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <div class="sources-container">
+      <a href="index.html" class="back-btn" data-zh="← 返回首頁" data-en="← Back to Home">← 返回首頁</a>
+      <h1 data-zh="資料來源清單" data-en="Data Sources List">資料來源清單</h1>
+      <p data-zh="本網站所引用的相關數據與資料來源條列如下：" data-en="The data and information sources used in this website are listed below:">本網站所引用的相關數據與資料來源條列如下：</p>
+      
+      <div style="overflow-x: auto;">
+        <table class="sources-table">
+          <thead>
+            <tr>
+              <th width="30%" data-zh="資料來源單位" data-en="Source Organization">資料來源單位</th>
+              <th width="40%" data-zh="資料內容/名稱" data-en="Data Content / Name">資料內容/名稱</th>
+              <th width="30%" data-zh="連結/備註" data-en="Link / Notes">連結/備註</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td data-zh="維基百科" data-en="Wikipedia">維基百科</td>
+              <td data-zh="溪湖鎮、前鎮區基本資料" data-en="Basic info of Xihu & Qianzhen">溪湖鎮、前鎮區基本資料</td>
+              <td><a href="#" target="_blank">連結</a></td>
+            </tr>
+            <tr>
+              <td data-zh="內政部戶政司" data-en="Ministry of Interior">內政部戶政司</td>
+              <td data-zh="人口統計資料" data-en="Population statistics">人口統計資料</td>
+              <td><a href="#" target="_blank">連結</a></td>
+            </tr>
+            <tr>
+              <td data-zh="彰化縣政府" data-en="Changhua County Gov.">彰化縣政府</td>
+              <td data-zh="地方產業與觀光發展" data-en="Local industry & tourism">地方產業與觀光發展</td>
+              <td><a href="#" target="_blank">連結</a></td>
+            </tr>
+            <tr>
+              <td data-zh="高雄市政府" data-en="Kaohsiung City Gov.">高雄市政府</td>
+              <td data-zh="市政發展與交通建設" data-en="City dev & transportation">市政發展與交通建設</td>
+              <td><a href="#" target="_blank">連結</a></td>
+            </tr>
+            <!-- 空白行供後續增加 -->
+            <tr>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+            </tr>
+            <tr>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+            </tr>
+            <tr>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <strong data-zh="雙城對話 © 2026" data-en="Twin City Dialogue © 2026">雙城對話 © 2026</strong>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
