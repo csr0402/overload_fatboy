@@ -201,16 +201,16 @@
         <div class="nav-item">
           <a href="random-slot.html">景點推薦 ▾</a>
           <div class="dropdown-menu">
-            <a href="random-slot.html">🎰 命運拉霸機</a>
-            <a href="random-wheel.html">🎡 幸運轉盤</a>
-            <a href="random-scratch.html">🎟 刮刮樂</a>
+            <a href="random-slot.html">命運拉霸機</a>
+            <a href="random-wheel.html">幸運轉盤</a>
+            <a href="random-scratch.html">刮刮樂</a>
           </div>
         </div>
         <a href="summary.html">PK 總結</a>
       </div>
       <div class="nav-controls">
         <button id="lang-toggle-btn" onclick="toggleLanguage()">EN</button>
-        <button id="theme-toggle-btn" onclick="toggleTheme()">🌙</button>
+        <button id="theme-toggle-btn" onclick="toggleTheme()">☾</button>
       </div>
     </nav>
   </header>
@@ -223,14 +223,14 @@
     <div class="page-container">
       <main class="page-content">
         <div class="glass-card" style="text-align:center;">
-          <span class="eyebrow">🎰 Fortune Slot</span>
+          <span class="eyebrow">Fortune Slot</span>
           <h2 style="color:var(--primary);">不知道去哪？啟動命運拉霸機！</h2>
           <p style="color:var(--muted);margin-bottom:2.5rem;">設定篩選條件後，拉下右側拉桿，讓命運決定今日目的地。</p>
 
           <!-- 篩選器 -->
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1.2rem;margin-bottom:2.5rem;text-align:left;">
             <div>
-              <label style="display:block;font-weight:900;margin-bottom:.5rem;font-size:.9rem;">📍 地區</label>
+              <label style="display:block;font-weight:900;margin-bottom:.5rem;font-size:.9rem;">地區</label>
               <select v-model="filters.region" class="btn" style="width:100%;background:var(--surface-solid);color:var(--text);border:1px solid var(--glass-border);padding:12px 16px;">
                 <option value="all">不限地區</option>
                 <option value="前鎮區">前鎮區</option>
@@ -273,7 +273,7 @@
               </div>
               <!-- Optional secondary pull button for accessibility -->
               <button class="btn btn-primary" style="padding:10px 30px; font-size: 0.9rem;" @click="pullAndSpin" :disabled="isRolling || filteredAttractions.length === 0">
-                {{ isRolling ? '🎰 轉動中...' : '按此啟動' }}
+                {{ isRolling ? '轉動中...' : '按此啟動' }}
               </button>
             </div>
 
@@ -309,9 +309,9 @@
         <div class="sidebar-menu">
           <h3>趣味抽選遊戲</h3>
           <ul>
-            <li><a href="random-slot.html" class="active">🎰 命運拉霸機</a></li>
-            <li><a href="random-wheel.html">🎡 幸運大轉盤</a></li>
-            <li><a href="random-scratch.html">🎟️ 神祕刮刮樂</a></li>
+            <li><a href="random-slot.html" class="active">命運拉霸機</a></li>
+            <li><a href="random-wheel.html">幸運大轉盤</a></li>
+            <li><a href="random-scratch.html">神祕刮刮樂</a></li>
           </ul>
         </div>
       </aside>
@@ -341,7 +341,7 @@
             attractions.value = window.attractionsData || [];
             if (attractions.value.length === 0) throw new Error("No data");
           } catch (e) {
-            displayText.value = '❌ 資料讀取失敗';
+            displayText.value = '資料讀取失敗';
           }
         });
 
@@ -356,7 +356,7 @@
 
         watch(filteredAttractions, pool => {
           result.value = null;
-          displayText.value = pool.length ? '拉下右側拉桿啟動！' : '⚠️ 無符合條件的景點';
+          displayText.value = pool.length ? '拉下右側拉桿啟動！' : '無符合條件的景點';
         });
 
         function fireConfetti() {
@@ -393,7 +393,7 @@
               clearInterval(interval);
               spinAudio.pause(); spinAudio.currentTime = 0;
               isRolling.value = false;
-              displayText.value = '🎉 ' + winner.name;
+              displayText.value = winner.name;
               result.value = winner;
               fireConfetti();
             }
