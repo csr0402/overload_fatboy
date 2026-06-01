@@ -154,8 +154,6 @@ nav.navbar {
   position: fixed;
   inset: 0 0 auto 0;
   z-index: 1000;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
   background: color-mix(in srgb, var(--surface) 86%, transparent);
   border-bottom: 1px solid color-mix(in srgb, var(--muted) 18%, transparent);
   width: 100%;
@@ -290,7 +288,6 @@ nav.navbar {
   display: flex;
   flex-direction: column;
   z-index: 1001;
-  backdrop-filter: blur(16px);
 }
 
 .nav-item:hover .dropdown-menu {
@@ -327,7 +324,6 @@ nav.navbar {
   border-radius: 22px;
   padding: 14px 10px;
   box-shadow: var(--shadow);
-  backdrop-filter: blur(16px);
 }
 
 .dot {
@@ -563,7 +559,6 @@ h3 {
   box-shadow: var(--shadow);
   overflow: hidden;
   position: relative;
-  backdrop-filter: blur(14px);
 }
 
 .split-map {
@@ -640,7 +635,6 @@ h3 {
   border-radius: 28px;
   padding: 22px;
   box-shadow: var(--shadow);
-  backdrop-filter: blur(14px);
   transition: transform .3s ease, box-shadow .3s ease;
 }
 
@@ -673,7 +667,6 @@ h3 {
   overflow: hidden;
   padding: 0;
   box-shadow: var(--shadow);
-  backdrop-filter: blur(14px);
 }
 
 .table-row {
@@ -752,7 +745,6 @@ h3 {
   border-radius: 24px;
   background: var(--surface);
   border: 1px solid color-mix(in srgb, var(--muted) 18%, transparent);
-  backdrop-filter: blur(14px);
 }
 
 /* ── Explore Card ── */
@@ -1069,7 +1061,6 @@ footer strong {
 
 .sidebar-menu {
   background: var(--surface);
-  backdrop-filter: blur(16px);
   border: 1px solid color-mix(in srgb, var(--muted) 18%, transparent);
   border-radius: 24px;
   padding: 24px;
@@ -1111,7 +1102,6 @@ footer strong {
 
 .glass-card {
   background: var(--surface);
-  backdrop-filter: blur(14px);
   border: 1px solid color-mix(in srgb, var(--muted) 18%, transparent);
   border-radius: 28px;
   padding: 28px;
@@ -1293,7 +1283,6 @@ body {
   border-radius: 28px;
   padding: 30px;
   box-shadow: var(--shadow);
-  backdrop-filter: blur(14px);
   text-align: center;
   transition: transform 0.3s ease;
 }
@@ -1346,7 +1335,6 @@ body {
   border-radius: 28px;
   padding: 24px;
   box-shadow: var(--shadow);
-  backdrop-filter: blur(14px);
 }
 
 .chart-wrapper h3,
