@@ -198,31 +198,77 @@ window.initBattleEngine = function (bossType, onEndCallback) {
     xihuStateTimer -= dt;
     if (xihuStateTimer <= 0) {
       xihuPhase = Math.floor(Math.random() * 4);
-      xihuStateTimer = (xihuPhase === 0) ? 2.5 : ((xihuPhase === 1) ? 3.0 : ((xihuPhase === 2) ? 4.0 : 6.0));
+      xihuStateTimer = (xihuPhase === 0) ? 3.0 : ((xihuPhase === 1) ? 3.0 : ((xihuPhase === 2) ? 4.0 : 6.0));
       xihuHasSpawned = false;
     }
 
-    if (xihuPhase === 0) {
-      if (Math.random() < 0.08) {
-        addBullet({
-          x: arena.x + Math.random() * arena.w,
-          y: arena.y - 30,
-          vy: 120 + Math.random() * 100,
-          vx: (Math.random() - 0.5) * 40,
-          size: 16, type: 'circle', emoji: '🍇', emojiSize: 28
+    if (xihuPhase === 0 && !xihuHasSpawned) {
+      xihuHasSpawned = true;
+      const grapeCount = 6 + Math.floor(Math.random() * 4); // 6~9顆葡萄
+      const side = Math.floor(Math.random() * 4); // 從哪一邊：0左 1右 2上 3下
+      const spacing = 38; // 葡萄間距
+      const warningDelaySec = 0.7;
+
+      // 鎖定玩家當前位置作為衝刺目標
+      const targetX = player.x;
+      const targetY = player.y;
+
+      for (let i = 0; i < grapeCount; i++) {
+        const offset = (i - (grapeCount - 1) / 2) * spacing;
+        let startX, startY;
+
+        if (side === 0) {       // 從左邊一字排開
+          startX = arena.x - 60;
+          startY = arena.y + arena.h / 2 + offset;
+        } else if (side === 1) { // 從右邊一字排開
+          startX = arena.x + arena.w + 60;
+          startY = arena.y + arena.h / 2 + offset;
+        } else if (side === 2) { // 從上方一字排開
+          startX = arena.x + arena.w / 2 + offset;
+          startY = arena.y - 60;
+        } else {                 // 從下方一字排開
+          startX = arena.x + arena.w / 2 + offset;
+          startY = arena.y + arena.h + 60;
+        }
+
+        // 計算朝玩家方向的速度
+        const dx = targetX - startX;
+        const dy = targetY - startY;
+        const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+        const speed = 370 + Math.random() * 60;
+        const capturedVx = dx / dist * speed;
+        const capturedVy = dy / dist * speed;
+        const capturedX = startX;
+        const capturedY = startY;
+
+        // 警示框：顯示葡萄即將衝入的邊緣位置
+        warnings.push({
+          x: side === 0 ? arena.x : (side === 1 ? arena.x + arena.w - 28 : startX - 14),
+          y: side === 2 ? arena.y : (side === 3 ? arena.y + arena.h - 28 : startY - 14),
+          w: 28, h: 28,
+          life: warningDelaySec
         });
+
+        // 錯開發射（每顆相差 40ms），製造波浪感
+        setTimeout(() => {
+          addBullet({
+            x: capturedX, y: capturedY,
+            vx: capturedVx, vy: capturedVy,
+            size: 18, type: 'circle', emoji: '🐑', emojiSize: 34
+          });
+        }, warningDelaySec * 1000 + i * 40);
       }
     } else if (xihuPhase === 1 && !xihuHasSpawned) {
       xihuHasSpawned = true;
-      const sheepCount = 6 + Math.floor(Math.random() * 5);
-      for (let i = 0; i < sheepCount; i++) {
+      const grapeBouncCount = 6 + Math.floor(Math.random() * 5);
+      for (let i = 0; i < grapeBouncCount; i++) {
         const isLeft = Math.random() > 0.5;
         addBullet({
           x: isLeft ? arena.x - 40 - Math.random() * 150 : arena.x + arena.w + 40 + Math.random() * 150,
           y: arena.y + 20 + Math.random() * (arena.h - 40),
           vx: (isLeft ? 1 : -1) * (180 + Math.random() * 100),
           vy: (Math.random() > 0.5 ? 1 : -1) * (50 + Math.random() * 80),
-          width: 30, height: 30, type: 'rect', emoji: isLeft ? '🐑' : '🐏', emojiSize: 32,
+          width: 30, height: 30, type: 'rect', emoji: '🍇', emojiSize: 32,
           update: function (dt) {
             this.y += this.vy * dt;
             if (this.y < arena.y || this.y > arena.y + arena.h - this.height) this.vy *= -1;
@@ -270,7 +316,29 @@ window.initBattleEngine = function (bossType, onEndCallback) {
       xihuHasSpawned = true;
       const duration = 5.5;
       const side = Math.floor(Math.random() * 4); // 0:Left, 1:Right, 2:Top, 3:Bottom
-      spawnGiantLeek(side, duration);
+
+      // 根據韭菜出現的邊顯示警告框
+      const leekWarn = { life: 1.0 };
+      if (side === 0) { // 左邊
+        leekWarn.x = arena.x - 20; leekWarn.y = arena.y;
+        leekWarn.w = 20; leekWarn.h = arena.h;
+      } else if (side === 1) { // 右邊
+        leekWarn.x = arena.x + arena.w; leekWarn.y = arena.y;
+        leekWarn.w = 20; leekWarn.h = arena.h;
+      } else if (side === 2) { // 上方
+        leekWarn.x = arena.x; leekWarn.y = arena.y - 20;
+        leekWarn.w = arena.w; leekWarn.h = 20;
+      } else { // 下方
+        leekWarn.x = arena.x; leekWarn.y = arena.y + arena.h;
+        leekWarn.w = arena.w; leekWarn.h = 20;
+      }
+      warnings.push(leekWarn);
+
+      // 1秒後韭菜登場
+      setTimeout(() => {
+        if (screenShake < 10) screenShake = 10;
+        spawnGiantLeek(side, duration);
+      }, 1000);
     }
   };
 
