@@ -13,7 +13,7 @@ function toggleTheme() {
 function updateThemeIcon(theme) {
   const btn = document.getElementById('theme-toggle-btn');
   if(btn) {
-    btn.innerHTML = theme === 'dark' ? '☀️' : '🌙';
+    btn.innerHTML = theme === 'dark' ? '☀' : '☾';
   }
 }
 
