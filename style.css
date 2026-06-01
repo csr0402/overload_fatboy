@@ -122,7 +122,6 @@ img {
   width: 320px;
   height: 320px;
   border-radius: 50%;
-  filter: blur(10px);
   opacity: .32;
   pointer-events: none;
   z-index: -1;
