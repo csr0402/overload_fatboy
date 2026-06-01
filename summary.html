@@ -1347,7 +1347,38 @@
         currentStepIndex.value = 0;
       };
 
+      // 快速啟動戰鬥（開發用快捷鍵）
+      const startBattleDirect = (battleType) => {
+        if (isBattleMode.value) return;
+        isBattleMode.value = true;
+        bgmAudio.pause();
+        fightAudio.currentTime = 0;
+        fightAudio.play().catch(err => console.log('Audio error:', err));
+
+        nextTick(() => {
+          if (!document.getElementById('battle-script')) {
+            const script = document.createElement('script');
+            script.id = 'battle-script';
+            script.src = 'battle.js';
+            script.onload = () => {
+              if (window.initBattleEngine) window.initBattleEngine(battleType, window.onBattleEnd);
+            };
+            document.body.appendChild(script);
+          } else {
+            if (window.initBattleEngine) window.initBattleEngine(battleType, window.onBattleEnd);
+          }
+        });
+      };
+
       const handleKeyDown = (e) => {
+        // ── 快捷鍵：快速測試三種戰鬥 ──
+        // B = 溪湖醬單打  N = 前鎮醬單打  M = 雙重暴走
+        if (!isBattleMode.value && !showTitleScreen.value && !showUnlockScreen.value) {
+          if (e.key === 'b' || e.key === 'B') { e.preventDefault(); startBattleDirect('xihu');     return; }
+          if (e.key === 'n' || e.key === 'N') { e.preventDefault(); startBattleDirect('qianzhen'); return; }
+          if (e.key === 'm' || e.key === 'M') { e.preventDefault(); startBattleDirect('both');     return; }
+        }
+
         if (e.key === 'ArrowDown') {
           if (isBattleMode.value) return; // 戰鬥模式中禁止觸發對話框點擊
           if (showTitleScreen.value || showUnlockScreen.value || reportUnlocked.value) return;

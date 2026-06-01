@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Compression tools (one-off scripts)
+compress-images.js
+package.json
+package-lock.json
+ffmpeg.zip

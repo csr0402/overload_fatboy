@@ -313,7 +313,7 @@ window.dialogueData = [
       { "text": "溪湖羊肉爐", "points": { "xihu": 5, "qianzhen": 0 }, "next": "q8_pref_xi" },
       { "text": "新竹米粉", "points": { "xihu": -10, "qianzhen": 0 }, "next": "q8_pref_xi" },
       { "text": "嘉義火雞肉飯", "points": { "xihu": -10, "qianzhen": 0 }, "next": "q8_pref_xi" },
-      { "text": "台南牛肉湯", "points": { "xihu": -10, "qianzhen": -10 }, "next": "q8_pref_xi" }
+      { "text": "台南牛肉湯", "points": { "xihu": -10, "qianzhen": 0 }, "next": "q8_pref_xi" }
     ]
   },
 
@@ -354,7 +354,7 @@ window.dialogueData = [
       { "text": "亞洲新灣區", "points": { "xihu": 0, "qianzhen": 5 }, "next": "q9_pref_xi" },
       { "text": "信義計畫區", "points": { "xihu": 0, "qianzhen": -10 }, "next": "q9_pref_xi" },
       { "text": "水湳經貿園區", "points": { "xihu": 0, "qianzhen": -10 }, "next": "q9_pref_xi" },
-      { "text": "緬北詐騙中心", "points": { "xihu": 0, "qianzhen": 0 }, "next": "q9_pref_xi" }
+      { "text": "緬北詐騙中心", "points": { "xihu": 0, "qianzhen": -10 }, "next": "q9_pref_xi" }
 
     ]
   },
@@ -396,7 +396,7 @@ window.dialogueData = [
       { "text": "半導體產業", "points": { "xihu": -10, "qianzhen": 0 }, "next": "q10_pref_xi" },
       { "text": "採礦業", "points": { "xihu": -10, "qianzhen": 0 }, "next": "q10_pref_xi" },
       { "text": "製糖業", "points": { "xihu": 5, "qianzhen": 0 }, "next": "q10_pref_xi" },
-      { "text": "讀大葉，好就業", "points": { "xihu": -10, "qianzhen": -10 }, "next": "q10_pref_xi" }
+      { "text": "讀大葉，好就業", "points": { "xihu": -10, "qianzhen": 0 }, "next": "q10_pref_xi" }
     ]
   },
 

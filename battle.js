@@ -23,6 +23,7 @@ window.initBattleEngine = function (bossType, onEndCallback) {
   };
   window.addEventListener('resize', resize);
   resize(); // initial setup
+  canvas.style.willChange = 'transform'; // GPU hint – enables hardware-accelerated CSS shake
 
   // Player state
   const player = {
@@ -49,7 +50,9 @@ window.initBattleEngine = function (bossType, onEndCallback) {
   // Particles (Emoji or Text)
   let particles = [];
   const spawnParticles = (x, y, emojis, count, speedScale = 1) => {
-    for (let i = 0; i < count; i++) {
+    const canAdd = Math.min(count, 40 - particles.length); // cap total particles at 40
+    if (canAdd <= 0) return;
+    for (let i = 0; i < canAdd; i++) {
       particles.push({
         x: x, y: y,
         vx: (Math.random() - 0.5) * 250 * speedScale,
@@ -180,6 +183,7 @@ window.initBattleEngine = function (bossType, onEndCallback) {
   };
 
   const addBullet = (b) => {
+    if (bullets.length >= 100) return; // cap to prevent frame-rate drop
     bullets.push({
       x: b.x, y: b.y, vx: b.vx || 0, vy: b.vy || 0,
       width: b.width || b.size, height: b.height || b.size,
@@ -491,33 +495,62 @@ window.initBattleEngine = function (bossType, onEndCallback) {
       return;
     }
 
+    // CSS screen shake – GPU-accelerated, zero canvas re-layout cost
+    if (screenShake > 0) {
+      const sx = ((Math.random() - 0.5) * screenShake).toFixed(1);
+      const sy = ((Math.random() - 0.5) * screenShake).toFixed(1);
+      canvas.style.transform = `translate(${sx}px,${sy}px)`;
+    } else {
+      canvas.style.transform = 'none';
+    }
+
     draw();
     requestAnimationFrame(loop);
   };
 
+  // Offscreen background canvas – pre-rendered, rebuilt only on resize
+  let _bgCanvas = null, _bgBossType = null, _bgWidth = 0, _bgHeight = 0;
+
   const drawPolkaDots = () => {
-    ctx.fillStyle = (bossType === 'xihu' || bossType === 'both') ? '#fdf0f5' : '#f0f8fd';
-    if (bossType === 'both') {
-      ctx.fillRect(0, 0, canvas.width / 2, canvas.height);
-      ctx.fillStyle = '#f0f8fd';
-      ctx.fillRect(canvas.width / 2, 0, canvas.width / 2, canvas.height);
-    } else {
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-    }
-
-    const dotSize = 10;
     const spacing = 60;
-    const offsetX = (globalTime * -30) % spacing;
-    const offsetY = (globalTime * -30) % spacing;
+    const w = canvas.width;
+    const h = canvas.height;
 
-    for (let x = offsetX; x < canvas.width; x += spacing) {
-      for (let y = offsetY; y < canvas.height; y += spacing) {
-        ctx.fillStyle = (bossType === 'xihu' || (bossType === 'both' && x < canvas.width / 2)) ? '#f8d0e0' : '#d0eaf8';
-        ctx.beginPath();
-        ctx.arc(x, y, dotSize, 0, Math.PI * 2);
-        ctx.fill();
+    // Rebuild only when canvas size or bossType changes (not every frame)
+    if (!_bgCanvas || _bgWidth !== w || _bgHeight !== h || _bgBossType !== bossType) {
+      _bgCanvas = document.createElement('canvas');
+      _bgCanvas.width  = w + spacing;
+      _bgCanvas.height = h + spacing;
+      _bgWidth    = w;
+      _bgHeight   = h;
+      _bgBossType = bossType;
+      const bgCtx = _bgCanvas.getContext('2d');
+
+      if (bossType === 'both') {
+        bgCtx.fillStyle = '#fdf0f5';
+        bgCtx.fillRect(0, 0, _bgCanvas.width / 2, _bgCanvas.height);
+        bgCtx.fillStyle = '#f0f8fd';
+        bgCtx.fillRect(_bgCanvas.width / 2, 0, _bgCanvas.width / 2, _bgCanvas.height);
+      } else {
+        bgCtx.fillStyle = bossType === 'xihu' ? '#fdf0f5' : '#f0f8fd';
+        bgCtx.fillRect(0, 0, _bgCanvas.width, _bgCanvas.height);
+      }
+
+      const dotSize = 10;
+      for (let x = 0; x < _bgCanvas.width; x += spacing) {
+        for (let y = 0; y < _bgCanvas.height; y += spacing) {
+          bgCtx.fillStyle = (bossType === 'xihu' || (bossType === 'both' && x < _bgCanvas.width / 2))
+            ? '#f8d0e0' : '#d0eaf8';
+          bgCtx.beginPath();
+          bgCtx.arc(x, y, dotSize, 0, Math.PI * 2);
+          bgCtx.fill();
+        }
       }
     }
+
+    // Single drawImage per frame instead of ~600 arc() calls
+    const off = Math.round((globalTime * 30) % spacing);
+    ctx.drawImage(_bgCanvas, -off, -off);
   };
 
   const drawBossSprite = () => {
@@ -564,13 +597,6 @@ window.initBattleEngine = function (bossType, onEndCallback) {
 
     drawPolkaDots();
     drawBossSprite();
-
-    // Apply Screen Shake
-    if (screenShake > 0) {
-      const dx = (Math.random() - 0.5) * screenShake;
-      const dy = (Math.random() - 0.5) * screenShake;
-      ctx.translate(dx, dy);
-    }
 
     // Draw Boss Info (Funny style)
     ctx.fillStyle = '#333';
@@ -786,6 +812,7 @@ window.initBattleEngine = function (bossType, onEndCallback) {
   };
 
   const endBattle = (won) => {
+    canvas.style.transform = 'none'; // clear any pending CSS shake
     window.removeEventListener('keydown', handleKeyDown);
     window.removeEventListener('keyup', handleKeyUp);
     window.removeEventListener('resize', resize);
