@@ -54,5 +54,45 @@ window.attractionsData = [
     "link": "qianzhen-attractions.html",
     "days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
     "times": ["Morning", "Afternoon", "Evening"]
+  },
+  {
+    "name": "高雄市立圖書館總館",
+    "region": "前鎮區",
+    "desc": "是高雄市的文化地標之一，建築設計新穎，內部空間寬敞明亮，提供豐富的藏書資源與學習空間，也是親子共遊的好去處。",
+    "link": "qianzhen-attractions.html",
+    "days": ["Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+    "times": ["Morning", "Afternoon", "Evening"]
+  },
+  {
+    "name": "時代棧",
+    "region": "前鎮區",
+    "desc": "位在高雄捷運紅線獅甲站旁，是一處結合藝文、設計與共享空間的複合式場所。",
+    "link": "qianzhen-attractions.html",
+    "days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+    "times": ["Morning", "Afternoon", "Evening"]
+  },
+  {
+    "name": "亞灣成功商圈",
+    "region": "前鎮區",
+    "desc": "亞灣成功商圈緊鄰高雄港，過去曾是重要的港口貿易集散地，近年來隨著亞洲新灣區的開發，轉型為兼具商業、觀光與休閒機能的濱海商圈。",
+    "link": "qianzhen-attractions.html",
+    "days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+    "times": ["Morning", "Afternoon", "Evening"]
+  },
+  {
+    "name": "大魯閣草衙道 SKM Park",
+    "region": "前鎮區",
+    "desc": "大魯閣草衙道是一座結合購物中心、休閒娛樂與棒壘球打擊場的複合式商場，提供多樣化的休閒選擇。",
+    "link": "qianzhen-attractions.html",
+    "days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+    "times": ["Morning", "Afternoon", "Evening"]
+  },
+  {
+    "name": "前鎮河親水自行車道",
+    "region": "前鎮區",
+    "desc": "前鎮河親水自行車道沿著前鎮河兩岸而建，提供舒適的自行車道，是休閒運動的好去處。",
+    "link": "qianzhen-attractions.html",
+    "days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+    "times": ["Morning", "Afternoon", "Evening"]
   }
 ]
