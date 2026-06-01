@@ -4,11 +4,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Off the Rails : 溪湖 VS 前鎮</title>
+  <title>雙城對話：溪湖鎮 vs 前鎮區 | 行政區比較</title>
   <meta name="description" content="深入探索彰化縣溪湖鎮與高雄市前鎮區的歷史、地理、人口與經濟發展，透過詳細的對比了解兩個特色行政區。">
   <link rel="stylesheet" href="style.css?v=2">
-  <link rel="preload" as="video" href="images/溪湖火車.mp4" type="video/mp4">
-  <link rel="preload" as="video" href="images/前鎮之星.mp4" type="video/mp4">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || 'light');</script>
   <style>
@@ -45,77 +43,6 @@
 
     header.show-nav {
       transform: translateY(0);
-    }
-  </style>
-  <style>
-    /* ── Loading Overlay ── */
-    #loading-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 99999;
-      background: #0a0a0f;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 24px;
-      transition: opacity 0.6s ease;
-    }
-
-    #loading-overlay.fade-out {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .loading-logo {
-      font-size: 2.2rem;
-      font-weight: 900;
-      font-family: 'Inter', sans-serif;
-      letter-spacing: 6px;
-      background: linear-gradient(135deg, #0cf 0%, #f04 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .loading-spinner {
-      width: 52px;
-      height: 52px;
-      border: 3px solid rgba(255, 255, 255, 0.1);
-      border-top-color: #0cf;
-      border-right-color: #f04;
-      border-radius: 50%;
-      animation: spin 0.9s linear infinite;
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    .loading-text {
-      font-size: 0.85rem;
-      color: rgba(255, 255, 255, 0.4);
-      font-family: 'Inter', sans-serif;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-    }
-
-    .loading-bar-wrap {
-      width: 200px;
-      height: 2px;
-      background: rgba(255, 255, 255, 0.08);
-      border-radius: 2px;
-      overflow: hidden;
-    }
-
-    .loading-bar-fill {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, #0cf, #f04);
-      border-radius: 2px;
-      transition: width 0.3s ease;
     }
   </style>
 </head>
@@ -172,16 +99,6 @@
     <a class="dot" href="#route" data-label="旅遊路線"></a>
   </aside>
 
-  <!-- ── Loading Overlay ── -->
-  <div id="loading-overlay">
-    <div class="loading-logo">溪湖 VS 前鎮</div>
-    <div class="loading-spinner"></div>
-    <div class="loading-bar-wrap">
-      <div class="loading-bar-fill" id="loading-bar"></div>
-    </div>
-    <div class="loading-text">載入影片中...</div>
-  </div>
-
   <main>
 
     <!-- ── Splash Screen (Showdown Video) ── -->
@@ -191,14 +108,14 @@
       <!-- 左側：溪湖鎮 -->
       <div class="showdown-side showdown-left"
         style="width: 50% !important; max-width: 50% !important; flex: 1 !important; margin: 0 !important; height: 100vh !important; box-sizing: border-box !important; position: relative !important; overflow: hidden !important; padding: 0 !important; display: flex !important; flex-direction: column !important; justify-content: center !important; align-items: center !important;">
-        <video id="video-xihu" src="images/溪湖火車.mp4" autoplay muted playsinline preload="auto"
+        <video id="video-xihu" src="images/溪湖火車.mp4" autoplay muted playsinline
           style="width: 100% !important; height: auto !important; object-fit: contain !important; z-index: 1; pointer-events: none !important; border: none !important; border-radius: 0 !important; padding: 0 !important; margin: 0 !important; max-width: none !important; max-height: none !important;"></video>
       </div>
 
       <!-- 右側：前鎮區 -->
       <div class="showdown-side showdown-right"
         style="width: 50% !important; max-width: 50% !important; flex: 1 !important; margin: 0 !important; height: 100vh !important; box-sizing: border-box !important; position: relative !important; overflow: hidden !important; padding: 0 !important; display: flex !important; flex-direction: column !important; justify-content: center !important; align-items: center !important;">
-        <video id="video-qianzhen" src="images/前鎮之星.mp4" autoplay muted playsinline preload="auto"
+        <video id="video-qianzhen" src="images/前鎮之星.mp4" autoplay muted playsinline
           style="width: 100% !important; height: auto !important; object-fit: contain !important; z-index: 1; pointer-events: none !important; border: none !important; border-radius: 0 !important; padding: 0 !important; margin: 0 !important; max-width: none !important; max-height: none !important;"></video>
       </div>
 
@@ -336,7 +253,6 @@
         <div class="table-row" role="row">
           <div class="table-cell"><strong data-zh="人口規模" data-en="Population">人口規模</strong></div>
           <div class="table-cell">
-            <div class="thumb" aria-hidden="true"></div>
             <div>
               <span class="cell-title" data-zh="約 5.3 萬人" data-en="~53,000">約 5.3 萬人</span>
               <p data-zh="25 個里，縣內第五大鄉鎮 (2025)" data-en="25 villages, 5th largest in Changhua (2025)">25 個里，縣內第五大鄉鎮
@@ -344,7 +260,6 @@
             </div>
           </div>
           <div class="table-cell">
-            <div class="thumb" aria-hidden="true"></div>
             <div>
               <span class="cell-title" data-zh="約 17.7 萬人" data-en="~177,000">約 17.7 萬人</span>
               <p data-zh="59 個里，市內第五大區 (2025)" data-en="59 villages, 5th largest in Kaohsiung (2025)">59 個里，市內第五大區
@@ -501,43 +416,15 @@
     sections.forEach(s => observer.observe(s));
 
     // ==========================================
-    // Loading Overlay – hide when both videos ready
-    // ==========================================
-    const loadingOverlay = document.getElementById('loading-overlay');
-    const loadingBar = document.getElementById('loading-bar');
-    let xihuReady = false;
-    let qianzhenReady = false;
-
-    function checkAllReady() {
-      const progress = (xihuReady ? 50 : 0) + (qianzhenReady ? 50 : 0);
-      if (loadingBar) loadingBar.style.width = progress + '%';
-      if (xihuReady && qianzhenReady) {
-        if (loadingOverlay) {
-          loadingOverlay.classList.add('fade-out');
-          setTimeout(() => { loadingOverlay.style.display = 'none'; }, 700);
-        }
-      }
-    }
-
-    // Fallback: hide overlay after 6 seconds regardless
-    setTimeout(() => {
-      xihuReady = true;
-      qianzhenReady = true;
-      checkAllReady();
-    }, 6000);
-
-    // ==========================================
     // Adjust video playback speeds
     // ==========================================
     const videoXihu = document.getElementById('video-xihu');
     if (videoXihu) {
-      // 影片已在編碼時以 12.8x 加速，直接 1x 播放
-      videoXihu.addEventListener('canplay', () => { xihuReady = true; checkAllReady(); }, { once: true });
+      videoXihu.playbackRate = 12.8;
     }
     const videoQianzhen = document.getElementById('video-qianzhen');
     if (videoQianzhen) {
-      // 影片已在編碼時以 8.0x 加速，直接 1x 播放
-      videoQianzhen.addEventListener('canplay', () => { qianzhenReady = true; checkAllReady(); }, { once: true });
+      videoQianzhen.playbackRate = 8.0;
     }
     // Scroll Nav Hide/Show Logic
     window.addEventListener('scroll', () => {
