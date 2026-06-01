@@ -304,3 +304,50 @@ document.addEventListener('DOMContentLoaded', () => {
   const chartsSection = document.querySelector('.charts-grid');
   if (chartsSection) chartObserver.observe(chartsSection);
 });
+
+// ====== Attractions Interactive Gallery Logic ======
+document.addEventListener('DOMContentLoaded', () => {
+  const galleries = document.querySelectorAll('.attractions-gallery');
+  
+  galleries.forEach(gallery => {
+    const cards = Array.from(gallery.querySelectorAll('.blog-card'));
+    if (cards.length === 0) return;
+    
+    let currentIndex = 0;
+    let isAnimating = false;
+    
+    // Initialize first card
+    cards[currentIndex].classList.add('active');
+    
+    gallery.addEventListener('click', (e) => {
+      if (e.target.closest('a') || e.target.closest('button')) {
+        return;
+      }
+      
+      if (isAnimating || cards.length <= 1) return;
+      isAnimating = true;
+      
+      const currentCard = cards[currentIndex];
+      currentIndex = (currentIndex + 1) % cards.length;
+      const nextCard = cards[currentIndex];
+      
+      currentCard.classList.remove('anim-enter');
+      currentCard.classList.add('anim-leave');
+      
+      const onLeaveEnd = () => {
+        currentCard.removeEventListener('animationend', onLeaveEnd);
+        currentCard.classList.remove('active', 'anim-leave');
+        
+        nextCard.classList.add('active', 'anim-enter');
+        
+        const onEnterEnd = () => {
+          nextCard.removeEventListener('animationend', onEnterEnd);
+          isAnimating = false;
+        };
+        nextCard.addEventListener('animationend', onEnterEnd);
+      };
+      
+      currentCard.addEventListener('animationend', onLeaveEnd);
+    });
+  });
+});

@@ -1420,6 +1420,82 @@ body {
   padding-bottom: 0.5rem;
 }
 
+/* ── Attractions Interactive Gallery ── */
+.attractions-gallery {
+  position: relative;
+  display: grid;
+  cursor: pointer;
+  min-height: 500px;
+  border-radius: 20px;
+  margin-bottom: 3rem;
+}
+
+.attractions-gallery-hint {
+  text-align: center;
+  font-weight: 900;
+  color: var(--primary);
+  margin-bottom: 20px;
+  animation: pulseHint 2s infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+@keyframes pulseHint {
+  0%, 100% { opacity: 0.8; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+
+.attractions-gallery > .blog-card {
+  grid-area: 1 / 1;
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  margin-bottom: 0 !important;
+  transition: opacity 0.3s;
+}
+
+.attractions-gallery > .blog-card.active {
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+}
+
+/* Entering Animation (Wave/Scale up) */
+.attractions-gallery > .blog-card.anim-enter {
+  animation: cardEnterWave 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  visibility: visible;
+}
+
+/* Leaving Animation (Wave/Scale down) */
+.attractions-gallery > .blog-card.anim-leave {
+  animation: cardLeaveWave 0.5s cubic-bezier(0.36, 0, 0.66, -0.56) forwards;
+  pointer-events: none;
+}
+
+@keyframes cardEnterWave {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateY(30px) rotateX(-15deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0) rotateX(0);
+  }
+}
+
+@keyframes cardLeaveWave {
+  0% {
+    opacity: 1;
+    transform: scale(1) translateY(0) rotateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.1) translateY(-30px) rotateX(15deg);
+  }
+}
+
 /* ── Blog Collage Card ── */
 .blog-card {
   background: var(--surface-solid);
