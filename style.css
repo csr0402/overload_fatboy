@@ -145,6 +145,7 @@ nav.navbar {
   gap: 10px;
   font-weight: 900;
   letter-spacing: .04em;
+  font-family: 'Horizen', 'Horizon', 'Orbitron', sans-serif;
 }
 
 .brand-badge {
