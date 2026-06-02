@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-TW">
 
 <head>
@@ -352,19 +352,41 @@
         <div class="step">
           <div class="step-num">1</div>
           <div class="step-content">
-            <h3 data-zh="前鎮城市線（適合都市旅人）" data-en="Qianzhen Urban Route">前鎮城市線（適合都市旅人）</h3>
-            <p class="lead" data-zh="高雄市立圖書館總館 → 亞洲新灣區漫步 → 高雄展覽館 → 夢時代購物中心 → 高雄之眼摩天輪夜景收尾。"
-              data-en="City Library → New Bay Area stroll → Exhibition Center → Dream Mall → Kaohsiung Eye at dusk.">
-              高雄市立圖書館總館 → 亞洲新灣區漫步 → 高雄展覽館 → 夢時代購物中心 → 高雄之眼摩天輪夜景收尾。</p>
+            <div
+              style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+              <div style="flex: 1; min-width: 280px;">
+                <h3 data-zh="前鎮城市線（適合都市旅人）" data-en="Qianzhen Urban Route">前鎮城市線（適合都市旅人）</h3>
+                <p class="lead" data-zh="高雄市立圖書館總館 → 亞洲新灣區漫步 → 高雄展覽館 → 夢時代購物中心 → 高雄之眼摩天輪夜景收尾。"
+                  data-en="City Library → New Bay Area stroll → Exhibition Center → Dream Mall → Kaohsiung Eye at dusk."
+                  style="margin-bottom: 0;">
+                  高雄市立圖書館總館 → 高雄展覽館 → 亞灣成功商圈 → 勞工公園花市 → 夢時代購物中心 → 高雄之眼摩天輪</p>
+              </div>
+              <button class="btn btn-qianzhen"
+                onclick="navigator.clipboard.writeText('https://maps.app.goo.gl/s6fsK4wWQ3QbjGzr7').then(() => alert('已複製 Google 地圖路徑！'))"
+                style="flex-shrink: 0; font-size: 0.95rem; padding: 10px 20px;">
+                點我複製
+              </button>
+            </div>
           </div>
         </div>
         <div class="step">
           <div class="step-num">2</div>
           <div class="step-content">
-            <h3 data-zh="溪湖懷舊線（適合親子、鐵道迷）" data-en="Xihu Heritage Route">溪湖懷舊線（適合親子、鐵道迷）</h3>
-            <p class="lead" data-zh="溪湖糖廠 → 製糖工場與老煙囪 → 搭觀光五分車 → 糖廠冰品 → 沐卉庇護農場 → 溪湖中央公園散步。"
-              data-en="Xihu Sugar Factory → Old smokestack → Mini-train ride → Ice cream → Muhuei Farm → Central Park.">
-              溪湖糖廠 → 製糖工場與老煙囪 → 搭觀光五分車 → 糖廠冰品 → 沐卉庇護農場 → 溪湖中央公園散步。</p>
+            <div
+              style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+              <div style="flex: 1; min-width: 280px;">
+                <h3 data-zh="溪湖懷舊線（適合親子、鐵道迷）" data-en="Xihu Heritage Route">溪湖懷舊線（適合親子、鐵道迷）</h3>
+                <p class="lead" data-zh="溪湖糖廠 → 製糖工場與老煙囪 → 搭觀光五分車 → 糖廠冰品 → 沐卉庇護農場 → 溪湖中央公園散步。"
+                  data-en="Xihu Sugar Factory → Old smokestack → Mini-train ride → Ice cream → Muhuei Farm → Central Park."
+                  style="margin-bottom: 0;">
+                  溪湖糖廠 → 製糖工場與老煙囪 → 搭觀光五分車 → 糖廠冰品 → 沐卉庇護農場 → 溪湖中央公園散步。</p>
+              </div>
+              <button class="btn btn-xihu"
+                onclick="navigator.clipboard.writeText('https://maps.app.goo.gl/YOUR_XIHU_LINK_HERE').then(() => alert('已複製 Google 地圖路徑！'))"
+                style="flex-shrink: 0; font-size: 0.95rem; padding: 10px 20px;">
+                點我複製
+              </button>
+            </div>
           </div>
         </div>
         <div class="step">
@@ -390,16 +412,20 @@
         <div class="explore-bg explore-bg-left"></div>
         <div class="explore-bg explore-bg-right"></div>
         <div class="explore-overlay"></div>
-        
+
         <div class="explore-content">
-          <span class="eyebrow" data-zh="深入探索" data-en="Deep Explore" style="background: var(--surface-solid); box-shadow: var(--shadow);">深入探索</span>
+          <span class="eyebrow" data-zh="深入探索" data-en="Deep Explore"
+            style="background: var(--surface-solid); box-shadow: var(--shadow);">深入探索</span>
           <h2 data-zh="準備好出發了嗎？" data-en="Ready to go?">準備好出發了嗎？</h2>
-          <p class="lead" data-zh="選擇你想進一步了解的行政區，探索更多在地故事與特色景點！" data-en="Choose a district to explore more local stories and attractions!">
+          <p class="lead" data-zh="選擇你想進一步了解的行政區，探索更多在地故事與特色景點！"
+            data-en="Choose a district to explore more local stories and attractions!">
             選擇你想進一步了解的行政區，探索更多在地故事與特色景點！
           </p>
           <div class="cta-row" style="justify-content: center; margin-top: 40px; gap: 24px;">
-            <a class="btn btn-xihu" href="xihu.html" style="font-size: 1.2rem; padding: 18px 36px; border-radius: 20px;">🚂 探索溪湖鎮</a>
-            <a class="btn btn-qianzhen" href="qianzhen.html" style="font-size: 1.2rem; padding: 18px 36px; border-radius: 20px;">🚢 探索前鎮區</a>
+            <a class="btn btn-xihu" href="xihu.html"
+              style="font-size: 1.2rem; padding: 18px 36px; border-radius: 20px;">🚂 探索溪湖鎮</a>
+            <a class="btn btn-qianzhen" href="qianzhen.html"
+              style="font-size: 1.2rem; padding: 18px 36px; border-radius: 20px;">🚢 探索前鎮區</a>
           </div>
         </div>
       </div>
