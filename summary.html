@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>雙城對決：命運的旅行抉擇 | PK 總結 | 雙城對話</title>
+  <title>Off the Rails：命運抉擇</title>
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="images/train_logo.png?v=1" type="image/png">
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@900&display=swap" rel="stylesheet">
@@ -765,7 +765,7 @@
             <div class="vn-effect-container" v-if="qianzhenLoved" style="left: 70%; bottom: 40%;">
               <div class="floating-heart" style="animation-delay: 0s;">💖</div>
               <div class="floating-heart" style="animation-delay: 0.1s; margin-left: -30px;">💖</div>
-              <div class="floating-heart" style="animation-delay: 0.2s; margin-left: 30px;">💖</div>
+              <div class="floating-heart" style="animation-delay: 0.3s; margin-left: 30px;">💖</div>
             </div>
                  
             <!-- Qianzhen Sprite (小前) -->
@@ -810,7 +810,7 @@
             
             <!-- Click Indicator Icon -->
             <div class="vn-click-hint" v-if="!isTyping && (!currentStep.choices || currentStep.choices.length === 0)">
-              <span>{{ currentStep.isEnding ? '✨ 展開報告' : '點擊繼續 ➔' }}</span>
+              <span>{{ currentStep.isEnding ? ' 展開報告' : '點擊繼續 ➔' }}</span>
             </div>
           </div>
 
@@ -1566,25 +1566,25 @@
     const ctxXA = document.getElementById('xihuAffectionChart');
     if(ctxXA) {
       destroyChart('xihuAffectionChart');
-      chartInstances['xihuAffectionChart'] = createGauge(ctxXA.getContext('2d'), '溪湖選擇率 (喜愛度)', xSelectionRate, '#2eb872');
+      chartInstances['xihuAffectionChart'] = createGauge(ctxXA.getContext('2d'), '溪湖喜愛度', xSelectionRate, '#2eb872');
     }
     
     const ctxXK = document.getElementById('xihuKnowledgeChart');
     if(ctxXK) {
       destroyChart('xihuKnowledgeChart');
-      chartInstances['xihuKnowledgeChart'] = createGauge(ctxXK.getContext('2d'), '溪湖答對率 (了解度)', xKnowledgeRate, '#10ac84');
+      chartInstances['xihuKnowledgeChart'] = createGauge(ctxXK.getContext('2d'), '溪湖了解度', xKnowledgeRate, '#10ac84');
     }
     
     const ctxQA = document.getElementById('qianzhenAffectionChart');
     if(ctxQA) {
       destroyChart('qianzhenAffectionChart');
-      chartInstances['qianzhenAffectionChart'] = createGauge(ctxQA.getContext('2d'), '前鎮選擇率 (喜愛度)', qSelectionRate, '#1689d8');
+      chartInstances['qianzhenAffectionChart'] = createGauge(ctxQA.getContext('2d'), '前鎮喜愛度', qSelectionRate, '#1689d8');
     }
     
     const ctxQK = document.getElementById('qianzhenKnowledgeChart');
     if(ctxQK) {
       destroyChart('qianzhenKnowledgeChart');
-      chartInstances['qianzhenKnowledgeChart'] = createGauge(ctxQK.getContext('2d'), '前鎮答對率 (了解度)', qKnowledgeRate, '#5f27cd');
+      chartInstances['qianzhenKnowledgeChart'] = createGauge(ctxQK.getContext('2d'), '前鎮了解度', qKnowledgeRate, '#5f27cd');
     }
 
   };
