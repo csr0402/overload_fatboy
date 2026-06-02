@@ -299,10 +299,9 @@
             <p style="color:var(--muted);margin-bottom:1.5rem;max-width:520px;margin-left:auto;margin-right:auto;">{{ result.desc }}</p>
             <div style="border-radius:20px;overflow:hidden;max-width:520px;margin:0 auto 1.5rem;box-shadow:var(--shadow);">
               <iframe width="100%" height="250" frameborder="0" scrolling="no"
-                :src="'https://maps.google.com/maps?q='+encodeURIComponent(result.name+' '+result.region)+'&t=&z=15&ie=UTF8&iwloc=&output=embed'">
+                :src="result.link">
               </iframe>
             </div>
-            <a :href="result.link" class="btn" :class="result.region==='溪湖鎮'?'btn-xihu':'btn-qianzhen'">探索景點詳情 →</a>
           </div>
         </div>
       </main>

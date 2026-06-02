@@ -951,6 +951,17 @@
       const qianzhenDamaged = ref(false);
       const xihuLoved = ref(false);
       const qianzhenLoved = ref(false);
+
+      // ── Track Game Statistics ──
+      const xihuPrefCount = ref(0);
+      const qianzhenPrefCount = ref(0);
+      const prefTotalCount = ref(0);
+
+      const xihuQuizCorrect = ref(0);
+      const xihuQuizTotal = ref(0);
+
+      const qianzhenQuizCorrect = ref(0);
+      const qianzhenQuizTotal = ref(0);
       
       const showTitleScreen = ref(true);
       const reportUnlocked = ref(false);
@@ -1158,6 +1169,31 @@
           playSound('click');
         }
 
+        // ── Record actual player stats based on current question type ──
+        const step = currentStep.value;
+        if (step && step.id) {
+          if (step.id.includes('_pref_choice')) {
+            prefTotalCount.value++;
+            if (choice.points.xihu > choice.points.qianzhen) {
+              xihuPrefCount.value++;
+            } else if (choice.points.qianzhen > choice.points.xihu) {
+              qianzhenPrefCount.value++;
+            }
+          } else if (step.id.includes('_quiz')) {
+            if (step.id.includes('_xi_')) {
+              xihuQuizTotal.value++;
+              if (choice.points.xihu > 0) {
+                xihuQuizCorrect.value++;
+              }
+            } else if (step.id.includes('_qian_')) {
+              qianzhenQuizTotal.value++;
+              if (choice.points.qianzhen > 0) {
+                qianzhenQuizCorrect.value++;
+              }
+            }
+          }
+        }
+
         setTimeout(() => {
           isProcessingChoice = false;
           xihuLoved.value = false;
@@ -1308,7 +1344,17 @@
         reportUnlocked.value = true;
         
         nextTick(() => {
-          initLocalCharts(xihuScore.value, qianzhenScore.value);
+          initLocalCharts(
+            xihuScore.value,
+            qianzhenScore.value,
+            xihuPrefCount.value,
+            qianzhenPrefCount.value,
+            prefTotalCount.value,
+            xihuQuizCorrect.value,
+            xihuQuizTotal.value,
+            qianzhenQuizCorrect.value,
+            qianzhenQuizTotal.value
+          );
           setTimeout(() => {
             const el = document.getElementById('report-dashboard');
             if(el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -1327,7 +1373,17 @@
         showTitleScreen.value = false;
         
         nextTick(() => {
-          initLocalCharts(xihuScore.value, qianzhenScore.value);
+          initLocalCharts(
+            xihuScore.value,
+            qianzhenScore.value,
+            xihuPrefCount.value,
+            qianzhenPrefCount.value,
+            prefTotalCount.value,
+            xihuQuizCorrect.value,
+            xihuQuizTotal.value,
+            qianzhenQuizCorrect.value,
+            qianzhenQuizTotal.value
+          );
           setTimeout(() => {
             const el = document.getElementById('report-dashboard');
             if(el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -1347,6 +1403,17 @@
         reportUnlocked.value = false;
         showUnlockScreen.value = false;
         currentStepIndex.value = 0;
+
+        // Reset tracked stats
+        xihuPrefCount.value = 0;
+        qianzhenPrefCount.value = 0;
+        prefTotalCount.value = 0;
+        xihuQuizCorrect.value = 0;
+        xihuQuizTotal.value = 0;
+        qianzhenQuizCorrect.value = 0;
+        qianzhenQuizTotal.value = 0;
+
+        chartsInitialized = false;
       };
 
       // 快速啟動戰鬥（開發用快捷鍵）
@@ -1427,13 +1494,31 @@
 
   // Chart.js local initialization
   let chartsInitialized = false;
-  const initLocalCharts = (xScore = 50, qScore = 50) => {
+  let chartInstances = {}; // Track active chart instances to prevent canvas re-use errors
+
+  const initLocalCharts = (
+    xScore = 50,
+    qScore = 50,
+    xPrefCount = 0,
+    qPrefCount = 0,
+    prefTotal = 0,
+    xQuizCorrect = 0,
+    xQuizTotal = 0,
+    qQuizCorrect = 0,
+    qQuizTotal = 0
+  ) => {
     if (chartsInitialized) return;
     chartsInitialized = true;
 
-    // Calculate mock "Knowledge" scores (based on affection)
-    const xKnowledge = Math.min(100, xScore + 20 + Math.floor(Math.random() * 10));
-    const qKnowledge = Math.min(100, qScore + 20 + Math.floor(Math.random() * 10));
+    // Calculate actual selection rates
+    // Fall back to general scores if skipped (total is 0)
+    const xSelectionRate = prefTotal > 0 ? Math.round((xPrefCount / prefTotal) * 100) : Math.round(xScore);
+    const qSelectionRate = prefTotal > 0 ? Math.round((qPrefCount / prefTotal) * 100) : Math.round(qScore);
+
+    // Calculate actual correctness rates (knowledge)
+    // Fall back to dynamic baseline if skipped (total is 0)
+    const xKnowledgeRate = xQuizTotal > 0 ? Math.round((xQuizCorrect / xQuizTotal) * 100) : 75;
+    const qKnowledgeRate = qQuizTotal > 0 ? Math.round((qQuizCorrect / qQuizTotal) * 100) : 75;
 
     const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
     const textColor = isDark ? '#eaf7ff' : '#16324f';
@@ -1441,7 +1526,7 @@
 
     // Helper for Gauge (Half-Doughnut)
     const createGauge = (ctx, label, value, color) => {
-      new Chart(ctx, {
+      return new Chart(ctx, {
         type: 'doughnut',
         data: {
           labels: [label, '未達標'],
@@ -1471,21 +1556,42 @@
       });
     };
 
+    const destroyChart = (id) => {
+      if (chartInstances[id]) {
+        chartInstances[id].destroy();
+        delete chartInstances[id];
+      }
+    };
+
     const ctxXA = document.getElementById('xihuAffectionChart');
-    if(ctxXA) createGauge(ctxXA.getContext('2d'), '溪湖喜愛度', xScore, '#2eb872');
+    if(ctxXA) {
+      destroyChart('xihuAffectionChart');
+      chartInstances['xihuAffectionChart'] = createGauge(ctxXA.getContext('2d'), '溪湖選擇率 (喜愛度)', xSelectionRate, '#2eb872');
+    }
     
     const ctxXK = document.getElementById('xihuKnowledgeChart');
-    if(ctxXK) createGauge(ctxXK.getContext('2d'), '溪湖了解度', xKnowledge, '#10ac84');
+    if(ctxXK) {
+      destroyChart('xihuKnowledgeChart');
+      chartInstances['xihuKnowledgeChart'] = createGauge(ctxXK.getContext('2d'), '溪湖答對率 (了解度)', xKnowledgeRate, '#10ac84');
+    }
     
     const ctxQA = document.getElementById('qianzhenAffectionChart');
-    if(ctxQA) createGauge(ctxQA.getContext('2d'), '前鎮喜愛度', qScore, '#1689d8');
+    if(ctxQA) {
+      destroyChart('qianzhenAffectionChart');
+      chartInstances['qianzhenAffectionChart'] = createGauge(ctxQA.getContext('2d'), '前鎮選擇率 (喜愛度)', qSelectionRate, '#1689d8');
+    }
     
     const ctxQK = document.getElementById('qianzhenKnowledgeChart');
-    if(ctxQK) createGauge(ctxQK.getContext('2d'), '前鎮了解度', qKnowledge, '#5f27cd');
+    if(ctxQK) {
+      destroyChart('qianzhenKnowledgeChart');
+      chartInstances['qianzhenKnowledgeChart'] = createGauge(ctxQK.getContext('2d'), '前鎮答對率 (了解度)', qKnowledgeRate, '#5f27cd');
+    }
 
     // 1. Bar Chart (Population comparison)
-    const popCtx = document.getElementById('popChart').getContext('2d');
-    new Chart(popCtx, {
+    const ctxPop = document.getElementById('popChart');
+    if (ctxPop) {
+      destroyChart('popChart');
+      chartInstances['popChart'] = new Chart(ctxPop.getContext('2d'), {
         type: 'bar',
         data: {
             labels: ['溪湖鎮 (彰化縣)', '前鎮區 (高雄市)'],
@@ -1520,11 +1626,14 @@
               } 
             }
         }
-    });
+      });
+    }
 
     // 2. Doughnut Chart (里村數比較)
-    const villageCtx = document.getElementById('villageChart').getContext('2d');
-    new Chart(villageCtx, {
+    const ctxVillage = document.getElementById('villageChart');
+    if (ctxVillage) {
+      destroyChart('villageChart');
+      chartInstances['villageChart'] = new Chart(ctxVillage.getContext('2d'), {
         type: 'doughnut',
         data: {
             labels: ['溪湖鎮 (25 個村里)', '前鎮區 (59 個行政里)'],
@@ -1551,7 +1660,8 @@
               } 
             }
         }
-    });
+      });
+    }
   };
 </script>
 

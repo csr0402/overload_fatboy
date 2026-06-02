@@ -198,13 +198,10 @@
                     height="100%" 
                     frameborder="0" 
                     scrolling="no" 
-                    :src="'https://maps.google.com/maps?q=' + encodeURIComponent(currentPrize.name + ' ' + currentPrize.region) + '&t=&z=15&ie=UTF8&iwloc=&output=embed'">
+                    :src="currentPrize.link">
                   </iframe>
                 </div>
 
-                <a :href="currentPrize.link" class="btn" :class="currentPrize.region === '溪湖鎮' ? 'btn-xihu' : 'btn-qianzhen'">
-                  查看詳細介紹
-                </a>
               </div>
 
               <!-- 刮刮樂覆蓋層 Canvas -->

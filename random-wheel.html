@@ -180,10 +180,9 @@
             <p style="color: var(--muted); margin-bottom: 2rem; max-width: 520px; margin-left: auto; margin-right: auto;">{{ result.desc }}</p>
             <div style="border-radius: 20px; overflow: hidden; border: 4px solid var(--surface-solid); box-shadow: var(--shadow); max-width: 520px; margin: 0 auto 2rem;">
               <iframe width="100%" height="280" frameborder="0" scrolling="no" 
-                :src="'https://maps.google.com/maps?q=' + encodeURIComponent(result.name + ' ' + result.region) + '&t=&z=15&ie=UTF8&iwloc=&output=embed'">
+                :src="result.link">
               </iframe>
             </div>
-            <a :href="result.link" class="btn" :class="result.region === '溪湖鎮' ? 'btn-xihu' : 'btn-qianzhen'">探索此景點詳情 →</a>
           </div>
         </div>
       </main>
