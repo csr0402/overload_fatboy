@@ -1,4 +1,4 @@
-(function() {
+(function () {
   const F = `#version 300 es
 precision highp float;
 layout(location=0) in vec2 aPos;
@@ -230,22 +230,25 @@ void main(){
   }
   float pen = acc / wacc;
 
-  float shadow = mix(0.35, 1.0, pen);
+  // 將陰影改為與背景相同的色調 (移除暗化乘數)
+  float shadow = 1.0; 
 
   float vign = smoothstep(1.2, 0.2, length(p));
   float grain = noise(frag * 0.6) * 0.04;
 
-  vec3 lightGroundA = vec3(0.20, 0.45, 0.50);
-  vec3 lightGroundB = vec3(0.10, 0.35, 0.45);
-  vec3 lightSunCol = vec3(1.10, 1.20, 1.20);
+  // Light mode matching CSS gradient (#dff4ff to #e9fff3)
+  vec3 lightGroundA = vec3(0.87, 0.96, 1.00); 
+  vec3 lightGroundB = vec3(0.91, 1.00, 0.95); 
+  vec3 lightSunCol  = vec3(0.15, 0.15, 0.15); // Additive white light for rays
   
-  vec3 darkGroundA = vec3(0.05, 0.15, 0.20);
-  vec3 darkGroundB = vec3(0.02, 0.10, 0.15);
-  vec3 darkSunCol = vec3(0.80, 0.95, 1.00);
+  // Dark mode matching CSS gradient (#071421 to #123a5a)
+  vec3 darkGroundA = vec3(0.07, 0.23, 0.35); 
+  vec3 darkGroundB = vec3(0.03, 0.08, 0.13); 
+  vec3 darkSunCol  = vec3(0.10, 0.15, 0.20); 
 
   vec3 groundA = mix(lightGroundA, darkGroundA, uIsDark);
   vec3 groundB = mix(lightGroundB, darkGroundB, uIsDark);
-  vec3 sunCol = mix(lightSunCol, darkSunCol, uIsDark);
+  vec3 sunCol  = mix(lightSunCol, darkSunCol, uIsDark);
 
   float gMix = clamp(0.55 + p.y*0.35, 0.0, 1.0);
   vec3 ground = mix(groundB, groundA, gMix) + grain;
@@ -264,19 +267,20 @@ void main(){
   float sunBoost = 0.45 * pen2 * (0.75 + 0.25*sparkle);
   sunBoost *= (1.0 + rays*1.2);
 
+  // Apply ground and shadow
   vec3 col = ground * shadow;
-  col += sunCol * sunBoost;
 
+  // Add dynamic light
   float bloom = smoothstep(0.55, 0.95, pen) * (0.18 + 0.20*rays);
-  col += sunCol * bloom;
-  col += vec3(1.0) * (0.04 * bloom);
+  float totalDynamicLight = sunBoost + bloom + (0.10 * haze);
+  
+  col += sunCol * totalDynamicLight;
 
-  col += sunCol * (0.10 * haze);
+  // Soft vignette
+  col *= (0.95 + 0.05*vign);
 
-  col *= (0.85 + 0.15*vign);
-
-  col = col / (col + vec3(1.0));
-  col = pow(col, vec3(1.0/2.2));
+  // Direct clamp without tone mapping / gamma so the exact CSS colors are preserved
+  col = clamp(col, 0.0, 1.0);
 
   outColor = vec4(col, 1.0);
 }`;
@@ -358,13 +362,13 @@ void main(){
     gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
       -1, -1,
-       3, -1,
-      -1,  3
+      3, -1,
+      -1, 3
     ]), gl.STATIC_DRAW);
     gl.enableVertexAttribArray(0);
     gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
 
-    const uPieceSpeed = 2.2;
+    const uPieceSpeed = 5.5; // 控制動畫速度的變數，數值越大動畫越快
 
     function resize() {
       const rect = canvas.getBoundingClientRect();
