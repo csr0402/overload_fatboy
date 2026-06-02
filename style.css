@@ -159,6 +159,18 @@ nav.navbar {
   font-size: 1.1rem;
 }
 
+.brand-logo {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.12));
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.brand:hover .brand-logo {
+  transform: rotate(-10deg) scale(1.1);
+}
+
 .nav-links {
   display: flex;
   gap: 8px;
