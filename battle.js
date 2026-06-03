@@ -394,23 +394,24 @@ window.initBattleEngine = function (bossType, onEndCallback) {
       
       const centerX = arena.x + arena.w / 2;
       const centerY = arena.y + arena.h / 2;
-      const radius = 180;
+      const radius = 300;
+      const numTrains = 16;
       const dir = Math.random() > 0.5 ? 1 : -1;
-      const startIdx = Math.floor(Math.random() * 8);
-      const dashSpeed = 850;
-      const warningDuration = 1.2;
-      const interval = 0.25;
+      const startIdx = Math.floor(Math.random() * numTrains);
+      const dashSpeed = 950;
+      const warningDuration = 1.0;
+      const interval = 0.15;
 
-      for (let i = 0; i < 8; i++) {
-        const angle = i * (Math.PI / 4);
+      for (let i = 0; i < numTrains; i++) {
+        const angle = i * (2 * Math.PI / numTrains);
         const initX = centerX + Math.cos(angle) * radius - 30;
         const initY = centerY + Math.sin(angle) * radius - 30;
         
         let j;
         if (dir === 1) {
-          j = (i - startIdx + 8) % 8;
+          j = (i - startIdx + numTrains) % numTrains;
         } else {
-          j = (startIdx - i + 8) % 8;
+          j = (startIdx - i + numTrains) % numTrains;
         }
         const delay = warningDuration + j * interval;
 
