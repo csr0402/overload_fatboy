@@ -347,7 +347,7 @@ window.initBattleEngine = function (bossType, onEndCallback) {
     qianStateTimer -= dt;
     if (qianStateTimer <= 0) {
       qianPhase = Math.floor(Math.random() * 4);
-      qianStateTimer = (qianPhase === 0) ? 2.5 : ((qianPhase === 1) ? 5.5 : ((qianPhase === 2) ? 5.0 : 6.0));
+      qianStateTimer = (qianPhase === 0) ? 2.5 : ((qianPhase === 1) ? 5.5 : ((qianPhase === 2) ? 9.0 : 6.0));
       qianHasSpawned = false;
     }
 
@@ -395,12 +395,12 @@ window.initBattleEngine = function (bossType, onEndCallback) {
       const centerX = arena.x + arena.w / 2;
       const centerY = arena.y + arena.h / 2;
       const radius = 300;
-      const numTrains = 16;
+      const numTrains = 32;
       const dir = Math.random() > 0.5 ? 1 : -1;
       const startIdx = Math.floor(Math.random() * numTrains);
       const dashSpeed = 950;
       const warningDuration = 1.8;
-      const interval = 0.15;
+      const interval = 0.22;
 
       for (let i = 0; i < numTrains; i++) {
         const angle = i * (2 * Math.PI / numTrains);
