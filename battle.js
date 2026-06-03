@@ -183,7 +183,7 @@ window.initBattleEngine = function (bossType, onEndCallback) {
   };
 
   const addBullet = (b) => {
-    if (bullets.length >= 100) return; // cap to prevent frame-rate drop
+    if (bullets.length >= 250) return; // cap to prevent frame-rate drop
     bullets.push({
       x: b.x, y: b.y, vx: b.vx || 0, vy: b.vy || 0,
       width: b.width || b.size, height: b.height || b.size,
@@ -347,7 +347,7 @@ window.initBattleEngine = function (bossType, onEndCallback) {
     qianStateTimer -= dt;
     if (qianStateTimer <= 0) {
       qianPhase = Math.floor(Math.random() * 4);
-      qianStateTimer = (qianPhase === 0) ? 2.5 : ((qianPhase === 1) ? 5.5 : ((qianPhase === 2) ? 11.0 : 6.0));
+      qianStateTimer = (qianPhase === 0) ? 2.5 : ((qianPhase === 1) ? 5.5 : ((qianPhase === 2) ? 16.0 : 6.0));
       qianHasSpawned = false;
     }
 
@@ -396,130 +396,117 @@ window.initBattleEngine = function (bossType, onEndCallback) {
       const centerY = arena.y + arena.h / 2;
       const radius = 300;
       const numTrains = 32;
-      const dir = Math.random() > 0.5 ? 1 : -1;
-      const startIdx = Math.floor(Math.random() * numTrains);
       const dashSpeed = 950;
-      const warningDuration = 0.6;
+      const warningDuration = 1.5;
       const interval = 0.22;
 
-      for (let i = 0; i < numTrains; i++) {
-        const angle = i * (2 * Math.PI / numTrains);
-        const initX = centerX + Math.cos(angle) * radius - 30;
-        const initY = centerY + Math.sin(angle) * radius - 30;
-        
-        let j;
-        if (dir === 1) {
-          j = (i - startIdx + numTrains) % numTrains;
-        } else {
-          j = (startIdx - i + numTrains) % numTrains;
-        }
-        const delay = warningDuration + j * interval;
+      // Wave 1
+      const dir1 = Math.random() > 0.5 ? 1 : -1;
+      const startIdx1 = Math.floor(Math.random() * numTrains);
+      spawnWave(0, dir1, startIdx1);
 
-        addBullet({
-          x: initX, y: initY, vx: 0, vy: 0,
-          width: 60, height: 60, type: 'rect', emoji: '🚈', emojiSize: 60,
-          customData: {
-            state: 'circle',
-            angle: angle,
-            traveled: 0,
-            dir: dir,
-            radius: radius,
-            speed: Math.PI * 1.5, // 1.33s per circle
-            facingAngle: angle + (Math.PI / 2) * dir,
-            delay: delay
-          },
-          update: function (dt) {
-            if (this.customData.state === 'circle') {
-              this.customData.traveled += this.customData.speed * dt;
-              this.customData.angle += this.customData.speed * dt * this.customData.dir;
-              this.x = centerX + Math.cos(this.customData.angle) * this.customData.radius - this.width / 2;
-              this.y = centerY + Math.sin(this.customData.angle) * this.customData.radius - this.height / 2;
-              this.customData.facingAngle = this.customData.angle + (Math.PI / 2) * this.customData.dir;
+      // Wave 2 (after 7.0s delay, opposite direction, starting opposite)
+      const dir2 = -dir1;
+      const startIdx2 = (startIdx1 + Math.floor(numTrains / 2)) % numTrains;
+      spawnWave(7.0, dir2, startIdx2);
 
-              if (this.customData.traveled >= Math.PI * 4) { // 2 full circles
-                this.customData.state = 'idle';
-                this.customData.facingAngle = this.customData.angle + Math.PI; // face center
-              }
-            } else if (this.customData.state === 'idle') {
-              this.customData.delay -= dt;
-              if (this.customData.delay <= 0) {
-                this.customData.state = 'dash';
-                screenShake = 20;
-                const dx = centerX - (this.x + this.width / 2);
-                const dy = centerY - (this.y + this.height / 2);
-                const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-                this.vx = (dx / dist) * dashSpeed;
-                this.vy = (dy / dist) * dashSpeed;
-                this.customData.facingAngle = Math.atan2(dy, dx);
-              }
-            }
-          },
-          render: function (ctx2) {
-            // Draw warning lines
-            if (this.customData.state === 'circle') {
-              ctx2.save();
-              const trainCenterX = this.x + this.width / 2;
-              const trainCenterY = this.y + this.height / 2;
-              const oppositeX = centerX - Math.cos(this.customData.angle) * radius;
-              const oppositeY = centerY - Math.sin(this.customData.angle) * radius;
-              ctx2.strokeStyle = 'rgba(255, 76, 76, 0.15)';
-              ctx2.lineWidth = 1.5;
-              ctx2.setLineDash([5, 10]);
-              ctx2.beginPath();
-              ctx2.moveTo(trainCenterX, trainCenterY);
-              ctx2.lineTo(oppositeX, oppositeY);
-              ctx2.stroke();
-              ctx2.restore();
-            } else if (this.customData.state === 'idle') {
-              ctx2.save();
-              const trainCenterX = this.x + this.width / 2;
-              const trainCenterY = this.y + this.height / 2;
-              const oppositeX = centerX - Math.cos(this.customData.angle) * radius;
-              const oppositeY = centerY - Math.sin(this.customData.angle) * radius;
-
-              if (this.customData.delay <= 0.5) {
-                ctx2.strokeStyle = 'rgba(255, 30, 30, 0.85)';
-                ctx2.lineWidth = 10;
-                ctx2.setLineDash([]);
-              } else {
-                ctx2.strokeStyle = 'rgba(255, 76, 76, 0.45)';
-                ctx2.lineWidth = 4;
-                ctx2.setLineDash([8, 8]);
-              }
-
-              ctx2.beginPath();
-              ctx2.moveTo(trainCenterX, trainCenterY);
-              ctx2.lineTo(oppositeX, oppositeY);
-              ctx2.stroke();
-              ctx2.restore();
-            }
-
-            // Draw train emoji
-            ctx2.save();
-            ctx2.translate(this.x + this.width / 2, this.y + this.height / 2);
-            ctx2.rotate(this.customData.facingAngle);
-
-            let opacity = 0.5;
-            if (this.customData.state === 'circle') {
-              opacity = 0.5;
-            } else if (this.customData.state === 'idle') {
-              if (this.customData.delay <= 0.5) {
-                opacity = Math.floor(globalTime * 15) % 2 === 0 ? 0.3 : 0.8;
-              } else {
-                opacity = 0.5;
-              }
-            } else {
-              opacity = 1.0;
-            }
-
-            ctx2.globalAlpha = opacity;
-            ctx2.font = `${this.emojiSize}px Arial`;
-            ctx2.textAlign = 'center';
-            ctx2.textBaseline = 'middle';
-            ctx2.fillText(this.emoji, 0, 0);
-            ctx2.restore();
+      function spawnWave(waveOffset, dir, startIdx) {
+        for (let i = 0; i < numTrains; i++) {
+          const angle = i * (2 * Math.PI / numTrains);
+          const initX = centerX + Math.cos(angle) * radius - 30;
+          const initY = centerY + Math.sin(angle) * radius - 30;
+          
+          let j;
+          if (dir === 1) {
+            j = (i - startIdx + numTrains) % numTrains;
+          } else {
+            j = (startIdx - i + numTrains) % numTrains;
           }
-        });
+          const delay = waveOffset + warningDuration + j * interval;
+
+          addBullet({
+            x: initX, y: initY, vx: 0, vy: 0,
+            width: 60, height: 60, type: 'rect', emoji: '🚈', emojiSize: 60,
+            customData: {
+              state: 'idle',
+              angle: angle,
+              facingAngle: angle + Math.PI,
+              delay: delay,
+              waveOffset: waveOffset
+            },
+            update: function (dt) {
+              if (this.customData.state === 'idle') {
+                this.customData.delay -= dt;
+                if (this.customData.delay <= this.customData.waveOffset) {
+                  this.customData.state = 'dash';
+                  screenShake = 20;
+                  const dx = centerX - (this.x + this.width / 2);
+                  const dy = centerY - (this.y + this.height / 2);
+                  const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+                  this.vx = (dx / dist) * dashSpeed;
+                  this.vy = (dy / dist) * dashSpeed;
+                  this.customData.facingAngle = Math.atan2(dy, dx);
+                }
+              }
+            },
+            render: function (ctx2) {
+              // Draw laser warning line in idle state
+              if (this.customData.state === 'idle') {
+                if (this.customData.delay > this.customData.waveOffset + warningDuration) {
+                  return; // Do not render warning line or train emoji yet!
+                }
+                ctx2.save();
+                const trainCenterX = this.x + this.width / 2;
+                const trainCenterY = this.y + this.height / 2;
+                const oppositeX = centerX - Math.cos(this.customData.angle) * radius;
+                const oppositeY = centerY - Math.sin(this.customData.angle) * radius;
+
+                if (this.customData.delay <= this.customData.waveOffset + 0.5) {
+                  ctx2.strokeStyle = 'rgba(255, 30, 30, 0.85)';
+                  ctx2.lineWidth = 10;
+                  ctx2.setLineDash([]);
+                } else {
+                  ctx2.strokeStyle = 'rgba(255, 76, 76, 0.45)';
+                  ctx2.lineWidth = 4;
+                  ctx2.setLineDash([8, 8]);
+                }
+
+                ctx2.beginPath();
+                ctx2.moveTo(trainCenterX, trainCenterY);
+                ctx2.lineTo(oppositeX, oppositeY);
+                ctx2.stroke();
+                ctx2.restore();
+              }
+
+              // Draw train emoji
+              ctx2.save();
+              ctx2.translate(this.x + this.width / 2, this.y + this.height / 2);
+              ctx2.rotate(this.customData.facingAngle);
+
+              let opacity = 0.5;
+              if (this.customData.state === 'idle') {
+                if (this.customData.delay > this.customData.waveOffset + warningDuration) {
+                  ctx2.restore();
+                  return; // Safety hidden
+                }
+                if (this.customData.delay <= this.customData.waveOffset + 0.5) {
+                  opacity = Math.floor(globalTime * 15) % 2 === 0 ? 0.3 : 0.8;
+                } else {
+                  opacity = 0.5;
+                }
+              } else {
+                opacity = 1.0;
+              }
+
+              ctx2.globalAlpha = opacity;
+              ctx2.font = `${this.emojiSize}px Arial`;
+              ctx2.textAlign = 'center';
+              ctx2.textBaseline = 'middle';
+              ctx2.fillText(this.emoji, 0, 0);
+              ctx2.restore();
+            }
+          });
+        }
       }
     } else if (qianPhase === 3 && !qianHasSpawned) {
       qianHasSpawned = true;
@@ -645,7 +632,7 @@ window.initBattleEngine = function (bossType, onEndCallback) {
       }
 
       if (!b.hasHit) {
-        if (b.customData && (b.customData.state === 'idle' || b.customData.state === 'circle')) {
+        if (b.customData && b.customData.state === 'idle') {
           continue;
         }
         let hit = false;
