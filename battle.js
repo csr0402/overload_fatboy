@@ -347,7 +347,7 @@ window.initBattleEngine = function (bossType, onEndCallback) {
     qianStateTimer -= dt;
     if (qianStateTimer <= 0) {
       qianPhase = Math.floor(Math.random() * 4);
-      qianStateTimer = (qianPhase === 0) ? 2.5 : ((qianPhase === 1) ? 5.5 : ((qianPhase === 2) ? 16.0 : 6.0));
+      qianStateTimer = (qianPhase === 0) ? 2.5 : ((qianPhase === 1) ? 5.5 : ((qianPhase === 2) ? 18.0 : 6.0));
       qianHasSpawned = false;
     }
 
@@ -405,9 +405,9 @@ window.initBattleEngine = function (bossType, onEndCallback) {
       const startIdx1 = Math.floor(Math.random() * numTrains);
       spawnWave(0, dir, startIdx1);
 
-      // Wave 2 (after 7.0s delay, same direction, starting opposite)
+      // Wave 2 (after 8.7s delay, same direction, starting opposite)
       const startIdx2 = (startIdx1 + Math.floor(numTrains / 2)) % numTrains;
-      spawnWave(7.0, dir, startIdx2);
+      spawnWave(8.7, dir, startIdx2);
 
       function spawnWave(waveOffset, dir, startIdx) {
         for (let i = 0; i < numTrains; i++) {
