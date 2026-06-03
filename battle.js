@@ -391,18 +391,74 @@ window.initBattleEngine = function (bossType, onEndCallback) {
       });
     } else if (qianPhase === 2 && !qianHasSpawned) {
       qianHasSpawned = true;
-      const xPos = arena.x + 20 + Math.random() * (arena.w - 60);
-      warnings.push({ x: xPos - 15, y: arena.y, w: 60, h: arena.h, life: 0.8 });
+      
+      const centerX = arena.x + arena.w / 2;
+      const centerY = arena.y + arena.h / 2;
+      const warningDuration = 1.0;
+
+      // 警示：四條外圍軌道區，提示火車繞行
+      warnings.push({ x: arena.x, y: arena.y, w: arena.w, h: 20, life: warningDuration });
+      warnings.push({ x: arena.x, y: arena.y + arena.h - 20, w: arena.w, h: 20, life: warningDuration });
+      warnings.push({ x: arena.x, y: arena.y, w: 20, h: arena.h, life: warningDuration });
+      warnings.push({ x: arena.x + arena.w - 20, y: arena.y, w: 20, h: arena.h, life: warningDuration });
+      
+      // 警示：中央十字區域，提示最終衝刺軌跡
+      warnings.push({ x: centerX - 30, y: arena.y, w: 60, h: arena.h, life: warningDuration });
+      warnings.push({ x: arena.x, y: centerY - 30, w: arena.w, h: 60, life: warningDuration });
 
       setTimeout(() => {
         screenShake = 20;
+        const dir = Math.random() > 0.5 ? 1 : -1;
+        const startAngle = [0, Math.PI / 2, Math.PI, Math.PI * 1.5][Math.floor(Math.random() * 4)];
+        const radius = 175;
+        const initX = centerX + Math.cos(startAngle) * radius - 30;
+        const initY = centerY + Math.sin(startAngle) * radius - 30;
+
         addBullet({
-          x: xPos,
-          y: arena.y - 120,
-          vy: 850,
-          width: 50, height: 100, type: 'rect', emoji: '🚈', emojiSize: 80
+          x: initX, y: initY, vx: 0, vy: 0,
+          width: 60, height: 60, type: 'rect', emoji: '🚈', emojiSize: 60,
+          customData: {
+            state: 'circle',
+            angle: startAngle,
+            traveled: 0,
+            dir: dir,
+            radius: radius,
+            speed: Math.PI * 1.5, // 1.33秒繞行一圈
+            facingAngle: startAngle + (Math.PI / 2) * dir
+          },
+          update: function (dt) {
+            if (this.customData.state === 'circle') {
+              this.customData.traveled += this.customData.speed * dt;
+              this.customData.angle += this.customData.speed * dt * this.customData.dir;
+              this.x = centerX + Math.cos(this.customData.angle) * this.customData.radius - this.width / 2;
+              this.y = centerY + Math.sin(this.customData.angle) * this.customData.radius - this.height / 2;
+              this.customData.facingAngle = this.customData.angle + (Math.PI / 2) * this.customData.dir;
+
+              if (this.customData.traveled >= Math.PI * 2) {
+                this.customData.state = 'dash';
+                const dx = centerX - (this.x + this.width / 2);
+                const dy = centerY - (this.y + this.height / 2);
+                const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+                const dashSpeed = 820;
+                this.vx = (dx / dist) * dashSpeed;
+                this.vy = (dy / dist) * dashSpeed;
+                this.customData.facingAngle = Math.atan2(dy, dx);
+                screenShake = 25;
+              }
+            }
+          },
+          render: function (ctx2) {
+            ctx2.save();
+            ctx2.translate(this.x + this.width / 2, this.y + this.height / 2);
+            ctx2.rotate(this.customData.facingAngle);
+            ctx2.font = `${this.emojiSize}px Arial`;
+            ctx2.textAlign = 'center';
+            ctx2.textBaseline = 'middle';
+            ctx2.fillText(this.emoji, 0, 0);
+            ctx2.restore();
+          }
         });
-      }, 800);
+      }, warningDuration * 1000);
     } else if (qianPhase === 3 && !qianHasSpawned) {
       qianHasSpawned = true;
       const slotCount = 6;
