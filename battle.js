@@ -401,14 +401,13 @@ window.initBattleEngine = function (bossType, onEndCallback) {
       const interval = 0.22;
 
       // Wave 1
-      const dir1 = Math.random() > 0.5 ? 1 : -1;
+      const dir = Math.random() > 0.5 ? 1 : -1;
       const startIdx1 = Math.floor(Math.random() * numTrains);
-      spawnWave(0, dir1, startIdx1);
+      spawnWave(0, dir, startIdx1);
 
-      // Wave 2 (after 7.0s delay, opposite direction, starting opposite)
-      const dir2 = -dir1;
+      // Wave 2 (after 7.0s delay, same direction, starting opposite)
       const startIdx2 = (startIdx1 + Math.floor(numTrains / 2)) % numTrains;
-      spawnWave(7.0, dir2, startIdx2);
+      spawnWave(7.0, dir, startIdx2);
 
       function spawnWave(waveOffset, dir, startIdx) {
         for (let i = 0; i < numTrains; i++) {
