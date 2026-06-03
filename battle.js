@@ -436,7 +436,7 @@ window.initBattleEngine = function (bossType, onEndCallback) {
             update: function (dt) {
               if (this.customData.state === 'idle') {
                 this.customData.delay -= dt;
-                if (this.customData.delay <= this.customData.waveOffset) {
+                if (this.customData.delay <= 0) {
                   this.customData.state = 'dash';
                   screenShake = 20;
                   const dx = centerX - (this.x + this.width / 2);
@@ -451,7 +451,7 @@ window.initBattleEngine = function (bossType, onEndCallback) {
             render: function (ctx2) {
               // Draw laser warning line in idle state
               if (this.customData.state === 'idle') {
-                if (this.customData.delay > this.customData.waveOffset + warningDuration) {
+                if (this.customData.delay > warningDuration) {
                   return; // Do not render warning line or train emoji yet!
                 }
                 ctx2.save();
@@ -460,7 +460,7 @@ window.initBattleEngine = function (bossType, onEndCallback) {
                 const oppositeX = centerX - Math.cos(this.customData.angle) * radius;
                 const oppositeY = centerY - Math.sin(this.customData.angle) * radius;
 
-                if (this.customData.delay <= this.customData.waveOffset + 0.5) {
+                if (this.customData.delay <= 0.5) {
                   ctx2.strokeStyle = 'rgba(255, 30, 30, 0.85)';
                   ctx2.lineWidth = 10;
                   ctx2.setLineDash([]);
@@ -484,11 +484,11 @@ window.initBattleEngine = function (bossType, onEndCallback) {
 
               let opacity = 0.5;
               if (this.customData.state === 'idle') {
-                if (this.customData.delay > this.customData.waveOffset + warningDuration) {
+                if (this.customData.delay > warningDuration) {
                   ctx2.restore();
                   return; // Safety hidden
                 }
-                if (this.customData.delay <= this.customData.waveOffset + 0.5) {
+                if (this.customData.delay <= 0.5) {
                   opacity = Math.floor(globalTime * 15) % 2 === 0 ? 0.3 : 0.8;
                 } else {
                   opacity = 0.5;
