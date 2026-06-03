@@ -347,7 +347,7 @@ window.initBattleEngine = function (bossType, onEndCallback) {
     qianStateTimer -= dt;
     if (qianStateTimer <= 0) {
       qianPhase = Math.floor(Math.random() * 4);
-      qianStateTimer = (qianPhase === 0) ? 2.5 : ((qianPhase === 1) ? 5.5 : ((qianPhase === 2) ? 9.0 : 6.0));
+      qianStateTimer = (qianPhase === 0) ? 2.5 : ((qianPhase === 1) ? 5.5 : ((qianPhase === 2) ? 11.0 : 6.0));
       qianHasSpawned = false;
     }
 
@@ -399,7 +399,7 @@ window.initBattleEngine = function (bossType, onEndCallback) {
       const dir = Math.random() > 0.5 ? 1 : -1;
       const startIdx = Math.floor(Math.random() * numTrains);
       const dashSpeed = 950;
-      const warningDuration = 1.8;
+      const warningDuration = 0.6;
       const interval = 0.22;
 
       for (let i = 0; i < numTrains; i++) {
@@ -419,13 +419,28 @@ window.initBattleEngine = function (bossType, onEndCallback) {
           x: initX, y: initY, vx: 0, vy: 0,
           width: 60, height: 60, type: 'rect', emoji: '🚈', emojiSize: 60,
           customData: {
-            state: 'idle',
+            state: 'circle',
             angle: angle,
-            facingAngle: angle + Math.PI,
+            traveled: 0,
+            dir: dir,
+            radius: radius,
+            speed: Math.PI * 1.5, // 1.33s per circle
+            facingAngle: angle + (Math.PI / 2) * dir,
             delay: delay
           },
           update: function (dt) {
-            if (this.customData.state === 'idle') {
+            if (this.customData.state === 'circle') {
+              this.customData.traveled += this.customData.speed * dt;
+              this.customData.angle += this.customData.speed * dt * this.customData.dir;
+              this.x = centerX + Math.cos(this.customData.angle) * this.customData.radius - this.width / 2;
+              this.y = centerY + Math.sin(this.customData.angle) * this.customData.radius - this.height / 2;
+              this.customData.facingAngle = this.customData.angle + (Math.PI / 2) * this.customData.dir;
+
+              if (this.customData.traveled >= Math.PI * 4) { // 2 full circles
+                this.customData.state = 'idle';
+                this.customData.facingAngle = this.customData.angle + Math.PI; // face center
+              }
+            } else if (this.customData.state === 'idle') {
               this.customData.delay -= dt;
               if (this.customData.delay <= 0) {
                 this.customData.state = 'dash';
@@ -440,11 +455,22 @@ window.initBattleEngine = function (bossType, onEndCallback) {
             }
           },
           render: function (ctx2) {
-            // Draw laser warning line in idle state
-            if (this.customData.state === 'idle') {
-              if (this.customData.delay > warningDuration) {
-                return; // Do not render warning line or train emoji yet!
-              }
+            // Draw warning lines
+            if (this.customData.state === 'circle') {
+              ctx2.save();
+              const trainCenterX = this.x + this.width / 2;
+              const trainCenterY = this.y + this.height / 2;
+              const oppositeX = centerX - Math.cos(this.customData.angle) * radius;
+              const oppositeY = centerY - Math.sin(this.customData.angle) * radius;
+              ctx2.strokeStyle = 'rgba(255, 76, 76, 0.15)';
+              ctx2.lineWidth = 1.5;
+              ctx2.setLineDash([5, 10]);
+              ctx2.beginPath();
+              ctx2.moveTo(trainCenterX, trainCenterY);
+              ctx2.lineTo(oppositeX, oppositeY);
+              ctx2.stroke();
+              ctx2.restore();
+            } else if (this.customData.state === 'idle') {
               ctx2.save();
               const trainCenterX = this.x + this.width / 2;
               const trainCenterY = this.y + this.height / 2;
@@ -474,7 +500,9 @@ window.initBattleEngine = function (bossType, onEndCallback) {
             ctx2.rotate(this.customData.facingAngle);
 
             let opacity = 0.5;
-            if (this.customData.state === 'idle') {
+            if (this.customData.state === 'circle') {
+              opacity = 0.5;
+            } else if (this.customData.state === 'idle') {
               if (this.customData.delay <= 0.5) {
                 opacity = Math.floor(globalTime * 15) % 2 === 0 ? 0.3 : 0.8;
               } else {
@@ -617,7 +645,7 @@ window.initBattleEngine = function (bossType, onEndCallback) {
       }
 
       if (!b.hasHit) {
-        if (b.customData && b.customData.state === 'idle') {
+        if (b.customData && (b.customData.state === 'idle' || b.customData.state === 'circle')) {
           continue;
         }
         let hit = false;
