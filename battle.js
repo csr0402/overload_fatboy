@@ -394,63 +394,93 @@ window.initBattleEngine = function (bossType, onEndCallback) {
       
       const centerX = arena.x + arena.w / 2;
       const centerY = arena.y + arena.h / 2;
-      const warningDuration = 1.0;
+      const radius = 180;
+      const dir = Math.random() > 0.5 ? 1 : -1;
+      const startIdx = Math.floor(Math.random() * 8);
+      const dashSpeed = 850;
+      const warningDuration = 1.2;
+      const interval = 0.25;
 
-      // 警示：四條外圍軌道區，提示火車繞行
-      warnings.push({ x: arena.x, y: arena.y, w: arena.w, h: 20, life: warningDuration });
-      warnings.push({ x: arena.x, y: arena.y + arena.h - 20, w: arena.w, h: 20, life: warningDuration });
-      warnings.push({ x: arena.x, y: arena.y, w: 20, h: arena.h, life: warningDuration });
-      warnings.push({ x: arena.x + arena.w - 20, y: arena.y, w: 20, h: arena.h, life: warningDuration });
-      
-      // 警示：中央十字區域，提示最終衝刺軌跡
-      warnings.push({ x: centerX - 30, y: arena.y, w: 60, h: arena.h, life: warningDuration });
-      warnings.push({ x: arena.x, y: centerY - 30, w: arena.w, h: 60, life: warningDuration });
-
-      setTimeout(() => {
-        screenShake = 20;
-        const dir = Math.random() > 0.5 ? 1 : -1;
-        const startAngle = [0, Math.PI / 2, Math.PI, Math.PI * 1.5][Math.floor(Math.random() * 4)];
-        const radius = 175;
-        const initX = centerX + Math.cos(startAngle) * radius - 30;
-        const initY = centerY + Math.sin(startAngle) * radius - 30;
+      for (let i = 0; i < 8; i++) {
+        const angle = i * (Math.PI / 4);
+        const initX = centerX + Math.cos(angle) * radius - 30;
+        const initY = centerY + Math.sin(angle) * radius - 30;
+        
+        let j;
+        if (dir === 1) {
+          j = (i - startIdx + 8) % 8;
+        } else {
+          j = (startIdx - i + 8) % 8;
+        }
+        const delay = warningDuration + j * interval;
 
         addBullet({
           x: initX, y: initY, vx: 0, vy: 0,
           width: 60, height: 60, type: 'rect', emoji: '🚈', emojiSize: 60,
           customData: {
-            state: 'circle',
-            angle: startAngle,
-            traveled: 0,
-            dir: dir,
-            radius: radius,
-            speed: Math.PI * 1.5, // 1.33秒繞行一圈
-            facingAngle: startAngle + (Math.PI / 2) * dir
+            state: 'idle',
+            angle: angle,
+            facingAngle: angle + Math.PI,
+            delay: delay
           },
           update: function (dt) {
-            if (this.customData.state === 'circle') {
-              this.customData.traveled += this.customData.speed * dt;
-              this.customData.angle += this.customData.speed * dt * this.customData.dir;
-              this.x = centerX + Math.cos(this.customData.angle) * this.customData.radius - this.width / 2;
-              this.y = centerY + Math.sin(this.customData.angle) * this.customData.radius - this.height / 2;
-              this.customData.facingAngle = this.customData.angle + (Math.PI / 2) * this.customData.dir;
-
-              if (this.customData.traveled >= Math.PI * 2) {
+            if (this.customData.state === 'idle') {
+              this.customData.delay -= dt;
+              if (this.customData.delay <= 0) {
                 this.customData.state = 'dash';
+                screenShake = 20;
                 const dx = centerX - (this.x + this.width / 2);
                 const dy = centerY - (this.y + this.height / 2);
                 const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-                const dashSpeed = 820;
                 this.vx = (dx / dist) * dashSpeed;
                 this.vy = (dy / dist) * dashSpeed;
                 this.customData.facingAngle = Math.atan2(dy, dx);
-                screenShake = 25;
               }
             }
           },
           render: function (ctx2) {
+            // Draw laser warning line in idle state
+            if (this.customData.state === 'idle') {
+              ctx2.save();
+              const trainCenterX = this.x + this.width / 2;
+              const trainCenterY = this.y + this.height / 2;
+              const oppositeX = centerX - Math.cos(this.customData.angle) * radius;
+              const oppositeY = centerY - Math.sin(this.customData.angle) * radius;
+
+              if (this.customData.delay <= 0.4) {
+                ctx2.strokeStyle = 'rgba(255, 76, 76, 0.8)';
+                ctx2.lineWidth = 4;
+                ctx2.setLineDash([]);
+              } else {
+                ctx2.strokeStyle = 'rgba(255, 76, 76, 0.35)';
+                ctx2.lineWidth = 2;
+                ctx2.setLineDash([5, 5]);
+              }
+
+              ctx2.beginPath();
+              ctx2.moveTo(trainCenterX, trainCenterY);
+              ctx2.lineTo(oppositeX, oppositeY);
+              ctx2.stroke();
+              ctx2.restore();
+            }
+
+            // Draw train emoji
             ctx2.save();
             ctx2.translate(this.x + this.width / 2, this.y + this.height / 2);
             ctx2.rotate(this.customData.facingAngle);
+
+            let opacity = 0.5;
+            if (this.customData.state === 'idle') {
+              if (this.customData.delay <= 0.4) {
+                opacity = Math.floor(globalTime * 15) % 2 === 0 ? 0.3 : 0.8;
+              } else {
+                opacity = 0.5;
+              }
+            } else {
+              opacity = 1.0;
+            }
+
+            ctx2.globalAlpha = opacity;
             ctx2.font = `${this.emojiSize}px Arial`;
             ctx2.textAlign = 'center';
             ctx2.textBaseline = 'middle';
@@ -458,7 +488,7 @@ window.initBattleEngine = function (bossType, onEndCallback) {
             ctx2.restore();
           }
         });
-      }, warningDuration * 1000);
+      }
     } else if (qianPhase === 3 && !qianHasSpawned) {
       qianHasSpawned = true;
       const slotCount = 6;
