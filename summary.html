@@ -1102,18 +1102,17 @@
           fightAudio.play().catch(e => console.log('Audio error:', e));
           
           nextTick(() => {
-            // Dynamically load battle.js if not loaded
-            if (!document.getElementById('battle-script')) {
-              const script = document.createElement('script');
-              script.id = 'battle-script';
-              script.src = 'battle.js';
-              script.onload = () => {
-                if (window.initBattleEngine) window.initBattleEngine(step.isBattleTrigger, window.onBattleEnd);
-              };
-              document.body.appendChild(script);
-            } else {
+            // Dynamically load battle.js with cache-busting
+            const oldScript = document.getElementById('battle-script');
+            if (oldScript) oldScript.remove();
+            
+            const script = document.createElement('script');
+            script.id = 'battle-script';
+            script.src = 'battle.js?v=' + Date.now();
+            script.onload = () => {
               if (window.initBattleEngine) window.initBattleEngine(step.isBattleTrigger, window.onBattleEnd);
-            }
+            };
+            document.body.appendChild(script);
           });
           return;
         }
@@ -1412,17 +1411,16 @@
         fightAudio.play().catch(err => console.log('Audio error:', err));
 
         nextTick(() => {
-          if (!document.getElementById('battle-script')) {
-            const script = document.createElement('script');
-            script.id = 'battle-script';
-            script.src = 'battle.js';
-            script.onload = () => {
-              if (window.initBattleEngine) window.initBattleEngine(battleType, window.onBattleEnd);
-            };
-            document.body.appendChild(script);
-          } else {
+          const oldScript = document.getElementById('battle-script');
+          if (oldScript) oldScript.remove();
+          
+          const script = document.createElement('script');
+          script.id = 'battle-script';
+          script.src = 'battle.js?v=' + Date.now();
+          script.onload = () => {
             if (window.initBattleEngine) window.initBattleEngine(battleType, window.onBattleEnd);
-          }
+          };
+          document.body.appendChild(script);
         });
       };
 
