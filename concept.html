@@ -15,6 +15,11 @@
         #compare {
             position: relative;
         }
+        /* 擴展此頁的 Hero 容器上限為單欄，使標題有足夠空間顯示在同一行 */
+        #home {
+            grid-template-columns: 1fr;
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -34,22 +39,12 @@
         </nav>
     </header>
 
-    <!-- ── Section Index Dots ── -->
-    <aside class="section-index" aria-label="章節指示器">
-        <a class="dot active" href="#home" data-label="首頁"></a>
-    </aside>
-
     <main>
         <!-- ── Section 1: Hero ── -->
         <section id="home" class="show">
             <div>
                 <span class="eyebrow">溪湖 X 前鎮</span>
                 <h1 class="hero-title">Off the Rails</h1>
-                <p class="lead">彰化縣溪湖鎮（縣內人口第五大鄉鎮）與高雄市前鎮區（市內人口第五大區）。一個孕育豐饒蔬果，一個帶動都會經濟。用圖文對比與互動推薦，探索兩地獨特的發展脈絡。</p>
-                <div class="cta-row">
-                    <a class="btn" href="#compare">開始比較 →</a>
-                    <a class="btn secondary" href="random-slot.html">隨機推薦景點</a>
-                </div>
             </div>
         </section>
 
@@ -106,21 +101,6 @@
                 <div class="chart-wrapper">
                     <h3>在地產業結構比重</h3>
                     <canvas id="industryChart"></canvas>
-                </div>
-            </div>
-
-            <div class="maps-grid">
-                <div class="map-wrapper">
-                    <h3>彰化縣溪湖鎮</h3>
-                    <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d58282.88046467007!2d120.44318715!3d23.955465!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346947610014b9c1%3A0x6b1397baee85426b!2z5b2w5YyW57ij5rqq5rmW6Y6u!5e0!3m2!1szh-TW!2stw!4v1715610000000!5m2!1szh-TW!2stw"
-                        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                </div>
-                <div class="map-wrapper">
-                    <h3>高雄市前鎮區</h3>
-                    <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d29462.63665487693!2d120.29828555!3d22.6006429!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346e037807b57f05%3A0xcb1b6819dd3bfa82!2z6auY6ZuE5biC5YmN6Y6u5Y2A!5e0!3m2!1szh-TW!2stw!4v1715610000001!5m2!1szh-TW!2stw"
-                        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
             </div>
 
@@ -271,7 +251,8 @@
                 <div class="explore-overlay"></div>
 
                 <div class="explore-content">
-                    <span class="eyebrow" style="background: var(--surface-solid); box-shadow: var(--shadow);">深入探索</span>
+                    <span class="eyebrow"
+                        style="background: var(--surface-solid); box-shadow: var(--shadow);">深入探索</span>
                     <h2>準備好出發了嗎？</h2>
                     <p class="lead">選擇你想進一步了解的行政區，探索更多在地故事與特色景點！</p>
                     <div class="cta-row" style="justify-content: center; margin-top: 40px; gap: 24px;">
