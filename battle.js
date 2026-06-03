@@ -347,7 +347,7 @@ window.initBattleEngine = function (bossType, onEndCallback) {
     qianStateTimer -= dt;
     if (qianStateTimer <= 0) {
       qianPhase = Math.floor(Math.random() * 4);
-      qianStateTimer = (qianPhase === 0) ? 2.5 : ((qianPhase === 1) ? 5.5 : ((qianPhase === 2) ? 4.0 : 6.0));
+      qianStateTimer = (qianPhase === 0) ? 2.5 : ((qianPhase === 1) ? 5.5 : ((qianPhase === 2) ? 5.0 : 6.0));
       qianHasSpawned = false;
     }
 
@@ -399,7 +399,7 @@ window.initBattleEngine = function (bossType, onEndCallback) {
       const dir = Math.random() > 0.5 ? 1 : -1;
       const startIdx = Math.floor(Math.random() * numTrains);
       const dashSpeed = 950;
-      const warningDuration = 1.0;
+      const warningDuration = 1.8;
       const interval = 0.15;
 
       for (let i = 0; i < numTrains; i++) {
@@ -442,20 +442,23 @@ window.initBattleEngine = function (bossType, onEndCallback) {
           render: function (ctx2) {
             // Draw laser warning line in idle state
             if (this.customData.state === 'idle') {
+              if (this.customData.delay > warningDuration) {
+                return; // Do not render warning line or train emoji yet!
+              }
               ctx2.save();
               const trainCenterX = this.x + this.width / 2;
               const trainCenterY = this.y + this.height / 2;
               const oppositeX = centerX - Math.cos(this.customData.angle) * radius;
               const oppositeY = centerY - Math.sin(this.customData.angle) * radius;
 
-              if (this.customData.delay <= 0.4) {
-                ctx2.strokeStyle = 'rgba(255, 76, 76, 0.8)';
-                ctx2.lineWidth = 4;
+              if (this.customData.delay <= 0.5) {
+                ctx2.strokeStyle = 'rgba(255, 30, 30, 0.85)';
+                ctx2.lineWidth = 10;
                 ctx2.setLineDash([]);
               } else {
-                ctx2.strokeStyle = 'rgba(255, 76, 76, 0.35)';
-                ctx2.lineWidth = 2;
-                ctx2.setLineDash([5, 5]);
+                ctx2.strokeStyle = 'rgba(255, 76, 76, 0.45)';
+                ctx2.lineWidth = 4;
+                ctx2.setLineDash([8, 8]);
               }
 
               ctx2.beginPath();
@@ -472,7 +475,7 @@ window.initBattleEngine = function (bossType, onEndCallback) {
 
             let opacity = 0.5;
             if (this.customData.state === 'idle') {
-              if (this.customData.delay <= 0.4) {
+              if (this.customData.delay <= 0.5) {
                 opacity = Math.floor(globalTime * 15) % 2 === 0 ? 0.3 : 0.8;
               } else {
                 opacity = 0.5;
@@ -614,6 +617,9 @@ window.initBattleEngine = function (bossType, onEndCallback) {
       }
 
       if (!b.hasHit) {
+        if (b.customData && b.customData.state === 'idle') {
+          continue;
+        }
         let hit = false;
         let shrink = 6;
         if (b.type === 'circle') {
