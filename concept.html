@@ -15,71 +15,11 @@
         #compare {
             position: relative;
         }
+
         /* 擴展此頁的 Hero 容器上限為單欄，使標題有足夠空間顯示在同一行 */
         #home {
             grid-template-columns: 1fr;
             text-align: center;
-        }
-
-        /* 開發歷程表格樣式 */
-        .history-table-wrapper {
-            width: 100%;
-            max-height: 550px;
-            overflow-y: auto;
-            border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            background: var(--surface);
-            backdrop-filter: blur(12px);
-            box-shadow: var(--shadow);
-            margin-top: 24px;
-        }
-
-        .history-table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: left;
-            font-size: 0.95rem;
-        }
-
-        .history-table th, .history-table td {
-            padding: 14px 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            color: var(--text);
-        }
-
-        .history-table th {
-            background: color-mix(in srgb, var(--primary) 20%, var(--surface));
-            color: var(--primary);
-            font-weight: 700;
-            position: sticky;
-            top: 0;
-            z-index: 10;
-            backdrop-filter: blur(8px);
-        }
-
-        .history-table tr:hover {
-            background: rgba(255, 255, 255, 0.02);
-        }
-
-        .commit-hash {
-            font-family: 'Courier New', Courier, monospace;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 0.85rem;
-            color: var(--secondary);
-        }
-
-        .commit-author {
-            font-weight: 600;
-        }
-        
-        .author-csr {
-            color: #5ee39a;
-        }
-        
-        .author-howyee {
-            color: #53b7ff;
         }
     </style>
 </head>
@@ -149,296 +89,44 @@
         <!-- ── Section 3: Route ── -->
         <section id="route">
             <h2>開發歷程</h2>
-            <p class="lead">以下是此專案在 GitHub 上的詳細 Git 提交與更新歷程記錄表：</p>
-            <div class="history-table-wrapper">
-                <table class="history-table">
-                    <thead>
-                        <tr>
-                            <th>Commit ID</th>
-                            <th>提交日期</th>
-                            <th>開發者</th>
-                            <th>更新描述</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><span class="commit-hash">339fdcf</span></td>
-                            <td>2026-06-03</td>
-                            <td><span class="commit-author author-csr">csr0402</span></td>
-                            <td>layout: override hero section to 1-column layout in concept.html to expand title space</td>
-                        </tr>
-                        <tr>
-                            <td><span class="commit-hash">4040dbd</span></td>
-                            <td>2026-06-03</td>
-                            <td><span class="commit-author author-csr">csr0402</span></td>
-                            <td>clean: remove data-zh and data-en translation attributes from concept.html</td>
-                        </tr>
-                        <tr>
-                            <td><span class="commit-hash">abdb409</span></td>
-                            <td>2026-06-03</td>
-                            <td><span class="commit-author author-csr">csr0402</span></td>
-                            <td>feat: add concept page and fix layout scrolling issue</td>
-                        </tr>
-                        <tr>
-                            <td><span class="commit-hash">cd29c8b</span></td>
-                            <td>2026-06-03</td>
-                            <td><span class="commit-author author-csr">csr0402</span></td>
-                            <td>fix: resolve overlap issue in light rail attack timing</td>
-                        </tr>
-                        <tr>
-                            <td><span class="commit-hash">1119942</span></td>
-                            <td>2026-06-03</td>
-                            <td><span class="commit-author author-csr">csr0402</span></td>
-                            <td>fix: force reload battle.js with cache-buster parameter in summary.html to prevent caching</td>
-                        </tr>
-                        <tr>
-                            <td><span class="commit-hash">70f0a0b</span></td>
-                            <td>2026-06-03</td>
-                            <td><span class="commit-author author-csr">csr0402</span></td>
-                            <td>feat: delay Wave 2 offset to 8.7s to prevent overlap and ensure Wave 1 finishes first</td>
-                        </tr>
-                        <tr>
-                            <td><span class="commit-hash">29936e7</span></td>
-                            <td>2026-06-03</td>
-                            <td><span class="commit-author author-csr">csr0402</span></td>
-                            <td>feat: make Wave 1 and Wave 2 share the same direction</td>
-                        </tr>
-                        <tr>
-                            <td><span class="commit-hash">d6138de</span></td>
-                            <td>2026-06-03</td>
-                            <td><span class="commit-author author-csr">csr0402</span></td>
-                            <td>feat: change light rail attack to trigger twice in two consecutive waves of 32 trains</td>
-                        </tr>
-                        <tr>
-                            <td><span class="commit-hash">cdbdcb6</span></td>
-                            <td>2026-06-03</td>
-                            <td><span class="commit-author author-csr">csr0402</span></td>
-                            <td>feat: double light rail count to 32 and increase dash interval to 220ms</td>
-                        </tr>
-                        <tr>
-                            <td><span class="commit-hash">1803b4f</span></td>
-                            <td>2026-06-03</td>
-                            <td><span class="commit-author author-csr">csr0402</span></td>
-                            <td>feat: make light rail warnings thicker (4px/10px), longer (1.8s), appear sequentially, and skip collision when idle</td>
-                        </tr>
-                        <tr>
-                            <td><span class="commit-hash">64e3048</span></td>
-                            <td>2026-06-03</td>
-                            <td><span class="commit-author author-csr">csr0402</span></td>
-                            <td>feat: increase light rail count to 16 and radius to 300 (outside arena)</td>
-                        </tr>
-                        <tr>
-                            <td><span class="commit-hash">80ffa26</span></td>
-                            <td>2026-06-03</td>
-                            <td><span class="commit-author author-csr">csr0402</span></td>
-                            <td>feat: implement sequential ring of light rails attack with laser warnings</td>
-                        </tr>
-                        <tr>
-                            <td><span class="commit-hash">34fa7bc</span></td>
-                            <td>2026-06-03</td>
-                            <td><span class="commit-author author-csr">csr0402</span></td>
-                            <td>feat: optimize light rail attack with cardinal start angles and correct dash facing angle</td>
-                        </tr>
-                        <tr>
-                            <td><span class="commit-hash">5689415</span></td>
-                            <td>2026-06-03</td>
-                            <td><span class="commit-author author-csr">csr0402</span></td>
-                            <td>style(css): add standard background-clip property for browser compatibility</td>
-                        </tr>
-                        <tr>
-                            <td><span class="commit-hash">d8625d7</span></td>
-                            <td>2026-06-03</td>
-                            <td><span class="commit-author author-csr">csr0402</span></td>
-                            <td>cleanup: remove unnecessary temporary files, legacy script variants, and temp build directory</td>
-                        </tr>
-                        <tr>
-                            <td><span class="commit-hash">dbfff16</span></td>
-                            <td>2026-06-03</td>
-                            <td><span class="commit-author author-csr">csr0402</span></td>
-                            <td>style(xihu, qianzhen): update heading in qianzhen.html and include formatted xihu.html adjustments</td>
-                        </tr>
-                        <tr>
-                            <td><span class="commit-hash">d3bbe0e</span></td>
-                            <td>2026-06-03</td>
-                            <td><span class="commit-author author-csr">csr0402</span></td>
-                            <td>cleanup(xihu): remove unnecessary '繼續閱讀' (Read More) buttons from blog cards</td>
-                        </tr>
-                        <tr>
-                            <td><span class="commit-hash">df92f51</span></td>
-                            <td>2026-06-03</td>
-                            <td><span class="commit-author author-csr">csr0402</span></td>
-                            <td>cleanup(summary): completely remove popChart and villageChart empty HTML container blocks</td>
-                        </tr>
-                        <tr>
-                            <td><span class="commit-hash">bfea06e</span></td>
-                            <td>2026-06-03</td>
-                            <td><span class="commit-author author-csr">csr0402</span></td>
-                            <td>style(summary): use clean, short gauge labels to prevent layout wrapping and integrate user visual tweaks</td>
-                        </tr>
-                        <tr>
-                            <td><span class="commit-hash">db9e43f</span></td>
-                            <td>2026-06-02</td>
-                            <td><span class="commit-author author-csr">csr0402</span></td>
-                            <td>cleanup(summary): remove popChart and villageChart dead JS code and layout elements</td>
-                        </tr>
-                        <tr>
-                            <td><span class="commit-hash">de5ea81</span></td>
-                            <td>2026-06-02</td>
-                            <td><span class="commit-author author-csr">csr0402</span></td>
-                            <td>feat(summary): implement dynamic gauge charts for affection and knowledge rates</td>
-                        </tr>
-                        <tr>
-                            <td><span class="commit-hash">c379470</span></td>
-                            <td>2026-06-02</td>
-                            <td><span class="commit-author author-csr">csr0402</span></td>
-                            <td>style: unify navbar titles to Off the Rails and apply futuristic Orbitron font styles</td>
-                        </tr>
-                        <tr>
-                            <td><span class="commit-hash">17d1a0e</span></td>
-                            <td>2026-06-02</td>
-                            <td><span class="commit-author author-csr">csr0402</span></td>
-                            <td>design: update website favicon & brand logo with custom train logo and hover derail animation</td>
-                        </tr>
-                        <tr>
-                            <td><span class="commit-hash">c0fd3a8</span></td>
-                            <td>2026-06-02</td>
-                            <td><span class="commit-author author-howyee">Howyee9527</span></td>
-                            <td>style: update layout and typography in index.html</td>
-                        </tr>
-                        <tr>
-                            <td><span class="commit-hash">8072a88</span></td>
-                            <td>2026-06-02</td>
-                            <td><span class="commit-author author-howyee">Howyee9527</span></td>
-                            <td>refactor: update background color palette, adjust lighting model, and increase animation speed in bg-jit-hue.js</td>
-                        </tr>
-                        <tr>
-                            <td><span class="commit-hash">fc5ad27</span></td>
-                            <td>2026-06-01</td>
-                            <td><span class="commit-author author-howyee">Howyee9527</span></td>
-                            <td>feat: implement VueUse event and utility hooks with supporting asset files</td>
-                        </tr>
-                        <tr>
-                            <td><span class="commit-hash">ccc82d0</span></td>
-                            <td>2026-06-01</td>
-                            <td><span class="commit-author author-csr">csr0402</span></td>
-                            <td>revert: home-page jitter bg and attractions-gallery layout</td>
-                        </tr>
-                        <tr>
-                            <td><span class="commit-hash">a9a4f1f</span></td>
-                            <td>2026-06-01</td>
-                            <td><span class="commit-author author-csr">csr0402</span></td>
-                            <td>feat: add drifting clouds background effect via body.home-page::after</td>
-                        </tr>
-                        <tr>
-                            <td><span class="commit-hash">c4be873</span></td>
-                            <td>2026-06-01</td>
-                            <td><span class="commit-author author-csr">csr0402</span></td>
-                            <td>feat: restrict dynamic blue-green backdrop effect to index.html only</td>
-                        </tr>
-                        <tr>
-                            <td><span class="commit-hash">7a57315</span></td>
-                            <td>2026-06-01</td>
-                            <td><span class="commit-author author-csr">csr0402</span></td>
-                            <td>style: keep card/navbar glassmorphism and precisely remove filter: blur on background .bg-orbs</td>
-                        </tr>
-                        <tr>
-                            <td><span class="commit-hash">d3773f8</span></td>
-                            <td>2026-06-01</td>
-                            <td><span class="commit-author author-howyee">Howyee9527</span></td>
-                            <td>feat: implement interactive card gallery with wave-style entry and exit animations</td>
-                        </tr>
-                        <tr>
-                            <td><span class="commit-hash">a077494</span></td>
-                            <td>2026-06-01</td>
-                            <td><span class="commit-author author-howyee">Howyee9527</span></td>
-                            <td>feat: add explore card component and update section entrance animations with custom easing</td>
-                        </tr>
-                        <tr>
-                            <td><span class="commit-hash">803fcbb</span></td>
-                            <td>2026-06-01</td>
-                            <td><span class="commit-author author-csr">csr0402</span></td>
-                            <td>feat: sheep dash, grape bounce, leek warning</td>
-                        </tr>
-                        <tr>
-                            <td><span class="commit-hash">c0080b5</span></td>
-                            <td>2026-05-27</td>
-                            <td><span class="commit-author author-howyee">Howyee9527</span></td>
-                            <td>修正言帆紅死活不修的萬年祖傳bug(PK結算頁面無法跳轉的問題)</td>
-                        </tr>
-                        <tr>
-                            <td><span class="commit-hash">f6d1227</span></td>
-                            <td>2026-05-27</td>
-                            <td><span class="commit-author author-howyee">Howyee9527</span></td>
-                            <td>於footer處新增資料來源頁面，另外更新前鎮和溪湖醬的戰鬥雷霆立繪</td>
-                        </tr>
-                        <tr>
-                            <td><span class="commit-hash">a377c5b</span></td>
-                            <td>2026-05-27</td>
-                            <td><span class="commit-author author-howyee">Howyee9527</span></td>
-                            <td>修正chart.js顯示問題和兩個sections間的css顯示問題</td>
-                        </tr>
-                        <tr>
-                            <td><span class="commit-hash">2750577</span></td>
-                            <td>2026-05-27</td>
-                            <td><span class="commit-author author-csr">csr0402</span></td>
-                            <td>Fix battle end callback and update dialogue/summary</td>
-                        </tr>
-                        <tr>
-                            <td><span class="commit-hash">0c66eb7</span></td>
-                            <td>2026-05-27</td>
-                            <td><span class="commit-author author-csr">csr0402</span></td>
-                            <td>Enhance battle mechanics, fix AudioContext memory leak, add dashboard, update dialogue</td>
-                        </tr>
-                        <tr>
-                            <td><span class="commit-hash">b3a6646</span></td>
-                            <td>2026-05-26</td>
-                            <td><span class="commit-author author-howyee">Howyee9527</span></td>
-                            <td>新增前鎮景點圖片(言帆鋐不要再玩馬力歐賽車了)</td>
-                        </tr>
-                        <tr>
-                            <td><span class="commit-hash">b4417e0</span></td>
-                            <td>2026-05-26</td>
-                            <td><span class="commit-author author-csr">csr0402</span></td>
-                            <td>Increase home page video playback speeds</td>
-                        </tr>
-                        <tr>
-                            <td><span class="commit-hash">a4b4ad0</span></td>
-                            <td>2026-05-26</td>
-                            <td><span class="commit-author author-csr">csr0402</span></td>
-                            <td>Fix local file fetch CORS issue by using JS variables; add update script; clean up unused HTML files; fix CSS compatibility issue</td>
-                        </tr>
-                        <tr>
-                            <td><span class="commit-hash">ae0a99b</span></td>
-                            <td>2026-05-13</td>
-                            <td><span class="commit-author author-howyee">Howyee9527</span></td>
-                            <td>新增數據對照圖表區塊在section3、動畫、但有圖示跟google map嵌入跑不出來</td>
-                        </tr>
-                        <tr>
-                            <td><span class="commit-hash">ee4532f</span></td>
-                            <td>2026-05-12</td>
-                            <td><span class="commit-author author-csr">csr0402</span></td>
-                            <td>Modernize UI, fix slot machine lever and reel, optimize for translation (v0.67)</td>
-                        </tr>
-                        <tr>
-                            <td><span class="commit-hash">dceb99b</span></td>
-                            <td>2026-05-12</td>
-                            <td><span class="commit-author author-howyee">howyee9527</span></td>
-                            <td>Create comparison webpage for Qianzhen and Xihu</td>
-                        </tr>
-                        <tr>
-                            <td><span class="commit-hash">3bc5b4c</span></td>
-                            <td>2026-05-12</td>
-                            <td><span class="commit-author author-csr">csr0402</span></td>
-                            <td>Refactor: 整合多頁至單頁長捲動設計、新增深淺色模式切換、新增總結圖表與必備頁面</td>
-                        </tr>
-                        <tr>
-                            <td><span class="commit-hash">537c5c1</span></td>
-                            <td>2026-05-12</td>
-                            <td><span class="commit-author author-csr">csr0402</span></td>
-                            <td>Initial commit</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="timeline">
+                <div class="step">
+                    <div class="step-num">1</div>
+                    <div class="step-content">
+                        <h3>5/12</h3>
+                        <p class="lead">
+                            初始創建 : 創建首頁、介紹頁面、翻譯，深色模式</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-num">2</div>
+                    <div class="step-content">
+                        <h3>5/13</h3>
+                        <p class="lead">
+                            新增鄉鎮數據及動畫</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-num">3</div>
+                    <div class="step-content">
+                        <h3>5/26</h3>
+                        <p class="lead">新增遊戲、鄉鎮介紹圖片</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-num">4</div>
+                    <div class="step-content">
+                        <h3>5/27</h3>
+                        <p class="lead">新增PK總結頁面、資料來源</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-num">5</div>
+                    <div class="step-content">
+                        <h3>6/1~6/3</h3>
+                        <p class="lead">修改首頁、bug、增加遊戲細節</p>
+                    </div>
+                </div>
             </div>
         </section>
 
