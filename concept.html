@@ -16,10 +16,54 @@
             position: relative;
         }
 
-        /* 擴展此頁的 Hero 容器上限為單欄，使標題有足夠空間顯示在同一行 */
         #home {
             grid-template-columns: 1fr;
             text-align: center;
+        }
+
+        .ai-models-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-top: 30px;
+        }
+
+        .ai-card {
+            background: var(--surface-solid);
+            border-radius: 16px;
+            padding: 30px 24px;
+            border: 1px solid color-mix(in srgb, var(--muted) 15%, transparent);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .ai-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        .ai-icon {
+            font-size: 3.5rem;
+            margin-bottom: 16px;
+        }
+
+        .ai-card h3 {
+            font-size: 1.3rem;
+            color: var(--text);
+            margin-bottom: 16px;
+            font-family: 'Orbitron', 'Noto Sans TC', sans-serif;
+            font-weight: 800;
+        }
+
+        .ai-card p {
+            color: var(--muted);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin: 0;
         }
     </style>
 </head>
@@ -126,6 +170,42 @@
                         <h3>6/1~6/3</h3>
                         <p class="lead">修改首頁、bug、增加遊戲細節</p>
                     </div>
+                </div>
+                <div class="step">
+                    <div class="step-num">6</div>
+                    <div class="step-content">
+                        <h3>6/4~6/8</h3>
+                        <p class="lead">網頁細節美編設計、去AI化</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── Section: AI Models ── -->
+        <section id="ai-models">
+            <h2>輔助 AI 模型</h2>
+            <p class="lead" style="text-align: center; max-width: 800px; margin: 0 auto 30px;">
+                本專案在開發過程中，透過不同 AI 模型的協作與分工，完成了網頁的架構、視覺與內容建構：
+            </p>
+
+            <div class="ai-models-grid">
+                <div class="ai-card">
+                    <div class="ai-icon" style="margin-bottom: 12px; height: 60px; display: flex; align-items: center;"><img src="images/Copilot-Logo.png" alt="Copilot Logo" style="width: 60px; height: 60px; object-fit: contain;"></div>
+                    <h3>Copilot ChatGPT 5.5</h3>
+                    <p>根據期中實驗B的提示詞所生成。負責初步的網站架構設計與基本網頁互動開發（如抽獎機、轉盤等）。</p>
+                </div>
+
+                <div class="ai-card">
+                    <div class="ai-icon" style="margin-bottom: 12px; height: 60px; display: flex; align-items: center;"><img src="images/Google_Gemini_icon.png" alt="Gemini Logo" style="width: 60px; height: 60px; object-fit: contain;"></div>
+                    <h3>Gemini 3.1 Pro <br><span style="font-size: 0.8em; font-weight: normal;">(Antigravity)</span>
+                    </h3>
+                    <p>負責兩區深入探索的內容建構、各式圖表化（Sections）的資料視覺化，並負責解決過程中遇到的各項核心 Bug。</p>
+                </div>
+
+                <div class="ai-card">
+                    <div class="ai-icon" style="margin-bottom: 12px; height: 60px; display: flex; align-items: center;"><img src="images/claude-logo.png" alt="Claude Logo" style="width: 60px; height: 60px; object-fit: contain;"></div>
+                    <h3>Claude</h3>
+                    <p>負責網頁細節美編與各項視覺樣式打磨，並協助處理各種 Gemini 無法解決的疑難雜症 Bug。</p>
                 </div>
             </div>
         </section>
