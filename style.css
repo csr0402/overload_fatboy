@@ -1965,7 +1965,7 @@ main>section#home.showdown-hero {
 .qianzhen-cloud .cloud-word.cw-9  { color: hsl(213, 79%, 38%); }
 .qianzhen-cloud .cloud-word.cw-10 { color: hsl(202, 72%, 45%); }
 .qianzhen-cloud .cloud-word.cw-11 { color: hsl(218, 78%, 40%); }
-.qianzhen-cloud .cloud-word.cw-12 { color: hsl(330, 80%, 50%); font-weight: 900; }
+.qianzhen-cloud .cloud-word.cw-12 { color: hsl(218, 78%, 40%); }
 
 /* Link-type cloud word (opens external URL on click) */
 .cloud-word-link {
@@ -2058,4 +2058,4 @@ main>section#home.showdown-hero {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
 }
-
+
