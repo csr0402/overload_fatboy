@@ -1023,7 +1023,7 @@ window.initBattleEngine = function (bossType, onEndCallback) {
     }
 
     setTimeout(() => {
-      if (onEndCallback) onEndCallback(won);
+      if (onEndCallback) onEndCallback(won, player.hp);
     }, 3500);
   };
 

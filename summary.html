@@ -894,6 +894,67 @@
               <div style="width:100%; max-width:180px; height: 140px; text-align:center;">
                 <canvas id="qianzhenKnowledgeChart"></canvas>
               </div>
+          </div>
+
+          <!-- ── Leaderboard UI ── -->
+          <div style="margin: 3rem 0; padding: 2rem; background: var(--surface); border-radius: 24px; box-shadow: var(--shadow);">
+            <h3 style="text-align:center; margin-bottom:1.5rem; color: var(--primary);">🏆 全球決戰排行榜</h3>
+            <p v-if="leaderboardLoading" style="text-align:center;">載入中...</p>
+            <div v-else style="overflow-x:auto;">
+              <table style="width:100%; text-align:left; border-collapse: collapse; min-width: 600px;">
+                <thead>
+                  <tr style="border-bottom: 2px solid var(--primary); background: rgba(0,0,0,0.02);">
+                    <th style="padding: 12px; border-radius: 10px 0 0 0;">排名</th>
+                    <th style="padding: 12px;">玩家</th>
+                    <th style="padding: 12px;">結局</th>
+                    <th style="padding: 12px;">溪湖好感</th>
+                    <th style="padding: 12px;">前鎮好感</th>
+                    <th style="padding: 12px;">剩餘血量</th>
+                    <th style="padding: 12px; border-radius: 0 10px 0 0;">總分</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="item in aliveLeaderboardData" :key="item.rank" style="border-bottom: 1px solid var(--glass-border);">
+                    <td style="padding: 12px; font-weight:bold;">#{{ item.rank }}</td>
+                    <td style="padding: 12px;">{{ item.name }}</td>
+                    <td style="padding: 12px;">
+                      <span v-if="item.meta.type === 'battle'" style="color: #d63031;">⚔️ 戰鬥</span>
+                      <span v-else-if="item.meta.type === 'perfect'" style="color: #fdcb6e;">💖 完美結局</span>
+                      <span v-else-if="item.meta.type === 'normal'" style="color: #b2bec3;">😐 普通結局</span>
+                      <span v-else-if="item.meta.type === 'playboy'" style="color: #e84393;">💔 花心結局</span>
+                      <span v-else-if="item.meta.type === 'xihu'" style="color: #2eb872;">🍇 溪湖結局</span>
+                      <span v-else-if="item.meta.type === 'qianzhen'" style="color: #0984e3;">🚢 前鎮結局</span>
+                      <span v-else-if="item.meta.type === 'peace'" style="color: #2eb872;">🌸 和平</span>
+                      <span v-else>{{ item.meta.type || '-' }}</span>
+                    </td>
+                    <td style="padding: 12px;">{{ item.meta.xihu ?? '-' }}</td>
+                    <td style="padding: 12px;">{{ item.meta.qianzhen ?? '-' }}</td>
+                    <td style="padding: 12px;">
+                      <span v-if="item.meta.hp !== undefined">❤️ {{ item.meta.hp }}</span>
+                      <span v-else>-</span>
+                    </td>
+                    <td style="padding: 12px; font-family: 'Orbitron', sans-serif;">{{ item.score }}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div v-if="aliveLeaderboardData.length === 0" style="text-align:center; padding: 20px; color: var(--muted);">目前排行榜上還沒有存活的玩家喔！</div>
+            </div>
+
+            <!-- ── 墳墓區 (Graveyard) ── -->
+            <div v-if="deadLeaderboardData.length > 0" style="margin-top: 3rem; text-align: center; border-top: 2px dashed var(--glass-border); padding-top: 2rem;">
+              <h4 style="color: #636e72; margin-bottom: 1.5rem; font-size: 1.2rem;">🪦 烈士陵園 (慘遭碾壓的挑戰者)</h4>
+              <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px;">
+                <div v-for="dead in deadLeaderboardData" :key="dead.rank" 
+                     style="width: 100px; padding: 15px 10px; background: #2d3436; border-radius: 8px 8px 0 0; border: 2px solid #636e72; border-bottom: none; box-shadow: 2px 2px 10px rgba(0,0,0,0.3); color: #dfe6e9; position: relative;">
+                  <div style="font-size: 2rem; margin-bottom: 5px;">🪦</div>
+                  <div style="font-size: 0.85rem; font-weight: bold; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" :title="dead.name">{{ dead.name }}</div>
+                  <div style="font-size: 0.7rem; color: #b2bec3; margin-top: 5px;">R.I.P.</div>
+                </div>
+              </div>
+            </div>
+
+            <div style="text-align:center; margin-top:2rem;">
+              <button class="btn secondary" @click="fetchLeaderboard">🔄 重新整理排行榜</button>
             </div>
           </div>
 
@@ -934,6 +995,7 @@
       const xihuScore = ref(50);
       const qianzhenScore = ref(50);
       const isBattleMode = ref(false);
+      const isPracticeMode = ref(false);
       const xihuDamaged = ref(false);
       const qianzhenDamaged = ref(false);
       const xihuLoved = ref(false);
@@ -958,6 +1020,133 @@
       const dialogueText = ref('');
       const isTyping = ref(false);
       let typeInterval = null;
+
+      // Leaderboard State
+      const leaderboardData = ref([]);
+      const leaderboardLoading = ref(false);
+      
+      const aliveLeaderboardData = computed(() => {
+        return leaderboardData.value.filter(item => item.meta.hp !== 0);
+      });
+      const deadLeaderboardData = computed(() => {
+        return leaderboardData.value.filter(item => item.meta.hp === 0);
+      });
+
+      const finalHp = ref(0);
+      const lootLockerGameKey = 'dev_b52cd7f846e74559aa0679eddd0acdd7';
+      const lootLockerLeaderboardId = 'duel_score';
+      let sessionToken = '';
+
+      const submitToLootLocker = async () => {
+        if (isPracticeMode.value) {
+          console.log('練習模式 (快捷鍵進入)，不記錄分數');
+          fetchLeaderboard(); // 依然可以抓取排行榜來看
+          return;
+        }
+
+        try {
+          const sessionRes = await fetch('https://api.lootlocker.io/game/v2/session/guest', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ game_key: lootLockerGameKey, game_version: '1.0.0.0', player_identifier: playerName.value || 'Player' })
+          });
+          const sessionData = await sessionRes.json();
+          if (!sessionData.success) {
+            console.warn('LootLocker Login Failed (Guest Login may be disabled):', sessionData);
+            return;
+          }
+          sessionToken = sessionData.session_token;
+          
+          // Set player name explicitly
+          if (playerName.value) {
+            await fetch('https://api.lootlocker.io/game/player/name', {
+              method: 'PATCH',
+              headers: { 'Content-Type': 'application/json', 'x-session-token': sessionToken },
+              body: JSON.stringify({ name: playerName.value })
+            });
+          }
+
+          let score = 0;
+          let metadata = {};
+
+          const cappedXihu = Math.min(xihuScore.value, 100);
+          const cappedQianzhen = Math.min(qianzhenScore.value, 100);
+
+          if (cappedXihu < 0 || cappedQianzhen < 0) {
+            score = (finalHp.value + cappedXihu + cappedQianzhen) * 100;
+            metadata = { type: 'battle', xihu: cappedXihu, qianzhen: cappedQianzhen, hp: finalHp.value };
+          } else {
+            let peaceType = '';
+            if (cappedXihu === 100 && cappedQianzhen === 100) {
+              peaceType = 'perfect';
+            } else if (cappedXihu < 40 && cappedQianzhen < 40) {
+              peaceType = 'normal';
+            } else if (cappedXihu === cappedQianzhen && cappedXihu > 40) {
+              peaceType = 'playboy';
+            } else if (cappedXihu > cappedQianzhen) {
+              peaceType = 'xihu';
+            } else {
+              peaceType = 'qianzhen';
+            }
+            score = (cappedXihu + cappedQianzhen) * 100;
+            metadata = { type: peaceType, xihu: cappedXihu, qianzhen: cappedQianzhen };
+          }
+
+          await fetch(`https://api.lootlocker.io/game/leaderboards/${lootLockerLeaderboardId}/submit`, {
+            method: 'POST',
+            headers: { 
+              'Content-Type': 'application/json',
+              'x-session-token': sessionToken 
+            },
+            body: JSON.stringify({ score: score, metadata: JSON.stringify(metadata) })
+          });
+
+          fetchLeaderboard();
+        } catch (err) {
+          console.error('LootLocker Submit Error:', err);
+        }
+      };
+
+      const fetchLeaderboard = async () => {
+        leaderboardLoading.value = true;
+        try {
+          if (!sessionToken) {
+            const sessionRes = await fetch('https://api.lootlocker.io/game/v2/session/guest', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ game_key: lootLockerGameKey, game_version: '1.0.0.0', player_identifier: 'guest' })
+            });
+            const sessionData = await sessionRes.json();
+            if (!sessionData.success) {
+              leaderboardLoading.value = false;
+              return;
+            }
+            sessionToken = sessionData.session_token;
+          }
+
+          const res = await fetch(`https://api.lootlocker.io/game/leaderboards/${lootLockerLeaderboardId}/list?count=20`, {
+            method: 'GET',
+            headers: { 'x-session-token': sessionToken }
+          });
+          const data = await res.json();
+          if (data.items) {
+            leaderboardData.value = data.items.map(item => {
+              let meta = {};
+              try { meta = JSON.parse(item.metadata || '{}'); } catch(e) {}
+              return {
+                rank: item.rank,
+                name: item.player?.name || item.player?.id || 'Unknown',
+                score: item.score,
+                meta: meta
+              };
+            });
+          }
+        } catch (err) {
+          console.error('LootLocker Fetch Error:', err);
+        } finally {
+          leaderboardLoading.value = false;
+        }
+      };
 
       // BGM and Fight Audio
       const bgmAudio = new Audio('audio/bgm.wav');
@@ -1330,6 +1519,8 @@
         showUnlockScreen.value = false;
         reportUnlocked.value = true;
         
+        submitToLootLocker();
+        
         nextTick(() => {
           initLocalCharts(
             xihuScore.value,
@@ -1349,8 +1540,9 @@
         });
       };
 
-      window.onBattleEnd = () => {
+      window.onBattleEnd = (won, hp) => {
         isBattleMode.value = false;
+        finalHp.value = typeof hp === 'number' ? hp : 0;
         enterDashboard();
       };
 
@@ -1389,6 +1581,7 @@
         showTitleScreen.value = true;
         reportUnlocked.value = false;
         showUnlockScreen.value = false;
+        isPracticeMode.value = false;
         currentStepIndex.value = 0;
 
         // Reset tracked stats
@@ -1406,6 +1599,7 @@
       // 快速啟動戰鬥（開發用快捷鍵）
       const startBattleDirect = (battleType) => {
         if (isBattleMode.value) return;
+        isPracticeMode.value = true;
         isBattleMode.value = true;
         bgmAudio.pause();
         fightAudio.currentTime = 0;
@@ -1473,7 +1667,12 @@
         makeChoice,
         enterDashboard,
         skipGame,
-        resetGame
+        resetGame,
+        leaderboardData,
+        leaderboardLoading,
+        fetchLeaderboard,
+        aliveLeaderboardData,
+        deadLeaderboardData
       };
     }
   }).mount('#app');
