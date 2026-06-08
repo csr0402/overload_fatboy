@@ -12,7 +12,7 @@ function toggleTheme() {
 
 function updateThemeIcon(theme) {
   const btn = document.getElementById('theme-toggle-btn');
-  if(btn) {
+  if (btn) {
     btn.innerHTML = theme === 'dark' ? '☀' : '☾';
   }
 }
@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
       const targetId = this.getAttribute('href');
       if (targetId === '#') return;
-      
+
       const targetElement = document.querySelector(targetId);
       if (targetElement) {
         targetElement.scrollIntoView({
@@ -49,10 +49,10 @@ if (!document.querySelector('script[src*="canvas-confetti"]')) {
 }
 
 // 監聽全站按鍵 'C' 觸發隨機拉炮
-document.addEventListener('keydown', function(event) {
+document.addEventListener('keydown', function (event) {
   // 確保 confetti 套件已經載入
   if (typeof confetti !== 'function') return;
-  
+
   // 避免在輸入框打字時誤觸
   if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') return;
 
@@ -60,7 +60,7 @@ document.addEventListener('keydown', function(event) {
     // 隨機選擇噴發位置 (上、下、左、右)
     const edges = ['top', 'bottom', 'left', 'right'];
     const edge = edges[Math.floor(Math.random() * edges.length)];
-    
+
     // 播放拉炮音效
     const popperAudio = new Audio('audio/partypopper.mp3');
     popperAudio.volume = 0.5; // 音量適中
@@ -71,8 +71,8 @@ document.addEventListener('keydown', function(event) {
     let velocity = 60;
     let spread = 80;
     let angle = 90;
-    
-    switch(edge) {
+
+    switch (edge) {
       case 'top':
         originX = Math.random(); // 頂部隨機水平位置
         originY = 0;
@@ -102,7 +102,7 @@ document.addEventListener('keydown', function(event) {
         spread = 60;
         break;
     }
-    
+
     // 執行拉炮
     confetti({
       particleCount: 120, // 紙片數量
@@ -132,20 +132,20 @@ document.addEventListener('DOMContentLoaded', () => {
   updateLangIcon(savedLang);
 });
 
-window.googleTranslateElementInit = function() {
+window.googleTranslateElementInit = function () {
   new google.translate.TranslateElement({
-    pageLanguage: 'zh-TW', 
-    includedLanguages: 'en,zh-TW', 
+    pageLanguage: 'zh-TW',
+    includedLanguages: 'en,zh-TW',
     autoDisplay: false
   }, 'google_translate_element');
-  
+
   // Apply saved language on load after a short delay
   setTimeout(() => {
     const savedLang = localStorage.getItem('site_lang') || 'zh-TW';
-    if(savedLang !== 'zh-TW') {
+    if (savedLang !== 'zh-TW') {
       changeLanguage(savedLang);
     }
-  }, 500); 
+  }, 500);
 };
 
 function toggleLanguage() {
@@ -196,12 +196,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const initCharts = () => {
     if (chartsInitialized) return;
     chartsInitialized = true;
-    
+
     const colors = getChartColors();
 
     // 1. 人口趨勢折線圖 (Line Chart)
     const ctxPop = document.getElementById('populationChart');
-    if(ctxPop) {
+    if (ctxPop) {
       new Chart(ctxPop, {
         type: 'line',
         data: {
@@ -209,7 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
           datasets: [
             {
               label: '溪湖鎮 (萬人)',
-              data: [5.5, 5.4, 5.4, 5.3, 5.2, 5.25],
+              data: [5.5, 5.46, 5.42, 5.38, 5.34, 5.33],
               borderColor: colors.xihuColor,
               backgroundColor: 'rgba(46, 184, 114, 0.2)',
               tension: 0.4,
@@ -217,7 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
             },
             {
               label: '前鎮區 (萬人)',
-              data: [19.2, 18.9, 18.5, 18.1, 17.8, 17.7],
+              data: [19.2, 18.8, 18.5, 18.1, 17.8, 17.6],
               borderColor: colors.qianzhenColor,
               backgroundColor: 'rgba(22, 137, 216, 0.2)',
               tension: 0.4,
@@ -243,24 +243,84 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // 2. 產業結構圓餅圖 (Doughnut Chart)
-    const ctxInd = document.getElementById('industryChart');
-    if(ctxInd) {
-      new Chart(ctxInd, {
-        type: 'doughnut',
+    // 1.5 人口密度長條圖 (Bar Chart)
+    const ctxDensity = document.getElementById('densityChart');
+    if (ctxDensity) {
+      new Chart(ctxDensity, {
+        type: 'bar',
         data: {
-          labels: ['溪湖: 農業', '溪湖: 工商服務', '前鎮: 科技/重工', '前鎮: 服務/航運'],
-          datasets: [{
-            data: [35, 65, 45, 55], // 示意比例
-            backgroundColor: [
-              '#5ee39a', // 溪湖農
-              '#2eb872', // 溪湖工商
-              '#1689d8', // 前鎮科技
-              '#53b7ff'  // 前鎮服務
-            ],
-            borderWidth: 2,
-            borderColor: document.documentElement.getAttribute('data-theme') === 'dark' ? '#0c1c2d' : '#ffffff'
-          }]
+          labels: ['溪湖鎮', '前鎮區'],
+          datasets: [
+            {
+              label: '人口密度 (人/km²)',
+              data: [1665, 9225],
+              backgroundColor: [
+                'rgba(46, 184, 114, 0.8)',
+                'rgba(22, 137, 216, 0.8)'
+              ],
+              borderColor: [
+                colors.xihuColor,
+                colors.qianzhenColor
+              ],
+              borderWidth: 1,
+              borderRadius: 6
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: function (context) {
+                  return context.raw + ' 人/km²';
+                }
+              }
+            }
+          },
+          scales: {
+            x: { grid: { display: false }, ticks: { color: colors.textColor, font: { family: "'Noto Sans TC', sans-serif", size: 14 } } },
+            y: { grid: { color: colors.gridColor }, ticks: { color: colors.textColor } }
+          },
+          animation: {
+            duration: 2000,
+            easing: 'easeOutQuart'
+          }
+        }
+      });
+    }
+
+    // 2. 產業結構與職業別雷達圖 (Radar Chart)
+    const ctxInd = document.getElementById('industryChart');
+    if (ctxInd) {
+      new Chart(ctxInd, {
+        type: 'radar',
+        data: {
+          labels: ['農業與一級產業', '傳統製造業', '科技與軟體業', '服務與零售業', '港埠與物流業', '觀光與休閒業'],
+          datasets: [
+            {
+              label: '溪湖鎮',
+              data: [9, 5, 1, 5, 0, 6],
+              backgroundColor: 'rgba(46, 184, 114, 0.2)',
+              borderColor: colors.xihuColor,
+              pointBackgroundColor: colors.xihuColor,
+              pointBorderColor: '#fff',
+              pointHoverBackgroundColor: '#fff',
+              pointHoverBorderColor: colors.xihuColor
+            },
+            {
+              label: '前鎮區',
+              data: [1, 8, 9, 9, 10, 8],
+              backgroundColor: 'rgba(22, 137, 216, 0.2)',
+              borderColor: colors.qianzhenColor,
+              pointBackgroundColor: colors.qianzhenColor,
+              pointBorderColor: '#fff',
+              pointHoverBackgroundColor: '#fff',
+              pointHoverBorderColor: colors.qianzhenColor
+            }
+          ]
         },
         options: {
           responsive: true,
@@ -268,9 +328,15 @@ document.addEventListener('DOMContentLoaded', () => {
           plugins: {
             legend: { position: 'bottom', labels: { color: colors.textColor, font: { family: "'Noto Sans TC', sans-serif" } } }
           },
+          scales: {
+            r: {
+              angleLines: { color: colors.gridColor },
+              grid: { color: colors.gridColor },
+              pointLabels: { color: colors.textColor, font: { family: "'Noto Sans TC', sans-serif", size: 12 } },
+              ticks: { display: false, min: 0, max: 10 }
+            }
+          },
           animation: {
-            animateScale: true,
-            animateRotate: true,
             duration: 1500
           }
         }
@@ -278,7 +344,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
- // ====== 捲動觸發動畫與圖表初始化 ======
+  // ====== 捲動觸發動畫與圖表初始化 ======
   // 1. 處理 animate-on-scroll 元素的顯示
   const scrollObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
@@ -301,52 +367,52 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }, { threshold: 0.2 });
 
-  const chartsSection = document.querySelector('.charts-grid');
+  const chartsSection = document.querySelector('.charts-grid') || document.querySelector('.compare-cards-container');
   if (chartsSection) chartObserver.observe(chartsSection);
 });
 
 // ====== Attractions Interactive Gallery Logic ======
 document.addEventListener('DOMContentLoaded', () => {
   const galleries = document.querySelectorAll('.attractions-gallery');
-  
+
   galleries.forEach(gallery => {
     const cards = Array.from(gallery.querySelectorAll('.blog-card'));
     if (cards.length === 0) return;
-    
+
     let currentIndex = 0;
     let isAnimating = false;
-    
+
     // Initialize first card
     cards[currentIndex].classList.add('active');
-    
+
     gallery.addEventListener('click', (e) => {
       if (e.target.closest('a') || e.target.closest('button')) {
         return;
       }
-      
+
       if (isAnimating || cards.length <= 1) return;
       isAnimating = true;
-      
+
       const currentCard = cards[currentIndex];
       currentIndex = (currentIndex + 1) % cards.length;
       const nextCard = cards[currentIndex];
-      
+
       currentCard.classList.remove('anim-enter');
       currentCard.classList.add('anim-leave');
-      
+
       const onLeaveEnd = () => {
         currentCard.removeEventListener('animationend', onLeaveEnd);
         currentCard.classList.remove('active', 'anim-leave');
-        
+
         nextCard.classList.add('active', 'anim-enter');
-        
+
         const onEnterEnd = () => {
           nextCard.removeEventListener('animationend', onEnterEnd);
           isAnimating = false;
         };
         nextCard.addEventListener('animationend', onEnterEnd);
       };
-      
+
       currentCard.addEventListener('animationend', onLeaveEnd);
     });
   });
