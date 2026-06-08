@@ -395,13 +395,23 @@ document.addEventListener('DOMContentLoaded', () => {
     word.addEventListener('click', (e) => {
       e.preventDefault();
       showWordDetail(word);
+
+      const link = word.getAttribute('data-link');
+
       if (typeof confetti === 'function') {
         const rect = word.getBoundingClientRect();
         const x = (rect.left + rect.width / 2) / window.innerWidth;
         const y = (rect.top + rect.height / 2) / window.innerHeight;
         const isXihu = word.closest('.word-cloud-card').classList.contains('xihu-cloud');
-        const colors = isXihu ? ['#2eb872', '#5ee39a', '#ffffff'] : ['#1689d8', '#53b7ff', '#ffffff'];
-        confetti({ particleCount: 22, spread: 50, origin: { x, y }, colors, startVelocity: 16, ticks: 55, zIndex: 9999 });
+        const colors = link
+          ? ['#ff3c78', '#ff80ab', '#ffffff']
+          : (isXihu ? ['#2eb872', '#5ee39a', '#ffffff'] : ['#1689d8', '#53b7ff', '#ffffff']);
+        confetti({ particleCount: 28, spread: 55, origin: { x, y }, colors, startVelocity: 18, ticks: 60, zIndex: 9999 });
+      }
+
+      // Navigate to external link if data-link is set
+      if (link) {
+        setTimeout(() => window.open(link, '_blank', 'noopener,noreferrer'), 400);
       }
     });
   }
