@@ -351,3 +351,85 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
+
+// ====== Word Clouds Interaction ======
+document.addEventListener('DOMContentLoaded', () => {
+  const words = document.querySelectorAll('.cloud-word');
+  const centerWords = document.querySelectorAll('.cloud-center-word');
+  const allInteractive = [...words, ...centerWords];
+  const placeholder = document.querySelector('.detail-placeholder');
+  const content = document.querySelector('.detail-content');
+  const detailTitle = document.querySelector('.detail-title');
+  const detailDesc = document.querySelector('.detail-desc');
+  const detailPanel = document.getElementById('word-detail-panel');
+
+  if (!detailPanel || allInteractive.length === 0) return;
+
+  function showWordDetail(word) {
+    const currentLang = localStorage.getItem('site_lang') || 'zh-TW';
+    const text = currentLang === 'en' ? word.getAttribute('data-en') : word.getAttribute('data-zh');
+    const desc = currentLang === 'en' ? word.getAttribute('data-desc-en') : word.getAttribute('data-desc-zh');
+    const card = word.closest('.word-cloud-card');
+    const isXihu = card && card.classList.contains('xihu-cloud');
+    const region = isXihu ? (currentLang === 'en' ? 'Xihu' : '溪湖') : (currentLang === 'en' ? 'Qianzhen' : '前鎮');
+    const badgeClass = isXihu ? 'badge-xihu' : 'badge-qianzhen';
+
+    // Highlight active word (clear all, set current)
+    allInteractive.forEach(w => w.classList.remove('active-word'));
+    word.classList.add('active-word');
+
+    // Update panel content
+    detailTitle.innerHTML = `${text} <span class="region-badge ${badgeClass}" style="margin: 0; font-size: 0.8rem; padding: 2px 10px;">${region}</span>`;
+    detailDesc.textContent = desc;
+
+    // Transition
+    placeholder.style.display = 'none';
+    content.style.display = 'block';
+
+    // Left border color by region
+    detailPanel.style.borderLeftColor = isXihu ? 'var(--secondary)' : 'var(--primary)';
+  }
+
+  function bindWordEvents(word) {
+    word.addEventListener('mouseenter', () => showWordDetail(word));
+    word.addEventListener('click', (e) => {
+      e.preventDefault();
+      showWordDetail(word);
+      if (typeof confetti === 'function') {
+        const rect = word.getBoundingClientRect();
+        const x = (rect.left + rect.width / 2) / window.innerWidth;
+        const y = (rect.top + rect.height / 2) / window.innerHeight;
+        const isXihu = word.closest('.word-cloud-card').classList.contains('xihu-cloud');
+        const colors = isXihu ? ['#2eb872', '#5ee39a', '#ffffff'] : ['#1689d8', '#53b7ff', '#ffffff'];
+        confetti({ particleCount: 22, spread: 50, origin: { x, y }, colors, startVelocity: 16, ticks: 55, zIndex: 9999 });
+      }
+    });
+  }
+
+  allInteractive.forEach(bindWordEvents);
+
+  // Sync detail panel when language is toggled
+  const langToggleBtn = document.getElementById('lang-toggle-btn');
+  if (langToggleBtn) {
+    langToggleBtn.addEventListener('click', () => {
+      setTimeout(() => {
+        const currentLang = localStorage.getItem('site_lang') || 'zh-TW';
+        if (placeholder) {
+          placeholder.textContent = currentLang === 'en'
+            ? (placeholder.getAttribute('data-en') || placeholder.textContent)
+            : (placeholder.getAttribute('data-zh') || placeholder.textContent);
+        }
+        const activeWord = document.querySelector('.cloud-word.active-word, .cloud-center-word.active-word');
+        if (activeWord) showWordDetail(activeWord);
+      }, 50);
+    });
+  }
+
+  // Set initial placeholder text
+  const initialLang = localStorage.getItem('site_lang') || 'zh-TW';
+  if (placeholder) {
+    placeholder.textContent = initialLang === 'en'
+      ? (placeholder.getAttribute('data-en') || placeholder.textContent)
+      : (placeholder.getAttribute('data-zh') || placeholder.textContent);
+  }
+});

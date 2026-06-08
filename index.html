@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-TW">
 
 <head>
@@ -167,28 +167,73 @@
       </div>
     </section>
 
-    <!-- ── Section 2: Overview / Feature Cards ── -->
+    <!-- ── Section 2: Overview / Word Clouds ── -->
     <section id="overview">
-      <h2 data-zh="兩種截然不同的旅行節奏" data-en="Two Very Different Rhythms">兩種截然不同的旅行節奏</h2>
-      <p class="lead" data-zh="前鎮適合喜歡都會娛樂、購物展演與港灣夜景的旅人；溪湖適合親子、鐵道迷與喜歡慢步調農村風情的訪客。"
-        data-en="Qianzhen suits urban explorers craving malls and harbor views; Xihu suits families and rail fans seeking a slower, agricultural pace.">
-        前鎮適合喜歡都會娛樂、購物展演與港灣夜景的旅人；溪湖適合親子、鐵道迷與喜歡慢步調農村風情的訪客。</p>
-      <div class="cards">
-        <article class="card">
-          <div class="card-icon">✦</div>
-          <h3>前鎮：港都都會感</h3>
-          <p>高雄市立圖書館總館、夢時代、高雄展覽館、SKM Park 等，適合安排半日到一日的城市觀光，捷運輕軌四通八達。</p>
-        </article>
-        <article class="card">
-          <div class="card-icon">⚙</div>
-          <h3>溪湖：糖業鐵道記憶</h3>
-          <p>溪湖糖廠保留製糖工廠、煙囪、五分車與冰品店，兼具歷史教育與休閒拍照，是彰化平原的農業縮影。</p>
-        </article>
-        <article class="card">
-          <div class="card-icon">⚄</div>
-          <h3>互動：讓選擇更好玩</h3>
-          <p>三種互動抽選模式（拉霸機、大轉盤、刮刮樂），輸入篩選條件後隨機推薦，讓您快速決定下一個目的地。</p>
-        </article>
+      <h2 data-zh="雙城特色語意雲" data-en="Twin Cities Word Clouds">雙城特色語意雲</h2>
+      <p class="lead" data-zh="前鎮適合都會娛樂與港灣商務；溪湖適合鐵道慢活與悠閒田園。懸停或點擊關鍵字探索在地魅力！"
+        data-en="Qianzhen for urban vibes & harbor spots; Xihu for rail legacy & pastoral life. Hover or click keywords to explore local charm!">
+        說到溪湖/前鎮，你會想到...</p>
+      
+      <div class="word-clouds-container">
+        <!-- 溪湖文字雲 (Xihu - Green) -->
+        <div class="word-cloud-card xihu-cloud">
+          <div class="cloud-header">
+            <span class="region-badge badge-xihu" data-zh="溪湖鎮" data-en="Xihu Township">溪湖鎮</span>
+            <p class="cloud-subtitle" data-zh="慢活糖都 x 田園綠意" data-en="Slow Life &amp; Greenery">慢活糖都 x 田園綠意</p>
+          </div>
+          <div class="cloud-canvas" id="cloud-xihu">
+            <span class="cloud-center-word" data-zh="溪湖" data-en="Xihu"
+              data-desc-zh="彰化縣溪湖鎮，糖業文化與農業的交融之地，充滿慢活田園氣息。"
+              data-desc-en="Xihu Township, Changhua County — where sugar heritage meets rich agricultural life.">溪湖</span>
+            <span class="cloud-word cw-1" data-weight="9" data-zh="溪湖糖廠" data-en="Sugar Factory" data-desc-zh="百年糖業歷史，現為熱門觀光景點，可參觀製糖工廠與巨大煙囪。" data-desc-en="A century of sugar industry history, now a top sightseeing spot with factory tours.">溪湖糖廠</span>
+            <span class="cloud-word cw-2" data-weight="9" data-zh="羊肉爐" data-en="Mutton Hot Pot" data-desc-zh="溪湖全台聞名的美食，以新鮮溫體羊搭配中藥材，溫潤滋補無腥羶味。" data-desc-en="Famous across Taiwan, Xihu's mutton hot pot: fresh local mutton stewed with Chinese herbs.">羊肉爐</span>
+            <span class="cloud-word cw-3" data-weight="8" data-zh="觀光五分車" data-en="Mini-Train" data-desc-zh="全台首創觀光五分客車，可搭乘體驗昔日運糖鐵道的復古慢活風情。" data-desc-en="Taiwan's first scenic sugar mini-train, offering a retro ride along old sugar railways.">觀光五分車</span>
+            <span class="cloud-word cw-4" data-weight="8" data-zh="巨峰葡萄" data-en="Kyoho Grape" data-desc-zh="溪湖特產，彰化平原豐饒的成果，果實碩大、甜度高且果香濃郁。" data-desc-en="Xihu specialty: large, sweet and aromatic Kyoho grapes from the fertile Changhua plain.">巨峰葡萄</span>
+            <span class="cloud-word cw-5" data-weight="7" data-zh="韭菜花" data-en="Chive Flower" data-desc-zh="彰化重要蔬菜產區，九月盛開時形成迷人的「九月雪」花海。" data-desc-en="In bloom every September, chive flowers blanket the fields in the famous 'September Snow'.">韭菜花</span>
+            <span class="cloud-word cw-6" data-weight="7" data-zh="蒸汽火車" data-en="Steam Train" data-desc-zh="舊時運糖用的蒸汽火車，現已改裝為觀光五分車，是溪湖特有的復古體驗。" data-desc-en="Old steam trains used for transporting sugar, now converted into scenic mini-trains, offering a unique retro experience in Xihu.">蒸汽火車</span>
+            <span class="cloud-word cw-7" data-weight="6" data-zh="巫家捏麵館" data-en="Clay Figurine" data-desc-zh="全台唯一的捏麵文化展示館，承載傳統捏麵工藝，提供親子手作DIY。" data-desc-en="Taiwan's only clay figurine museum, with traditional folk art DIY workshops for families.">巫家捏麵館</span>
+            <span class="cloud-word cw-8" data-weight="5" data-zh="福安宮" data-en="Fu'an Temple" data-desc-zh="在地歷史悠久的媽祖廟，是溪湖居民的信仰核心與常民文化重心。" data-desc-en="A historic Mazu temple, the spiritual and cultural heart of Xihu residents.">福安宮</span>
+            <span class="cloud-word cw-9" data-weight="5" data-zh="濁水溪" data-en="Zhuoshui River" data-desc-zh="得天獨厚的沃土，沖積扇帶來豐富的有機質，造就溪湖發達的精緻農業。" data-desc-en="Fertile alluvial soils from the Zhuoshui River enable Xihu's high-quality agriculture.">濁水溪</span>
+            <span class="cloud-word cw-10" data-weight="4" data-zh="軍機公園" data-en="Military Park" data-desc-zh="陳列退役戰鬥機與運輸機的特色綠地，是休閒散步與軍事打卡的熱點。" data-desc-en="A unique park showcasing retired military aircraft, popular for leisure walks and photos.">軍機公園</span>
+            <span class="cloud-word cw-11" data-weight="4" data-zh="中央公園" data-en="Central Park" data-desc-zh="溪湖嶄新的大型森林公園，結合休閒步道與綠意草坪，是鎮民活動首選。" data-desc-en="Xihu's new forest park with walking trails and green lawns — residents' top leisure spot.">中央公園</span>
+            <span class="cloud-word cw-12" data-weight="8" data-zh="爌肉飯" data-en="Kuang-Rou Fan" data-desc-zh="溪湖鎮的靈魂美味，用柴火慢燉的軟嫩豬肉與滷汁，淋在Q彈的白飯上，每一口都是濃郁的古早味。" data-desc-en="Xihu's signature comfort food: slow-cooked tender pork belly with rich braising sauce served over fluffy rice.">爌肉飯</span>
+          </div>
+        </div>
+
+        <!-- 前鎮文字雲 (Qianzhen - Blue) -->
+        <div class="word-cloud-card qianzhen-cloud">
+          <div class="cloud-header">
+            <span class="region-badge badge-qianzhen" data-zh="前鎮區" data-en="Qianzhen District">前鎮區</span>
+            <p class="cloud-subtitle" data-zh="港灣商務 x 都會藍海" data-en="Harbor Business &amp; Blue Ocean">港灣商務 x 都會藍海</p>
+          </div>
+          <div class="cloud-canvas" id="cloud-qianzhen">
+            <span class="cloud-center-word" data-zh="前鎮" data-en="Qianzhen"
+              data-desc-zh="高雄市前鎮區，台灣最重要的港灣商業與科技重鎮，融合現代都會與港口魅力。"
+              data-desc-en="Qianzhen District, Kaohsiung — a vibrant urban hub blending modern commerce, technology, and harbor scenery.">前鎮</span>
+            <span class="cloud-word cw-1" data-weight="9" data-zh="亞洲新灣區" data-en="Asia New Bay Area" data-desc-zh="高雄港灣轉型核心，匯聚市立圖書總館、展覽館等多項前衛指標建築。" data-desc-en="The core of Kaohsiung's harbor transformation, hosting modern landmarks like the library and exhibition center.">亞洲新灣區</span>
+            <span class="cloud-word cw-2" data-weight="9" data-zh="統一夢時代" data-en="Dream Mall" data-desc-zh="大型指標性購物中心，頂樓設有「高雄之眼」摩天輪，可俯瞰市區美景。" data-desc-en="A signature shopping mall topped with the 'Kaohsiung Eye' Ferris Wheel, offering skyline views.">統一夢時代</span>
+            <span class="cloud-word cw-3" data-weight="8" data-zh="市立圖書總館" data-en="City Library" data-desc-zh="全球首座懸吊式綠建築，透明玻璃帷幕與空中花園，榮獲全台十大人氣圖書館。" data-desc-en="The world's first suspended green architecture library, with glassy facades and hanging gardens.">市立圖書總館</span>
+            <span class="cloud-word cw-4" data-weight="8" data-zh="高雄展覽館" data-en="Exhibition Center" data-desc-zh="波浪狀曲面屋頂融入港灣意象，是全台首座臨海多功能會展中心。" data-desc-en="Taiwan's first waterfront multi-functional exhibition venue, with a wave-like harbor-inspired roof.">高雄展覽館</span>
+            <span class="cloud-word cw-5" data-weight="8" data-zh="環狀輕軌" data-en="Circular LRT" data-desc-zh="全國首條輕軌系統，串聯前鎮之星、夢時代與亞灣區，窗外景色優美。" data-desc-en="Taiwan's first light rail transit system, connecting the Star of Qianzhen, Dream Mall, and Asia New Bay Area.">環狀輕軌</span>
+            <span class="cloud-word cw-6" data-weight="7" data-zh="前鎮之星" data-en="Star of Qianzhen" data-desc-zh="白色橋體如流星交織的自行車景觀天橋，夜間點亮LED光雕，璀璨奪目。" data-desc-en="A star-shaped pedestrian bridge with stunning LED light shows at night.">前鎮之星</span>
+            <span class="cloud-word cw-7" data-weight="7" data-zh="前鎮漁港" data-en="Fishing Port" data-desc-zh="台灣產值最大、停泊船隻最多的遠洋漁港，為我國遠洋漁業的重要門戶。" data-desc-en="Taiwan's largest deep-sea fishing port, serving as the gateway to open-ocean fishing.">前鎮漁港</span>
+            <span class="cloud-word cw-8" data-weight="6" data-zh="SKM Park" data-en="SKM Park" data-desc-zh="以美式加州造景打造的 Outlets 購物中心，並引進日本鈴鹿賽道樂園。" data-desc-en="A California-style outlet mall featuring Japan's Suzuka Circuit Park.">SKM Park</span>
+            <span class="cloud-word cw-9" data-weight="6" data-zh="軟體園區" data-en="Software Park" data-desc-zh="高雄數位轉型重鎮，匯聚科技研發、數位文創與新創企業的智慧園區。" data-desc-en="A key tech innovation hub for digital content, R&D, and startups in Kaohsiung.">軟體園區</span>
+            <span class="cloud-word cw-10" data-weight="5" data-zh="中鋼總部" data-en="CSC Tower" data-desc-zh="以多面體幾何結構鋼骨建構的摩天大樓，是前鎮與高雄港灣的標誌地標。" data-desc-en="A geometric steel-framed skyscraper, a bold harbor landmark in Qianzhen.">中鋼總部</span>
+            <span class="cloud-word cw-11" data-weight="5" data-zh="勞工公園" data-en="Labor Park" data-desc-zh="都會區大型森林公園，每逢假日舉辦熱鬧的花卉市集，而在地人也愛在此散步。" data-desc-en="A large urban park hosting a popular weekend flower market, a favorite local stroll spot.">勞工公園</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Detail display panel -->
+      <div class="word-detail-panel" id="word-detail-panel">
+        <div class="detail-placeholder" data-zh="懸停或點擊上方關鍵字，探索在地特色細節" data-en="Hover or click any keyword above to explore details.">
+          懸停或點擊上方關鍵字，探索在地特色細節
+        </div>
+        <div class="detail-content" style="display: none;">
+          <h4 class="detail-title"></h4>
+          <p class="detail-desc"></p>
+        </div>
       </div>
     </section>
 
