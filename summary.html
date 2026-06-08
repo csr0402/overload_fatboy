@@ -963,6 +963,7 @@
       const bgmAudio = new Audio('audio/bgm.wav');
       bgmAudio.loop = true;
       const fightAudio = new Audio('audio/fight.wav');
+      fightAudio.volume = 0.5; // -50% volume
       fightAudio.loop = true;
       window.fightAudio = fightAudio;
 
