@@ -333,7 +333,9 @@ document.addEventListener('DOMContentLoaded', () => {
               angleLines: { color: colors.gridColor },
               grid: { color: colors.gridColor },
               pointLabels: { color: colors.textColor, font: { family: "'Noto Sans TC', sans-serif", size: 12 } },
-              ticks: { display: false, min: 0, max: 10 }
+              min: 0,
+              max: 10,
+              ticks: { display: false }
             }
           },
           animation: {
@@ -367,7 +369,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }, { threshold: 0.2 });
 
-  const chartsSection = document.querySelector('.charts-grid') || document.querySelector('.compare-cards-container');
+  const chartsSection = document.querySelector('.charts-grid') || document.querySelector('.pop-card') || document.querySelector('.compare-cards-container');
   if (chartsSection) chartObserver.observe(chartsSection);
 });
 
