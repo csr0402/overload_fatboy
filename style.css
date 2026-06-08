@@ -826,7 +826,7 @@ footer strong {
 /* ── Sub-page compatibility layer ── */
 /* .section wrapper used by xihu.html, qianzhen.html etc */
 .section {
-  padding: 5rem 5%;
+  padding: 1.5rem 0 2rem;
 }
 
 /* Old page header styles */
